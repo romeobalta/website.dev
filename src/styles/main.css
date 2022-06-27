@@ -1,0 +1,61 @@
+* {
+  font-family: "Fira Code", monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-white;
+}
+
+h1 {
+  @apply text-2xl mb-2 !important;
+}
+
+h2 {
+  @apply text-xl mb-2 !important;
+}
+
+h3 {
+  @apply text-lg mb-1 !important;
+}
+
+p {
+  @apply my-4 text-sm !important;
+}
+
+img.right-picture {
+  @apply float-right ml-5 mb-5;
+}
+
+img.profile {
+  @apply rounded-md -scale-x-100;
+  filter: sepia() hue-rotate(190deg);
+  /* filter: grayscale(); */
+  width: 200px;
+  /* transition: filter 0.23s linear; */
+  position: relative;
+}
+
+img.profile:hover {
+  filter: none;
+}
+
+p > code {
+  @apply text-sm px-2 py-0.5 rounded;
+  background-color: #2a2734;
+  color: #9a86fd;
+}
+
+p > a {
+  @apply text-white border-b-orange-200 hover:border-b-2;
+  border-bottom-width: 1px;
+  font-weight: 600;
+}
+
+blockquote {
+  @apply italic;
+}
