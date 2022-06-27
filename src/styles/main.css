@@ -35,7 +35,7 @@ img.profile {
   @apply rounded-md -scale-x-100;
   filter: sepia() hue-rotate(190deg);
   /* filter: grayscale(); */
-  width: 200px;
+  width: 150px;
   /* transition: filter 0.23s linear; */
   position: relative;
 }
@@ -50,12 +50,20 @@ p > code {
   color: #9a86fd;
 }
 
-p > a {
-  @apply text-white border-b-orange-200 hover:border-b-2;
+article a {
+  @apply text-white border-b-orange-200 hover:border-b-2 pb-0.5;
   border-bottom-width: 1px;
   font-weight: 600;
 }
 
+a[href="#"] {
+  @apply hidden;
+}
+
 blockquote {
   @apply italic;
+}
+
+hr {
+  @apply border-slate-800;
 }
