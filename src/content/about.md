@@ -18,6 +18,6 @@ currently i work at [truepill](http://truepill.com) as a senior swe, leading a t
 
 i love mentoring and sharing knowledge with people that are at the beginning of their swe journey
 
-i've built the keyboard that i currently use on my own. it is split into 2 halves of 18 keys each and it helped me sling code faster and with less typos
+i've built the keyboard that i currently use on my own. it is split into 2 halves of 18 keys each and it helps me sling code faster and with less typos
 
 _**note:** while i enjoy working with some languages and technologies more than others, they are just tools, like my keyboard. proficiency with tools comes with just using them. it's far more important for a swe to focus on improving their ability to analyse a problem, deconstruct it into requirements and challenges then use critical thinking to find creative solutions to satisfy the requirements and overcome the challenges_
