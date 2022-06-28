@@ -1,9 +1,11 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout'
+import MainNav from '@components/MainNav'
 import * as About from '@content/about.md'
 
 import '@styles/main.css'
 ---
 <DefaultLayout>
+	<MainNav slot='navigation' current={'/'} />
 	<About.Content />
 </DefaultLayout>

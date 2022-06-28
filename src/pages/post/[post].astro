@@ -1,14 +1,15 @@
 ---
 import BlogLayout from '@layouts/BlogLayout'
 import MainNav from '@components/MainNav'
-import PostList from '@components/PostList'
-import Pagination from "@components/Pagination";
+import Post from '@components/Post'
+import { getPostSlugFromFile } from "@helpers/postUrl";
 
 import '@styles/main.css'
 
 export async function getStaticPaths({ paginate, rss }) {
 	const allPosts = await Astro.glob('../../content/posts/*.md');
-	const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
+
+  console.log(allPosts);
 
 	// Generate an RSS feed from this collection of posts.
 	// NOTE: This is disabled by default, since it requires `site` to be set in your "astro.config.mjs" file.
@@ -25,16 +26,22 @@ export async function getStaticPaths({ paginate, rss }) {
 	//   });
 
 	// Return a paginated collection of paths for all posts
-	return paginate(sortedPosts, { pageSize: 4 });
+	const posts = allPosts.map(post => ({
+    params: { post: getPostSlugFromFile(post.file) },
+    props: { post },
+  }));
+
+  console.log(posts);
+
+  return posts;
 }
 
-const { page } = Astro.props;
+const { post: slug } = Astro.params;
+const { post: { Content, ... post }  } = Astro.props;
 ---
-<BlogLayout>
+<BlogLayout wide>
 	<MainNav slot='navigation' current={'/posts'} />
-  <section>
-		<PostList posts={page.data} />
-		<Pagination prev={page.url.prev} next={page.url.next} />
-	</section>
+  <main>
+    <Post post={post}><Content /></Post>
+	</main>
 </BlogLayout>
-
