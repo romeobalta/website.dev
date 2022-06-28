@@ -32,7 +32,7 @@ img.right-picture {
 }
 
 img.profile {
-  @apply rounded-md -scale-x-100;
+  @apply rounded-md;
   filter: sepia() hue-rotate(190deg);
   /* filter: grayscale(); */
   width: 150px;
@@ -58,7 +58,7 @@ footer a {
 }
 
 nav.socials a {
-  @apply hover:text-orange-200;
+  @apply hover:text-slate-400;
   border: 0;
 }
 
