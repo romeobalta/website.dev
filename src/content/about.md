@@ -2,9 +2,9 @@
 title: about me
 ---
 
-# who is rom.io?
+# who is romeo?
 
-<img width="200" class="profile right-picture" alt="a picture of Romeo" src="/romeo.jpeg" /> you've probably figured it out already, but this website is about the guy on the right, which is me, i am Romeo
+<img width="200" class="profile right-picture" alt="a picture of Romeo" src="/romeo.jpeg" /> you've probably figured it out already, but this website is about the guy on the right, which is me, i am romeo
 
 i am a full time dad & husband, full time dev and full time superhero <sup>(hey, there's 24 hours in a day, ok?)</sup>
 
