@@ -40,7 +40,7 @@ const DefaultLayout: FC = ({
           wide ? "md:max-w-4xl" : "md:max-w-3xl"
         } w-full bg-slate-900 text-slate-400 px-10`}
       >
-        <nav className="my-4 text-2xl">{navigation}</nav>
+        <section>{navigation}</section>
 
         <article className="flex-grow">{children}</article>
 

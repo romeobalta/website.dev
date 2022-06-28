@@ -1,15 +1,13 @@
 import type { FC } from "react";
+import PostDate from "./PostDate";
 
 const PostExcerpt: FC = ({ title, date, children, href }) => {
-  const formatDate = (date) =>
-    new Date(date).toUTCString().replace(/(\d\d\d\d) .*/, "$1"); // remove everything after YYYY
-
   return (
     <section>
       <h1>
         <a href={href}>{title}</a>
       </h1>
-      <p className="text-slate-600">{formatDate(date)}</p>
+      <PostDate date={date} />
       <p>{children}</p>
     </section>
   );
