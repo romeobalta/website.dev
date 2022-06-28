@@ -9,7 +9,7 @@ const Footer = () => (
       <a href="https://netlify.com/">netlify</a>
     </nav>
     <span>
-      inpired by <a href="https://hjf.io/">hjf.io</a>
+      inspired by <a href="https://hjf.io/">hjf.io</a>
     </span>
   </footer>
 );
