@@ -1,5 +1,5 @@
 * {
-  font-family: "Fira Code", monospace;
+  font-family: "Roboto Mono", monospace;
 }
 
 h1,
@@ -52,9 +52,9 @@ p > code {
 
 article a,
 footer a {
-  @apply text-white border-b-orange-200 hover:border-b-2;
+  @apply text-slate-100 border-b-orange-200 hover:border-b-2;
   border-bottom-width: 1px;
-  font-weight: 600;
+  /* font-weight: 600; */
 }
 
 nav.socials a {
@@ -64,6 +64,10 @@ nav.socials a {
 
 nav a[href="#"] {
   @apply hidden;
+}
+
+nav a.active-page {
+  @apply underline decoration-1;
 }
 
 blockquote {

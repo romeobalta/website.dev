@@ -1,7 +1,12 @@
 import type { FC } from "react";
-import NavLink from "@components/NavLink";
+import Footer from "@components/Footer";
 
-const DefaultLayout: FC = ({ children, tagPrefix = "", wide = false }) => {
+const DefaultLayout: FC = ({
+  children,
+  navigation,
+  tagPrefix = "",
+  wide = false,
+}) => {
   let tag = import.meta.env.SITE_TAG;
 
   if (tagPrefix) {
@@ -21,51 +26,25 @@ const DefaultLayout: FC = ({ children, tagPrefix = "", wide = false }) => {
           crossOrigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
         />
         <link href="/styles/prism-theme.css" rel="stylesheet" />
+        <link rel="icon" href="/favicon.svg" />
         <script defer src="/js/brands.min.js"></script>
         <script defer src="/js/fontawesome.min.js"></script>
       </head>
 
       <body
         className={`flex flex-col md:min-h-fit ${
-          wide ? "md:max-w-4xl" : "md:max-w-2xl"
+          wide ? "md:max-w-4xl" : "md:max-w-3xl"
         } w-full bg-slate-900 text-slate-400 px-10`}
       >
-        <nav className="my-4 text-2xl">
-          <NavLink className="text-red-500" url="/">
-            about
-          </NavLink>
-          <NavLink className="text-orange-500" url="/posts">
-            blog
-          </NavLink>
-          <NavLink className="text-yellow-400" url="/resume">
-            resume
-          </NavLink>
-        </nav>
+        <nav className="my-4 text-2xl">{navigation}</nav>
 
         <article className="flex-grow">{children}</article>
 
-        <footer className="flex justify-between">
-          <nav className="py-5 text-xs">
-            hacked together by{" "}
-            <a href="https://github.com/romeobalta/website">romeo</a> using{" "}
-            <a href="https://astro.build/">astro</a>,{" "}
-            <a href="https://reactjs.org/">react</a>,{" "}
-            <a href="https://tailwindui.com/">tailwind</a> and{" "}
-            <a href="https://netlify.com/">netlify</a>
-          </nav>
-          <nav className="socials py-2 text-3xl">
-            <a href={import.meta.env.GITHUB_URL}>
-              <i class="fa-brands fa-github-square"></i>{" "}
-            </a>
-            <a href={import.meta.env.LINKEDIN_URL}>
-              <i class="fa-brands fa-linkedin"></i>
-            </a>
-          </nav>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
