@@ -39,7 +39,7 @@ export async function getStaticPaths({ paginate, rss }) {
 const { post: slug } = Astro.params;
 const { post: { Content, ... post }  } = Astro.props;
 ---
-<BlogLayout wide>
+<BlogLayout>
 	<MainNav slot='navigation' current={'/posts'} />
   <main>
     <Post post={post}><Content /></Post>
