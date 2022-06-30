@@ -7,7 +7,13 @@ import Pagination from "@components/Pagination";
 import '@styles/main.css'
 
 export async function getStaticPaths({ paginate, rss }) {
-	const allPosts = await Astro.glob('../../content/posts/*.md');
+	let allPosts = [];
+	try {
+		allPosts = await Astro.glob('../../content/posts/*.md');
+	} catch (e) {
+		console.log(e);
+	}
+
 	const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf());
 
 	// Generate an RSS feed from this collection of posts.
