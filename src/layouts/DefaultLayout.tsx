@@ -33,6 +33,11 @@ const DefaultLayout: FC = ({
         <link rel="icon" href="/favicon.svg" />
         <script defer src="/js/brands.min.js"></script>
         <script defer src="/js/fontawesome.min.js"></script>
+        <script
+          src="https://day-life-great.romeo.dev/script.js"
+          data-site="CQMBKAZX"
+          defer
+        ></script>
       </head>
 
       <body
