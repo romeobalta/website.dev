@@ -7,9 +7,12 @@ import { getPostSlugFromFile } from "@helpers/postUrl";
 import '@styles/main.css'
 
 export async function getStaticPaths({ paginate, rss }) {
-	const allPosts = await Astro.glob('../../content/posts/*.md');
-
-  console.log(allPosts);
+	let allPosts = [];
+	try {
+		allPosts = await Astro.glob('../../content/posts/*.md');
+	} catch (e) {
+		console.log(e);
+	}
 
 	// Generate an RSS feed from this collection of posts.
 	// NOTE: This is disabled by default, since it requires `site` to be set in your "astro.config.mjs" file.
@@ -31,13 +34,10 @@ export async function getStaticPaths({ paginate, rss }) {
     props: { post },
   }));
 
-  console.log(posts);
-
   return posts;
 }
 
-const { post: slug } = Astro.params;
-const { post: { Content, ... post }  } = Astro.props;
+const { post: { Content, ...post }  } = Astro.props;
 ---
 <BlogLayout>
 	<MainNav slot='navigation' current={'/posts'} />
