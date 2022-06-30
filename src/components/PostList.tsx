@@ -4,6 +4,7 @@ import { getPostUrlFromFile } from "@helpers/postUrl";
 
 const PostList: FC = (props) => (
   <>
+    {!(props?.post ?? []).length && <p>there's nothing here at the moment</p>}
     {(props?.posts ?? []).map((post) => (
       <PostExcerpt
         key={post.frontmatter.title}
