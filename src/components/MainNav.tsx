@@ -20,7 +20,7 @@ const MainNav = ({ current }) => {
         >
           blog
         </NavLink>
-        <NavLink className="text-yellow-400" url="/resume.pdf">
+        <NavLink id="resume-link" className="text-yellow-400" url="/resume.pdf">
           resume
         </NavLink>
       </nav>

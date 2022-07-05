@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "compile:events && astro build",
+    "preview": "astro preview",
+    "compile:events": "envsubst < public/js/event_template.js > public/js/event.js"
   },
   "devDependencies": {
     "@astrojs/partytown": "^0.1.5",
