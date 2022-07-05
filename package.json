@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "compile:events && astro build",
+    "build": "yarn compile:events && astro build",
     "preview": "astro preview",
     "compile:events": "envsubst < public/js/event_template.js > public/js/event.js"
   },
