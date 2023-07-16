@@ -1,46 +1,34 @@
-# website.dev
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/93ddd4f7-c37d-4603-9c4e-a2213bb6f95e/deploy-status)](https://app.netlify.com/sites/romeo-dev/deploys)
+## Getting Started
 
-This is kind of like a theme for a personal website of somebody that writes code. It's built using [astro](https://astro.build/), [react](https://reactjs.org/) and [tailwind](https://tailwindui.com/) and deployed on [netlify](https://netlify.com/).
+First, run the development server:
 
-I've built it to use it on [romeo.dev](https://romeo.dev/)
-
-If you want to use it, use it. Consider leaving the links in the footer so others can find their way around here and use it too.
-
-## 🚀 Project Structure
-
-Everything you should care about should be inside the `src > content` folder. All the text is generated as static pages from `.md` files:
-
-- the about page is generated from `src > content > about.md`
-- the posts are create from the files inside `src > content > posts` - the name of the file will become the `url` of the post
-
-```
-/
-├── src/
-│   └── content/
-│       └── posts/
-│           └── post-1.md
-│           └── post-2.md
-│       └── about.md
-... other stuff
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
 ```
 
-If you want to change other stuff, feel free to do it.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 🧞 Commands
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-These are [astro](https://astro.build/)
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-All commands are run from the root of the project, from a terminal:
+## Learn More
 
-| Command           | Action                                       |
-| :---------------- | :------------------------------------------- |
-| `npm install`     | Installs dependencies                        |
-| `npm run dev`     | Starts local dev server at `localhost:3000`  |
-| `npm run build`   | Build your production site to `./dist/`      |
-| `npm run preview` | Preview your build locally, before deploying |
+To learn more about Next.js, take a look at the following resources:
 
-## 👀 Want to learn more?
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into their [Discord server](https://astro.build/chat).
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

@@ -1,21 +1,25 @@
 {
-  "name": "@example/minimal",
-  "version": "0.0.1",
+  "name": "website.dev",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "yarn compile:events && astro build",
-    "preview": "astro preview",
-    "compile:events": "envsubst < public/js/event_template.js > public/js/event.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "devDependencies": {
-    "@astrojs/partytown": "^0.1.5",
-    "@astrojs/react": "^0.2.0",
-    "@astrojs/sitemap": "^0.2.2",
-    "@astrojs/tailwind": "^0.2.1",
-    "astro": "^1.0.0-beta.56",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+  "dependencies": {
+    "@types/node": "20.4.2",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.45.0",
+    "eslint-config-next": "13.4.10",
+    "next": "13.4.10",
+    "postcss": "8.4.26",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.1.6"
   }
 }
