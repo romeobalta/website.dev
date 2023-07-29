@@ -1,3 +1,52 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:import/typescript",
+    "plugin:import/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": true,
+      "node": true
+    },
+    "import/internal-regex": "^@/",
+    "import/cache": {
+      "lifetime": 5
+    }
+  },
+  "rules": {
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "builtin",
+          "internal",
+          ["sibling", "parent"],
+          "index"
+        ],
+        "alphabetize": { "order": "asc" },
+        "newlines-between": "always"
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+        "imports": "always-multiline",
+        "objects": "always-multiline"
+      }
+    ],
+    "import/no-named-as-default-member": 0
+  }
 }
