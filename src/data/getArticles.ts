@@ -62,6 +62,9 @@ export async function getArticles(filter?: GetArticlesFilter) {
     ...filter?.pagination,
   }
 
+  console.log('start', start)
+  console.log('limit', limit)
+
   const { data, loading, error } = await client.query<ArticlesQuery>({
     query: ArticlesDocument,
     variables: {

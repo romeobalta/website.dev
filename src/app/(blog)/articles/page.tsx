@@ -23,7 +23,7 @@ export default function CategoryPage({ searchParams }: CategoryPageProps) {
     const fetchArticles = async () => {
       const { data, pagination, error, loading } = await getArticles({
         pagination: {
-          start: page - 1 * ARTICLES_PER_PAGE,
+          start: (page - 1) * ARTICLES_PER_PAGE,
           limit: ARTICLES_PER_PAGE,
         },
       })
@@ -32,7 +32,7 @@ export default function CategoryPage({ searchParams }: CategoryPageProps) {
         return
       }
 
-      setArticles(data)
+      setArticles(prevArticles => [...(prevArticles || []), ...data])
       setNextPage(pagination?.page !== pagination?.pageCount ? page + 1 : 0)
 
       console.log(data)
@@ -41,11 +41,26 @@ export default function CategoryPage({ searchParams }: CategoryPageProps) {
     fetchArticles()
   }, [page, searchParams, setArticles])
 
+  const handleScroll = React.useCallback(() => {
+    if (
+      window.scrollY >= document.body.offsetHeight - window.innerHeight &&
+      !!nextPage
+    ) {
+      setPage(nextPage)
+    }
+  }, [nextPage])
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
   return (
     <>
       <Search searchParams={searchParams} />
 
-      <main className="w-full max-w-6xl flex-1 grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-4 gap-x-4 gap-y-8 @5xl:gap-y-8 mt-4 px-5">
+      <main className="w-full max-w-6xl flex-1 grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-4 gap-x-4 gap-y-8 @5xl:gap-y-8 mt-4 px-5 pb-10">
         {articles?.map(article => (
           <ArticleBox
             key={article.id}
