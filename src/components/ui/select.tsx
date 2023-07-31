@@ -36,7 +36,7 @@ export function Select({
         </div>
         {selected && (
           <Button
-            className="absolute inset-y-2 right-1 flex items-center p-0.5 border-white cursor-pointer hover:text-slate-950"
+            className="absolute inset-y-2 right-1 flex items-center !p-0.5 border-white cursor-pointer hover:text-slate-950"
             onClick={() => onChange(null)}
           >
             <svg
