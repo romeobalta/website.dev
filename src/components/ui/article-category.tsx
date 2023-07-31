@@ -7,7 +7,7 @@ interface ArticleCategoryProps {
 }
 
 export function ArticleCategory({ category, className }: ArticleCategoryProps) {
-  const link = `/articles/${category.replace(/\s/g, '-')}`
+  const link = `/articles?category=${category.replace(/\s/g, '-')}`
 
   return (
     <div

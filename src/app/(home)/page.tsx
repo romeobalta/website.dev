@@ -1,69 +1,67 @@
 import Link from 'next/link'
 
 import { ArticleBox, Bio, Socials } from '@/components'
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
+import { getHome } from '@/data/getHome'
+import { parseMarkdown } from '@/lib/parse-markdown'
 
-export default function Home() {
+export const dynamic = 'force-static'
+
+export default async function Home() {
+  const { data, loading, error } = await getHome()
+
+  if (error) throw new Error('Oops, romeo is not home')
+
+  const bioParsed = parseMarkdown(data?.Bio ?? '')
+  // console.log(JSON.stringify(bioParsed, null, 2))
+
   return (
-    <div className="flex flex-col items-center max-w-3xl px-5">
+    <div className="flex flex-col items-center w-full px-5">
       <Bio
-        name="Romeo Balta"
-        handle="@romeobalta"
-        bio="dad, dev, super hero"
+        name={data?.Name ?? ''}
+        description={data?.Description ?? ''}
         picture="https://randomuser.me/api/portraits/men/86.jpg"
       />
 
       <Socials />
 
-      <div className="w-full mt-5 font-source-serif max-w-md font-normal text-sm">
+      <h1 className="w-full max-w-md mt-10 text-lg font-bold text-center font-source-serif">
+        About me
+      </h1>
+      <div className="w-full max-w-md font-source-serif font-normal text-sm">
+        <MarkdownRenderer markdown={bioParsed} />
+      </div>
+
+      <h1 className="w-full max-w-md mt-10 text-lg font-bold text-center font-source-serif">
+        Links
+      </h1>
+      <div className="w-full max-w-md font-source-serif font-normal text-sm">
         <ul className="list-disc pl-5">
           <li className="my-1">
-            {`📱I'm a mobile engineer at `}
-            <Link className="text-sky-500" href="#">
-              NatWest Boxed
+            <Link href="/articles" className="text-sky-500">
+              Articles I wrote
             </Link>
           </li>
           <li className="my-1">
-            {`💻 I've worked as a software engineer for around 15 years`}
-          </li>
-          <li className="my-1">{`📊 I'm currently studying data science`}</li>
-          <li className="my-1">
-            {`💡 I'm on a journey to test as many business ideas as i can`}
-          </li>
-          <li className="my-1">
-            {`👨‍👩‍👦‍👦 I'm the dad of two sweet boys and the husband of a`}{' '}
             <Link href="#" className="text-sky-500">
-              very smart and beautiful woman
+              Stuff I built
             </Link>
           </li>
         </ul>
       </div>
 
-      <div className="w-full max-w-md mt-5 grid grid-cols-1 xs:grid-cols-2 gap-3">
-        <Link href="/articles" className="w-full max-w-md">
-          <div className="w-full rounded-md bg-slate-900 text-slate-100 font-roboto border border-900/50 text-lg py-2 px-3">
-            Articles I wrote
-          </div>
-        </Link>
-
-        <Link href="/aticles" className="w-full max-w-md">
-          <div className="w-full rounded-md bg-slate-900 text-slate-100 font-roboto border border-900/50 text-lg py-2 px-3">
-            Stuff I built
-          </div>
-        </Link>
-      </div>
-
-      <h1 className="w-full text-center mt-10 mb-2 text-2xl">
-        Latest articless
+      <h1 className="w-full max-w-md mt-10 text-lg font-bold text-center font-source-serif">
+        Latest articles
       </h1>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-8 mt-4">
+      <div className="w-full grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-4 gap-x-4 gap-y-8 mt-4">
         <ArticleBox
           title="Bit of a longer title for this article to test the layout"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
           category="writing"
           date="July 1, 2021"
           link="/articles/lorem-ipsum"
-          image="https://picsum.photos/800/600?grayscale"
+          image="https://picsum.photos/264/264?grayscale"
         />
 
         <ArticleBox
@@ -72,7 +70,7 @@ export default function Home() {
           category="thoughts"
           date="July 1, 2021"
           link="/articles/lorem-ipsum"
-          image="https://picsum.photos/810/600?grayscale"
+          image="https://picsum.photos/264/264?grayscale"
         />
 
         <ArticleBox
@@ -81,7 +79,7 @@ export default function Home() {
           category="writing"
           date="July 1, 2021"
           link="/articles/lorem-ipsum"
-          image="https://picsum.photos/800/600?grayscale"
+          image="https://picsum.photos/264/264?grayscale"
         />
 
         <ArticleBox
@@ -90,7 +88,7 @@ export default function Home() {
           category="thoughts"
           date="July 1, 2021"
           link="/articles/lorem-ipsum"
-          image="https://picsum.photos/810/600?grayscale"
+          image="https://picsum.photos/264/264?grayscale"
         />
       </div>
     </div>

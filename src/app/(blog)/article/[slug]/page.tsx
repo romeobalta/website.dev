@@ -48,6 +48,7 @@ export default function ArticlePage() {
         </P>
 
         <ArticleImage
+          description=""
           src="https://picsum.photos/1536/600?grayscale"
           alt="random"
           variant="fit"
@@ -71,6 +72,7 @@ export default function ArticlePage() {
         </P>
 
         <ArticleImage
+          description=""
           src="https://picsum.photos/1536/600?grayscale"
           alt="random"
         />

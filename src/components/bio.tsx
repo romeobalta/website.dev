@@ -1,11 +1,11 @@
 interface BioProps {
   name: string
-  handle: string
+  handle?: string
   picture: string
-  bio: string
+  description: string
 }
 
-export function Bio({ name, handle, picture, bio }: BioProps) {
+export function Bio({ name, handle, picture, description }: BioProps) {
   return (
     <>
       <img
@@ -16,13 +16,15 @@ export function Bio({ name, handle, picture, bio }: BioProps) {
 
       <h1 className="mt-2 text-xl font-source-serif text-center">{name}</h1>
 
-      {false && (
+      {handle && (
         <h2 className="text-sm -mt-0.5 font-roboto text-center text-slate-600">
           {handle}
         </h2>
       )}
 
-      <p className="text-sm font-roboto text-center text-slate-950">{bio}</p>
+      <p className="text-sm font-roboto text-center text-slate-950">
+        {description}
+      </p>
     </>
   )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 export * from './article-category'
 export * from './article-desc'
 export * from './article-info'
