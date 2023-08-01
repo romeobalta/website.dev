@@ -8,13 +8,13 @@ const HomeDocument = gql`
     home {
       data {
         attributes {
-          Bio
-          Description
-          Name
-          Socials {
+          bio
+          description
+          name
+          socials {
             ... on ComponentSocialSocial {
-              Icon
-              Link
+              icon
+              link
             }
           }
         }

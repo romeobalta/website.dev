@@ -1,25 +1,40 @@
-import React from 'react'
+import React, { Suspense } from 'react'
+
+import { useArticleSearch } from '@/hooks/useArticleSearch'
 
 import { Button, Select } from './ui'
 
-interface SearchProps {
-  searchParams: {
-    category: string
-  }
-}
+export function Search() {
+  const {
+    categories,
+    selectedCategory,
+    selectCategory,
+    selectedYear,
+    selectYear,
+    resetFilters,
+  } = useArticleSearch()
 
-export function Search({ searchParams }: SearchProps) {
   const [search, setSearch] = React.useState('')
-  const [dateRange, setDateRange] = React.useState<string | null>(null)
-  const [category, setCategory] = React.useState<string | null>(
-    searchParams?.category?.toLowerCase() || null
+
+  const categoriesOptions = React.useMemo(
+    () =>
+      categories?.map(category => ({
+        value: category?.attributes?.slug ?? '',
+        label: category?.attributes?.name ?? '',
+      })) ?? [],
+    [categories]
   )
 
-  const resetFilters = React.useCallback(() => {
-    setSearch('')
-    setDateRange(null)
-    setCategory(null)
+  // this is a hack, as i've started bloggin in 2023
+  const YEARS = React.useMemo(() => {
+    const currentYear = new Date().getFullYear()
+    return Array.from({ length: currentYear - 2023 + 1 }, (_, i) => {
+      const year = (currentYear - i).toString()
+      return { value: year, label: year }
+    })
   }, [])
+
+  // TODO: remove suspene, add loading state
   return (
     <div className="w-full flex flex-col items-center bg-slate-200 font-roboto">
       <div className="w-full max-w-6xl flex flex-row flex-wrap gap-2 px-5 py-3">
@@ -32,27 +47,17 @@ export function Search({ searchParams }: SearchProps) {
         />
 
         <Select
-          options={{
-            '2023': '2023',
-            '2022': '2022',
-            '2021': '2021',
-          }}
-          selected={dateRange}
-          onChange={setDateRange}
-          placeholder="Date range"
-          reset="All dates"
+          options={YEARS}
+          selected={selectedYear}
+          onChange={selectYear}
+          placeholder="Year"
+          reset="All years"
         />
 
         <Select
-          options={{
-            'web-development': 'Web development',
-            'software-engineering': 'Software engineering',
-            career: 'Career',
-            productivity: 'Productivity',
-            personal: 'Personal',
-          }}
-          selected={category}
-          onChange={setCategory}
+          options={categoriesOptions}
+          selected={selectedCategory}
+          onChange={selectCategory}
           placeholder="Category"
           reset="All categories"
         />

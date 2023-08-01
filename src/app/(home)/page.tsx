@@ -12,14 +12,14 @@ export default async function Home() {
 
   if (error) throw new Error('Oops, romeo is not home')
 
-  const bioParsed = parseMarkdown(data?.Bio ?? '')
+  const bioParsed = parseMarkdown(data?.bio ?? '')
   // console.log(JSON.stringify(bioParsed, null, 2))
 
   return (
     <div className="flex flex-col items-center w-full px-5">
       <Bio
-        name={data?.Name ?? ''}
-        description={data?.Description ?? ''}
+        name={data?.name ?? ''}
+        description={data?.description ?? ''}
         picture="https://randomuser.me/api/portraits/men/86.jpg"
       />
 

@@ -5,9 +5,7 @@ import React from 'react'
 import { Button } from './button'
 
 interface SelectProps {
-  options: {
-    [key: string]: string
-  }
+  options: { value: string; label: string }[]
   selected: string | null
   onChange: (value: string | null) => void
   placeholder?: string
@@ -21,6 +19,11 @@ export function Select({
   placeholder,
   reset,
 }: SelectProps) {
+  const selectedLabel = React.useMemo(() => {
+    const option = options.find(option => option.value === selected)
+    return option?.label ?? placeholder
+  }, [options, placeholder, selected])
+
   return (
     <Listbox value={selected} onChange={onChange}>
       <div className="relative">
@@ -31,7 +34,7 @@ export function Select({
           )}
         >
           <Listbox.Button className="focus:outline-none">
-            {selected ? options[selected] : placeholder}
+            {selectedLabel}
           </Listbox.Button>
         </div>
         {selected && (
@@ -60,7 +63,7 @@ export function Select({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto bg-white border border-slate-900/20 text-slate-900 focus:outline-none min-w-fit">
+          <Listbox.Options className="absolute mt-1 w-full overflow-auto bg-white border border-slate-900/20 text-slate-900 focus:outline-none min-w-fit">
             {!!reset && (
               <Listbox.Option
                 value={null}
@@ -75,10 +78,10 @@ export function Select({
               </Listbox.Option>
             )}
 
-            {Object.keys(options).map(option => (
+            {options.map(option => (
               <Listbox.Option
-                key={option}
-                value={option}
+                key={option.value}
+                value={option.value}
                 className={({ active }) =>
                   clsx(
                     `relative cursor-default select-none py-1.5 px-4 font-light text-sm whitespace-nowrap`,
@@ -86,7 +89,7 @@ export function Select({
                   )
                 }
               >
-                {options[option]}
+                {option.label}
               </Listbox.Option>
             ))}
           </Listbox.Options>

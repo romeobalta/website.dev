@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { BlogHeader } from '@/components'
 
 export const metadata: Metadata = {
-  title: 'Articles by Romeo',
+  title: 'Articles - romeo.dev',
   description: 'A collection of articles written by Romeo',
 }
 

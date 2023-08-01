@@ -37,15 +37,15 @@ export type Scalars = {
 
 export type Article = {
   __typename?: 'Article'
-  Category?: Maybe<CategoryEntityResponse>
-  Content?: Maybe<Array<Maybe<ArticleContentDynamicZone>>>
-  Cover?: Maybe<UploadFileEntityResponse>
-  Description?: Maybe<Scalars['String']['output']>
-  Thumbnail?: Maybe<UploadFileEntityResponse>
-  Title?: Maybe<Scalars['String']['output']>
+  category?: Maybe<CategoryEntityResponse>
+  content?: Maybe<Array<Maybe<ArticleContentDynamicZone>>>
+  cover?: Maybe<UploadFileEntityResponse>
   createdAt?: Maybe<Scalars['DateTime']['output']>
+  description?: Maybe<Scalars['String']['output']>
   publishedAt?: Maybe<Scalars['DateTime']['output']>
   slug?: Maybe<Scalars['String']['output']>
+  thumbnail?: Maybe<UploadFileEntityResponse>
+  title?: Maybe<Scalars['String']['output']>
   updatedAt?: Maybe<Scalars['DateTime']['output']>
 }
 
@@ -72,30 +72,30 @@ export type ArticleEntityResponseCollection = {
 }
 
 export type ArticleFiltersInput = {
-  Category?: InputMaybe<CategoryFiltersInput>
-  Description?: InputMaybe<StringFilterInput>
-  Title?: InputMaybe<StringFilterInput>
   and?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>
+  category?: InputMaybe<CategoryFiltersInput>
   createdAt?: InputMaybe<DateTimeFilterInput>
+  description?: InputMaybe<StringFilterInput>
   id?: InputMaybe<IdFilterInput>
   not?: InputMaybe<ArticleFiltersInput>
   or?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>
   publishedAt?: InputMaybe<DateTimeFilterInput>
   slug?: InputMaybe<StringFilterInput>
+  title?: InputMaybe<StringFilterInput>
   updatedAt?: InputMaybe<DateTimeFilterInput>
 }
 
 export type ArticleInput = {
-  Category?: InputMaybe<Scalars['ID']['input']>
-  Content?: InputMaybe<
+  category?: InputMaybe<Scalars['ID']['input']>
+  content?: InputMaybe<
     Array<Scalars['ArticleContentDynamicZoneInput']['input']>
   >
-  Cover?: InputMaybe<Scalars['ID']['input']>
-  Description?: InputMaybe<Scalars['String']['input']>
-  Thumbnail?: InputMaybe<Scalars['ID']['input']>
-  Title?: InputMaybe<Scalars['String']['input']>
+  cover?: InputMaybe<Scalars['ID']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
   slug?: InputMaybe<Scalars['String']['input']>
+  thumbnail?: InputMaybe<Scalars['ID']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
 }
 
 export type ArticleRelationResponseCollection = {
@@ -129,11 +129,11 @@ export type BooleanFilterInput = {
 
 export type Category = {
   __typename?: 'Category'
-  Articles?: Maybe<ArticleRelationResponseCollection>
-  Name: Scalars['String']['output']
-  Slug?: Maybe<Scalars['String']['output']>
+  articles?: Maybe<ArticleRelationResponseCollection>
   createdAt?: Maybe<Scalars['DateTime']['output']>
+  name: Scalars['String']['output']
   publishedAt?: Maybe<Scalars['DateTime']['output']>
+  slug?: Maybe<Scalars['String']['output']>
   updatedAt?: Maybe<Scalars['DateTime']['output']>
 }
 
@@ -162,45 +162,45 @@ export type CategoryEntityResponseCollection = {
 }
 
 export type CategoryFiltersInput = {
-  Articles?: InputMaybe<ArticleFiltersInput>
-  Name?: InputMaybe<StringFilterInput>
-  Slug?: InputMaybe<StringFilterInput>
   and?: InputMaybe<Array<InputMaybe<CategoryFiltersInput>>>
+  articles?: InputMaybe<ArticleFiltersInput>
   createdAt?: InputMaybe<DateTimeFilterInput>
   id?: InputMaybe<IdFilterInput>
+  name?: InputMaybe<StringFilterInput>
   not?: InputMaybe<CategoryFiltersInput>
   or?: InputMaybe<Array<InputMaybe<CategoryFiltersInput>>>
   publishedAt?: InputMaybe<DateTimeFilterInput>
+  slug?: InputMaybe<StringFilterInput>
   updatedAt?: InputMaybe<DateTimeFilterInput>
 }
 
 export type CategoryInput = {
-  Articles?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
-  Name?: InputMaybe<Scalars['String']['input']>
-  Slug?: InputMaybe<Scalars['String']['input']>
+  articles?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  name?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
+  slug?: InputMaybe<Scalars['String']['input']>
 }
 
 export type ComponentImageImage = {
   __typename?: 'ComponentImageImage'
-  Alt?: Maybe<Scalars['String']['output']>
-  Description?: Maybe<Scalars['String']['output']>
-  Image?: Maybe<UploadFileEntityResponse>
-  Type?: Maybe<Enum_Componentimageimage_Type>
+  alt?: Maybe<Scalars['String']['output']>
+  description?: Maybe<Scalars['String']['output']>
   id: Scalars['ID']['output']
+  image?: Maybe<UploadFileEntityResponse>
+  type?: Maybe<Enum_Componentimageimage_Type>
 }
 
 export type ComponentSocialSocial = {
   __typename?: 'ComponentSocialSocial'
-  Icon: Enum_Componentsocialsocial_Icon
-  Link?: Maybe<Scalars['String']['output']>
+  icon: Enum_Componentsocialsocial_Icon
   id: Scalars['ID']['output']
+  link?: Maybe<Scalars['String']['output']>
 }
 
 export type ComponentTextText = {
   __typename?: 'ComponentTextText'
-  Paragraph?: Maybe<Scalars['String']['output']>
   id: Scalars['ID']['output']
+  paragraph?: Maybe<Scalars['String']['output']>
 }
 
 export type DateTimeFilterInput = {
@@ -291,12 +291,12 @@ export type GenericMorph =
 
 export type Home = {
   __typename?: 'Home'
-  Bio?: Maybe<Scalars['String']['output']>
-  Description?: Maybe<Scalars['String']['output']>
-  Name?: Maybe<Scalars['String']['output']>
-  Socials?: Maybe<Array<Maybe<HomeSocialsDynamicZone>>>
+  bio?: Maybe<Scalars['String']['output']>
   createdAt?: Maybe<Scalars['DateTime']['output']>
+  description?: Maybe<Scalars['String']['output']>
+  name?: Maybe<Scalars['String']['output']>
   publishedAt?: Maybe<Scalars['DateTime']['output']>
+  socials?: Maybe<Array<Maybe<HomeSocialsDynamicZone>>>
   updatedAt?: Maybe<Scalars['DateTime']['output']>
 }
 
@@ -312,11 +312,11 @@ export type HomeEntityResponse = {
 }
 
 export type HomeInput = {
-  Bio?: InputMaybe<Scalars['String']['input']>
-  Description?: InputMaybe<Scalars['String']['input']>
-  Name?: InputMaybe<Scalars['String']['input']>
-  Socials?: InputMaybe<Array<Scalars['HomeSocialsDynamicZoneInput']['input']>>
+  bio?: InputMaybe<Scalars['String']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  name?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
+  socials?: InputMaybe<Array<Scalars['HomeSocialsDynamicZoneInput']['input']>>
 }
 
 export type HomeSocialsDynamicZone = ComponentSocialSocial | Error
@@ -1122,9 +1122,36 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>
 }
 
+export type HomeQueryVariables = Exact<{ [key: string]: never }>
+
+export type HomeQuery = {
+  __typename?: 'Query'
+  home?: {
+    __typename?: 'HomeEntityResponse'
+    data?: {
+      __typename?: 'HomeEntity'
+      attributes?: {
+        __typename?: 'Home'
+        bio?: string | null
+        description?: string | null
+        name?: string | null
+        socials?: Array<
+          | {
+              __typename?: 'ComponentSocialSocial'
+              icon: Enum_Componentsocialsocial_Icon
+              link?: string | null
+            }
+          | { __typename?: 'Error' }
+          | null
+        > | null
+      } | null
+    } | null
+  } | null
+}
+
 export type ArticlesQueryVariables = Exact<{
-  start?: InputMaybe<Scalars['Int']['input']>
-  limit?: InputMaybe<Scalars['Int']['input']>
+  pagination?: InputMaybe<PaginationArg>
+  filters?: InputMaybe<ArticleFiltersInput>
 }>
 
 export type ArticlesQuery = {
@@ -1136,11 +1163,11 @@ export type ArticlesQuery = {
       id?: string | null
       attributes?: {
         __typename?: 'Article'
-        Title?: string | null
-        Description?: string | null
+        title?: string | null
+        description?: string | null
         slug?: string | null
         createdAt?: any | null
-        Thumbnail?: {
+        thumbnail?: {
           __typename?: 'UploadFileEntityResponse'
           data?: {
             __typename?: 'UploadFileEntity'
@@ -1152,11 +1179,11 @@ export type ArticlesQuery = {
             } | null
           } | null
         } | null
-        Category?: {
+        category?: {
           __typename?: 'CategoryEntityResponse'
           data?: {
             __typename?: 'CategoryEntity'
-            attributes?: { __typename?: 'Category'; Name: string } | null
+            attributes?: { __typename?: 'Category'; name: string } | null
           } | null
         } | null
       } | null
@@ -1168,129 +1195,37 @@ export type ArticlesQuery = {
   } | null
 }
 
-export type HomeQueryVariables = Exact<{ [key: string]: never }>
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>
 
-export type HomeQuery = {
+export type CategoriesQuery = {
   __typename?: 'Query'
-  home?: {
-    __typename?: 'HomeEntityResponse'
-    data?: {
-      __typename?: 'HomeEntity'
+  categories?: {
+    __typename?: 'CategoryEntityResponseCollection'
+    data: Array<{
+      __typename?: 'CategoryEntity'
+      id?: string | null
       attributes?: {
-        __typename?: 'Home'
-        Bio?: string | null
-        Description?: string | null
-        Name?: string | null
-        Socials?: Array<
-          | {
-              __typename?: 'ComponentSocialSocial'
-              Icon: Enum_Componentsocialsocial_Icon
-              Link?: string | null
-            }
-          | { __typename?: 'Error' }
-          | null
-        > | null
+        __typename?: 'Category'
+        name: string
+        slug?: string | null
+        createdAt?: any | null
       } | null
-    } | null
+    }>
   } | null
 }
 
-export const ArticlesDocument = gql`
-  query Articles($start: Int, $limit: Int) {
-    articles(pagination: { start: $start, limit: $limit }) {
-      data {
-        id
-        attributes {
-          Title
-          Thumbnail {
-            data {
-              attributes {
-                url
-                alternativeText
-                caption
-              }
-            }
-          }
-          Description
-          Category {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          slug
-          createdAt
-        }
-      }
-      meta {
-        pagination {
-          page
-          pageCount
-        }
-      }
-    }
-  }
-`
-
-/**
- * __useArticlesQuery__
- *
- * To run a query within a React component, call `useArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useArticlesQuery({
- *   variables: {
- *      start: // value for 'start'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useArticlesQuery(
-  baseOptions?: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(
-    ArticlesDocument,
-    options
-  )
-}
-export function useArticlesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ArticlesQuery,
-    ArticlesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<ArticlesQuery, ArticlesQueryVariables>(
-    ArticlesDocument,
-    options
-  )
-}
-export type ArticlesQueryHookResult = ReturnType<typeof useArticlesQuery>
-export type ArticlesLazyQueryHookResult = ReturnType<
-  typeof useArticlesLazyQuery
->
-export type ArticlesQueryResult = Apollo.QueryResult<
-  ArticlesQuery,
-  ArticlesQueryVariables
->
 export const HomeDocument = gql`
   query Home {
     home {
       data {
         attributes {
-          Bio
-          Description
-          Name
-          Socials {
+          bio
+          description
+          name
+          socials {
             ... on ComponentSocialSocial {
-              Icon
-              Link
+              icon
+              link
             }
           }
         }
@@ -1332,3 +1267,149 @@ export function useHomeLazyQuery(
 export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>
 export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>
 export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>
+export const ArticlesDocument = gql`
+  query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
+    articles(pagination: $pagination, sort: "id:asc", filters: $filters) {
+      data {
+        id
+        attributes {
+          title
+          thumbnail {
+            data {
+              attributes {
+                url
+                alternativeText
+                caption
+              }
+            }
+          }
+          description
+          category {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+          slug
+          createdAt
+        }
+      }
+      meta {
+        pagination {
+          page
+          pageCount
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useArticlesQuery__
+ *
+ * To run a query within a React component, call `useArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArticlesQuery({
+ *   variables: {
+ *      pagination: // value for 'pagination'
+ *      filters: // value for 'filters'
+ *   },
+ * });
+ */
+export function useArticlesQuery(
+  baseOptions?: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(
+    ArticlesDocument,
+    options
+  )
+}
+export function useArticlesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ArticlesQuery,
+    ArticlesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<ArticlesQuery, ArticlesQueryVariables>(
+    ArticlesDocument,
+    options
+  )
+}
+export type ArticlesQueryHookResult = ReturnType<typeof useArticlesQuery>
+export type ArticlesLazyQueryHookResult = ReturnType<
+  typeof useArticlesLazyQuery
+>
+export type ArticlesQueryResult = Apollo.QueryResult<
+  ArticlesQuery,
+  ArticlesQueryVariables
+>
+export const CategoriesDocument = gql`
+  query Categories {
+    categories {
+      data {
+        id
+        attributes {
+          name
+          slug
+          createdAt
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CategoriesQuery,
+    CategoriesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    options
+  )
+}
+export function useCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CategoriesQuery,
+    CategoriesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    options
+  )
+}
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>
+export type CategoriesLazyQueryHookResult = ReturnType<
+  typeof useCategoriesLazyQuery
+>
+export type CategoriesQueryResult = Apollo.QueryResult<
+  CategoriesQuery,
+  CategoriesQueryVariables
+>
