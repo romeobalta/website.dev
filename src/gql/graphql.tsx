@@ -189,6 +189,23 @@ export type ComponentImageImage = {
   type?: Maybe<Enum_Componentimageimage_Type>
 }
 
+export type ComponentImageImageFiltersInput = {
+  alt?: InputMaybe<StringFilterInput>
+  and?: InputMaybe<Array<InputMaybe<ComponentImageImageFiltersInput>>>
+  description?: InputMaybe<StringFilterInput>
+  not?: InputMaybe<ComponentImageImageFiltersInput>
+  or?: InputMaybe<Array<InputMaybe<ComponentImageImageFiltersInput>>>
+  type?: InputMaybe<StringFilterInput>
+}
+
+export type ComponentImageImageInput = {
+  alt?: InputMaybe<Scalars['String']['input']>
+  description?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['ID']['input']>
+  image?: InputMaybe<Scalars['ID']['input']>
+  type?: InputMaybe<Enum_Componentimageimage_Type>
+}
+
 export type ComponentSocialSocial = {
   __typename?: 'ComponentSocialSocial'
   icon: Enum_Componentsocialsocial_Icon
@@ -199,12 +216,19 @@ export type ComponentSocialSocial = {
 export type ComponentTextContent = {
   __typename?: 'ComponentTextContent'
   id: Scalars['ID']['output']
-  image?: Maybe<UploadFileEntityResponse>
+  image?: Maybe<Array<Maybe<ComponentImageImage>>>
   paragraph?: Maybe<Scalars['String']['output']>
+}
+
+export type ComponentTextContentImageArgs = {
+  filters?: InputMaybe<ComponentImageImageFiltersInput>
+  pagination?: InputMaybe<PaginationArg>
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
 }
 
 export type ComponentTextContentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentTextContentFiltersInput>>>
+  image?: InputMaybe<ComponentImageImageFiltersInput>
   not?: InputMaybe<ComponentTextContentFiltersInput>
   or?: InputMaybe<Array<InputMaybe<ComponentTextContentFiltersInput>>>
   paragraph?: InputMaybe<StringFilterInput>
@@ -212,14 +236,8 @@ export type ComponentTextContentFiltersInput = {
 
 export type ComponentTextContentInput = {
   id?: InputMaybe<Scalars['ID']['input']>
-  image?: InputMaybe<Scalars['ID']['input']>
+  image?: InputMaybe<Array<InputMaybe<ComponentImageImageInput>>>
   paragraph?: InputMaybe<Scalars['String']['input']>
-}
-
-export type ComponentTextText = {
-  __typename?: 'ComponentTextText'
-  id: Scalars['ID']['output']
-  paragraph?: Maybe<Scalars['String']['output']>
 }
 
 export type DateTimeFilterInput = {
@@ -300,7 +318,6 @@ export type GenericMorph =
   | ComponentImageImage
   | ComponentSocialSocial
   | ComponentTextContent
-  | ComponentTextText
   | Home
   | I18NLocale
   | UploadFile

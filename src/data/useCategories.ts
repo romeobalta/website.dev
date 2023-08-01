@@ -3,7 +3,7 @@ import { gql } from 'apollo-boost'
 
 import { CategoriesQuery } from '@/gql/graphql'
 
-const CategoriesDocument = gql`
+const CATEGORIES_QUERY = gql`
   query Categories {
     categories {
       data {
@@ -24,12 +24,7 @@ export type GetCategoriesResultData = Extract<
 >['data']
 
 export function useCategories() {
-  const { data, loading, error } = useQuery<CategoriesQuery>(
-    CategoriesDocument,
-    {
-      fetchPolicy: 'no-cache',
-    }
-  )
+  const { data, loading, error } = useQuery<CategoriesQuery>(CATEGORIES_QUERY)
 
   return {
     data: data?.categories?.data,

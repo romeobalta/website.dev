@@ -68,7 +68,11 @@ export function ArticleBox({
               on
               <span className="font-bold uppercase font-roboto-condensed">
                 {' '}
-                {date}
+                {new Date(date).toLocaleDateString('en-us', {
+                  year: 'numeric',
+                  day: '2-digit',
+                  month: 'long',
+                })}
               </span>
             </span>
             <span className="block">

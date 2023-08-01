@@ -3,7 +3,7 @@ import { gql } from 'apollo-boost'
 
 import { ArticleFiltersInput, ArticlesQuery, Maybe } from '@/gql/graphql'
 
-const ArticlesDocument = gql`
+const ARTICLES_QUERY = gql`
   query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
     articles(pagination: $pagination, sort: "id:asc", filters: $filters) {
       data {
@@ -93,16 +93,21 @@ export function useArticles(filter?: GetArticlesFilter) {
           contains: filter.term,
         },
       },
+      {
+        content: {
+          paragraph: {
+            contains: filter.term,
+          },
+        },
+      },
     ]
   }
 
-  const { data, loading, error } = useQuery<ArticlesQuery>(ArticlesDocument, {
+  const { data, loading, error } = useQuery<ArticlesQuery>(ARTICLES_QUERY, {
     variables: {
       pagination,
       filters,
     },
-
-    fetchPolicy: 'no-cache',
   })
 
   return {
