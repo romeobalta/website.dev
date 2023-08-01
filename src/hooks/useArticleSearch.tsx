@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
 import { GetArticlesResultData, useArticles } from '@/data/useArticles'
@@ -18,6 +18,7 @@ export interface ArticleSearchContextValue {
   selectedYear: string | null
   selectYear: (year: string | null) => void
   resetFilters: () => void
+  updateSearchTerm: (searchTerm: string) => void
 }
 
 const ArticleSearchContext = React.createContext<ArticleSearchContextValue>({
@@ -31,6 +32,7 @@ const ArticleSearchContext = React.createContext<ArticleSearchContextValue>({
   selectedYear: null,
   selectYear: () => {},
   resetFilters: () => {},
+  updateSearchTerm: () => {},
 })
 
 interface UseArticleSearchParams {
@@ -46,17 +48,18 @@ export interface ArticleSearchProviderProps {
 export function ArticleSearchProvider({
   children,
 }: ArticleSearchProviderProps) {
-  const router = useRouter()
-  const pathname = usePathname()
+  // const router = useRouter()
+  // const pathname = usePathname()
   const searchParams = useSearchParams()
 
   const [articles, setArticles] = React.useState<GetArticlesResultData>([])
-  const [page, setPage] = React.useState(1)
-  const [hasNextPage, setHasNextPage] = React.useState(false)
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     searchParams.get('category') || null
   )
   const [selectedYear, setSelectedYear] = React.useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = React.useState<string>('')
+  const [page, setPage] = React.useState(1)
+  const [hasNextPage, setHasNextPage] = React.useState(false)
 
   const {
     data: categories,
@@ -76,6 +79,7 @@ export function ArticleSearchProvider({
     },
     category: selectedCategory,
     year: selectedYear,
+    term: searchTerm,
   })
 
   // const modifyQueryString = React.useCallback(
@@ -102,12 +106,19 @@ export function ArticleSearchProvider({
     }
   }, [articlesPage])
 
-  // TODO: do I really want to do this?
-  // move the modify query string to it's use effect, with debounce, add page to the query string
   const resetPage = React.useCallback(() => {
     setPage(1)
     setArticles([])
   }, [])
+
+  // debounce this
+  const updateSearchTerm = React.useCallback(
+    (term: string) => {
+      resetPage()
+      setSearchTerm(term)
+    },
+    [resetPage]
+  )
 
   const selectCategory = React.useCallback(
     (category: string | null) => {
@@ -126,12 +137,13 @@ export function ArticleSearchProvider({
   )
 
   const resetFilters = React.useCallback(() => {
-    if (selectedCategory || selectedYear) {
+    if (selectedCategory || selectedYear || searchTerm.length) {
+      resetPage()
       setSelectedCategory(null)
       setSelectedYear(null)
-      resetPage()
+      setSearchTerm('')
     }
-  }, [resetPage, selectedCategory, selectedYear])
+  }, [resetPage, searchTerm, selectedCategory, selectedYear])
 
   React.useEffect(() => {
     setHasNextPage(pagination?.page !== pagination?.pageCount)
@@ -153,6 +165,7 @@ export function ArticleSearchProvider({
       selectedYear,
       selectYear,
       resetFilters,
+      updateSearchTerm,
     }),
     [
       articles,
@@ -163,6 +176,7 @@ export function ArticleSearchProvider({
       resetFilters,
       selectCategory,
       selectYear,
+      updateSearchTerm,
       selectedCategory,
       selectedYear,
     ]

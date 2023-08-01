@@ -12,9 +12,8 @@ export function Search() {
     selectedYear,
     selectYear,
     resetFilters,
+    updateSearchTerm,
   } = useArticleSearch()
-
-  const [search, setSearch] = React.useState('')
 
   const categoriesOptions = React.useMemo(
     () =>
@@ -23,6 +22,21 @@ export function Search() {
         label: category?.attributes?.name ?? '',
       })) ?? [],
     [categories]
+  )
+
+  const searchDebounce = React.useRef<ReturnType<typeof setTimeout>>()
+  const [search, setSearch] = React.useState('')
+
+  const handleSearch = React.useCallback(
+    (term: string) => {
+      clearTimeout(searchDebounce.current)
+      setSearch(term)
+
+      searchDebounce.current = setTimeout(() => {
+        updateSearchTerm(term)
+      }, 2000)
+    },
+    [updateSearchTerm]
   )
 
   // this is a hack, as i've started bloggin in 2023
@@ -43,7 +57,7 @@ export function Search() {
           placeholder="Search"
           className="border border-slate-900/20 p-2 text-sm font-light basis-full @2xl:basis-auto @2xl:min-w-[330px] focus:outline-none focus-visible:border-slate-950"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => handleSearch(e.target.value)}
         />
 
         <Select

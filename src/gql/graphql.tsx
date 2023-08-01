@@ -28,7 +28,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
-  ArticleContentDynamicZoneInput: { input: any; output: any }
   DateTime: { input: any; output: any }
   HomeSocialsDynamicZoneInput: { input: any; output: any }
   JSON: { input: any; output: any }
@@ -38,7 +37,7 @@ export type Scalars = {
 export type Article = {
   __typename?: 'Article'
   category?: Maybe<CategoryEntityResponse>
-  content?: Maybe<Array<Maybe<ArticleContentDynamicZone>>>
+  content?: Maybe<Array<Maybe<ComponentTextContent>>>
   cover?: Maybe<UploadFileEntityResponse>
   createdAt?: Maybe<Scalars['DateTime']['output']>
   description?: Maybe<Scalars['String']['output']>
@@ -49,10 +48,11 @@ export type Article = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>
 }
 
-export type ArticleContentDynamicZone =
-  | ComponentImageImage
-  | ComponentTextText
-  | Error
+export type ArticleContentArgs = {
+  filters?: InputMaybe<ComponentTextContentFiltersInput>
+  pagination?: InputMaybe<PaginationArg>
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+}
 
 export type ArticleEntity = {
   __typename?: 'ArticleEntity'
@@ -74,6 +74,7 @@ export type ArticleEntityResponseCollection = {
 export type ArticleFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>
   category?: InputMaybe<CategoryFiltersInput>
+  content?: InputMaybe<ComponentTextContentFiltersInput>
   createdAt?: InputMaybe<DateTimeFilterInput>
   description?: InputMaybe<StringFilterInput>
   id?: InputMaybe<IdFilterInput>
@@ -87,9 +88,7 @@ export type ArticleFiltersInput = {
 
 export type ArticleInput = {
   category?: InputMaybe<Scalars['ID']['input']>
-  content?: InputMaybe<
-    Array<Scalars['ArticleContentDynamicZoneInput']['input']>
-  >
+  content?: InputMaybe<Array<InputMaybe<ComponentTextContentInput>>>
   cover?: InputMaybe<Scalars['ID']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
@@ -197,6 +196,26 @@ export type ComponentSocialSocial = {
   link?: Maybe<Scalars['String']['output']>
 }
 
+export type ComponentTextContent = {
+  __typename?: 'ComponentTextContent'
+  id: Scalars['ID']['output']
+  image?: Maybe<UploadFileEntityResponse>
+  paragraph?: Maybe<Scalars['String']['output']>
+}
+
+export type ComponentTextContentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentTextContentFiltersInput>>>
+  not?: InputMaybe<ComponentTextContentFiltersInput>
+  or?: InputMaybe<Array<InputMaybe<ComponentTextContentFiltersInput>>>
+  paragraph?: InputMaybe<StringFilterInput>
+}
+
+export type ComponentTextContentInput = {
+  id?: InputMaybe<Scalars['ID']['input']>
+  image?: InputMaybe<Scalars['ID']['input']>
+  paragraph?: InputMaybe<Scalars['String']['input']>
+}
+
 export type ComponentTextText = {
   __typename?: 'ComponentTextText'
   id: Scalars['ID']['output']
@@ -280,6 +299,7 @@ export type GenericMorph =
   | Category
   | ComponentImageImage
   | ComponentSocialSocial
+  | ComponentTextContent
   | ComponentTextText
   | Home
   | I18NLocale

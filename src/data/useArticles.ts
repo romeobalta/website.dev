@@ -44,6 +44,7 @@ const ArticlesDocument = gql`
 export interface GetArticlesFilter {
   category: Maybe<string>
   year: Maybe<string>
+  term: Maybe<string>
 
   pagination?: {
     start?: number
@@ -78,6 +79,21 @@ export function useArticles(filter?: GetArticlesFilter) {
       gte: `${filter.year}-01-01T00:00:00.000Z`,
       lte: `${filter.year}-12-31T23:59:59.999Z`,
     }
+  }
+
+  if (filter?.term) {
+    filters.or = [
+      {
+        title: {
+          contains: filter.term,
+        },
+      },
+      {
+        description: {
+          contains: filter.term,
+        },
+      },
+    ]
   }
 
   const { data, loading, error } = useQuery<ArticlesQuery>(ArticlesDocument, {
