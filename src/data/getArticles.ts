@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
+import client from '@/apollo-client'
 import { ArticleFiltersInput, ArticlesQuery, Maybe } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
@@ -42,9 +42,9 @@ const ARTICLES_QUERY = gql`
 `
 
 export interface GetArticlesFilter {
-  category: Maybe<string>
-  year: Maybe<string>
-  term: Maybe<string>
+  category?: Maybe<string>
+  year?: Maybe<string>
+  term?: Maybe<string>
 
   pagination?: {
     start?: number
@@ -57,7 +57,7 @@ export type GetArticlesResultData = Extract<
   { __typename?: 'ArticleEntityResponseCollection' }
 >['data']
 
-export function useArticles(filter?: GetArticlesFilter) {
+export async function getArticles(filter?: GetArticlesFilter) {
   const pagination = {
     start: 0,
     limit: 10,
@@ -103,7 +103,8 @@ export function useArticles(filter?: GetArticlesFilter) {
     ]
   }
 
-  const { data, loading, error } = useQuery<ArticlesQuery>(ARTICLES_QUERY, {
+  const { data } = await client.query<ArticlesQuery>({
+    query: ARTICLES_QUERY,
     variables: {
       pagination,
       filters,
@@ -113,7 +114,5 @@ export function useArticles(filter?: GetArticlesFilter) {
   return {
     data: data?.articles?.data,
     pagination: data?.articles?.meta?.pagination,
-    loading,
-    error,
   }
 }

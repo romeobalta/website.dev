@@ -1,10 +1,8 @@
-'use client'
-
 export * from './article-category'
 export * from './article-desc'
 export * from './article-info'
+export * from './bio'
 export * from './button'
-export * from './h1'
-export * from './h2'
+export * from './headings'
+export * from './markdown-renderer'
 export * from './p'
-export * from './select'

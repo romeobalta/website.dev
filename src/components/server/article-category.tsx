@@ -1,13 +1,20 @@
 import { clsx } from 'clsx'
 import Link from 'next/link'
 
+import { Maybe } from '@/gql/graphql'
+
 interface ArticleCategoryProps {
   className?: string
-  category: string
+  name?: Maybe<string>
+  slug?: Maybe<string>
 }
 
-export function ArticleCategory({ category, className }: ArticleCategoryProps) {
-  const link = `/articles?category=${category.replace(/\s/g, '-')}`
+export function ArticleCategory({
+  name,
+  slug,
+  className,
+}: ArticleCategoryProps) {
+  const link = `/articles?category=${slug}`
 
   return (
     <div
@@ -20,7 +27,7 @@ export function ArticleCategory({ category, className }: ArticleCategoryProps) {
       in{' '}
       <Link href={link}>
         <span className="font-bold underline underline-offset-4 uppercase">
-          {category}
+          {name}
         </span>
       </Link>
     </div>

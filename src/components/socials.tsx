@@ -1,47 +1,42 @@
+import { clsx } from 'clsx'
 import Image from 'next/image'
 
-export function Socials() {
+import { Maybe } from '@/gql/graphql'
+
+interface SocialsProps {
+  className?: string
+  socials?: Maybe<{
+    icon: string
+    link: string
+  }>[]
+}
+
+export function Socials({ className, socials }: SocialsProps) {
   return (
-    <div className="flex justify-center mt-4 space-x-4">
-      <a
-        href="https://www.threads.net/@romeobalta"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/icons/threads.svg"
-          alt="Threads"
-          className="w-6 h-6"
-          width={24}
-          height={24}
-        />
-      </a>
-      <a
-        href="https://www.linkedin.com/in/romeobalta/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/icons/linkedin.svg"
-          alt="LinkedIn"
-          className="w-6 h-6"
-          width={24}
-          height={24}
-        />
-      </a>
-      <a
-        href="https://github.com/romeobalta"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/icons/github.svg"
-          alt="GitHub"
-          className="w-6 h-6"
-          width={24}
-          height={24}
-        />
-      </a>
+    <div className={clsx('flex justify-center space-x-4', className)}>
+      {socials?.map(social => {
+        const { icon, link } = {
+          icon: '',
+          link: '',
+          ...social,
+        }
+        return (
+          <a
+            key={icon}
+            href={link ?? ''}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={`/icons/${icon}.svg`}
+              alt={icon ?? ''}
+              className="w-6 h-6"
+              width={24}
+              height={24}
+            />
+          </a>
+        )
+      })}
     </div>
   )
 }

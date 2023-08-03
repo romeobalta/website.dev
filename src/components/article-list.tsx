@@ -30,7 +30,7 @@ export function ArticleList() {
           title={article.attributes?.title ?? ''}
           description={article.attributes?.description ?? ''}
           category={article.attributes?.category?.data?.attributes?.name}
-          date={article.attributes?.createdAt}
+          date={article.attributes?.publishedAt}
           link={`/article/${article.attributes?.slug}`}
           image={getLinkOnServer(
             article.attributes?.thumbnail?.data?.attributes?.url

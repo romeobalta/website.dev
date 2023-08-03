@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Maybe } from '@/gql/graphql'
@@ -47,10 +48,12 @@ export function ArticleBox({
         </span>
 
         <div className="w-5/12 @5xl:w-full">
-          <img
+          <Image
             className="w-full h-auto border border-slate-900/10"
             src={image}
             alt="Article Image"
+            width={264}
+            height={264}
           />
         </div>
 
@@ -92,30 +95,3 @@ export function ArticleBox({
     </Link>
   )
 }
-
-// <div className="w-full flex flex-col items-stretch group">
-//   <span className="block text-xs w-full text-left font-roboto mb-2">
-//     {date}{' '}
-//     {category && (
-//       <>
-//         in{' '}
-//         <span className="font-bold uppercase font-roboto-condensed">
-//           {category}
-//         </span>
-//       </>
-//     )}
-//   </span>
-//   <div className="w-full h-48 border border-slate-900/5 overflow-hidden flex justify-center">
-//     <img
-//       className="w-full h-auto object-cover "
-//       src={image}
-//       alt="Article Image"
-//     />
-//   </div>
-//   <h1 className="w-full text-slate-950 font-source-serif text-lg font-bold my-1 group-hover:underline">
-//     {title}
-//   </h1>
-//   <h2 className="w-full text-slate-950 font-roboto text-sm leading-[1.175rem]">
-//     {description}
-//   </h2>
-// </div>

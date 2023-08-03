@@ -2,7 +2,8 @@ import React, { Suspense } from 'react'
 
 import { useArticleSearch } from '@/hooks/useArticleSearch'
 
-import { Button, Select } from './ui'
+import { Select } from './select'
+import { Button } from './server'
 
 export function Search() {
   const {

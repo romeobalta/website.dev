@@ -12,10 +12,13 @@ const HomeDocument = gql`
           description
           name
           socials {
-            ... on ComponentSocialSocial {
-              icon
-              link
-            }
+            icon
+            link
+          }
+          links {
+            title
+            url
+            description
           }
         }
       }

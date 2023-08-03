@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context'
 import fetch from 'cross-fetch'
 
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
+  uri: process.env.GRAPHQL_URL,
   fetch,
 })
 
@@ -13,7 +13,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      Authorization: `bearer ${process.env.NEXT_PUBLIC_GRAPHQL_TOKEN}`,
+      Authorization: `bearer ${process.env.GRAPHQL_TOKEN}`,
     },
   }
 })

@@ -1,5 +1,7 @@
 import { BlockquoteElementValue } from '@/lib/parse-markdown'
 
+import { P } from '../p'
+
 interface BlockquoteRendererProps {
   blockquote: BlockquoteElementValue
 }
@@ -8,7 +10,7 @@ export function BlockquoteRenderer({ blockquote }: BlockquoteRendererProps) {
   return (
     <blockquote className="relative my-5">
       <svg
-        className="absolute top-0 left-2 transform -translate-x-6 -translate-y-8 h-16 w-16 text-gray-300"
+        className="absolute top-0 left-2 transform -translate-x-6 -translate-y-8 h-16 w-16 text-gray-300 z-0"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -23,9 +25,14 @@ export function BlockquoteRenderer({ blockquote }: BlockquoteRendererProps) {
       </svg>
 
       <div className="relative z-10">
-        <p className="text-gray-800 sm:text-xl dark:text-white">
-          <em>{blockquote}</em>
-        </p>
+        {blockquote.map((child, index) => (
+          <P
+            key={index}
+            className="text-gray-800 sm:text-xl dark:text-white first:mt-0 last:mb-0 pl-3"
+          >
+            <em>{child}</em>
+          </P>
+        ))}
       </div>
     </blockquote>
   )

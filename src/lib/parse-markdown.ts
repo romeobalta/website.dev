@@ -68,7 +68,7 @@ export type BlockquoteElement = {
   value: BlockquoteElementValue
 }
 
-export type BlockquoteElementValue = string
+export type BlockquoteElementValue = string[]
 
 export type CodeElement = {
   type: 'code'
@@ -115,7 +115,12 @@ export function parseMarkdown(markdown: string): Markdown {
     if (line.startsWith('#')) {
       richText.push(parseHeading(line))
     } else if (line.startsWith('>')) {
-      richText.push(parseBlockquote(line))
+      const blockLines = [line]
+      while (lines[++i] && lines[i].startsWith('>')) {
+        blockLines.push(lines[i])
+      }
+      i--
+      richText.push(parseBlockquote(blockLines))
     } else if (line.startsWith('-') || /^\d+\./.test(line)) {
       const listLines = [line]
       while (
@@ -288,8 +293,8 @@ function parseElements(line: string): ParagraphElementValue[] {
 }
 
 // Parse a blockquote
-function parseBlockquote(line: string): RichTextElement {
-  const value = line.slice(2).trim()
+function parseBlockquote(lines: string[]): BlockquoteElement {
+  const value = lines.map(line => line.slice(2).trim())
   return {
     type: 'blockquote',
     value,

@@ -29,16 +29,16 @@ export type Scalars = {
   Int: { input: number; output: number }
   Float: { input: number; output: number }
   DateTime: { input: any; output: any }
-  HomeSocialsDynamicZoneInput: { input: any; output: any }
   JSON: { input: any; output: any }
   Upload: { input: any; output: any }
 }
 
 export type Article = {
   __typename?: 'Article'
+  author?: Maybe<Enum_Article_Author>
   category?: Maybe<CategoryEntityResponse>
   content?: Maybe<Array<Maybe<ComponentTextContent>>>
-  cover?: Maybe<UploadFileEntityResponse>
+  cover?: Maybe<ComponentImageImage>
   createdAt?: Maybe<Scalars['DateTime']['output']>
   description?: Maybe<Scalars['String']['output']>
   publishedAt?: Maybe<Scalars['DateTime']['output']>
@@ -73,8 +73,10 @@ export type ArticleEntityResponseCollection = {
 
 export type ArticleFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>
+  author?: InputMaybe<StringFilterInput>
   category?: InputMaybe<CategoryFiltersInput>
   content?: InputMaybe<ComponentTextContentFiltersInput>
+  cover?: InputMaybe<ComponentImageImageFiltersInput>
   createdAt?: InputMaybe<DateTimeFilterInput>
   description?: InputMaybe<StringFilterInput>
   id?: InputMaybe<IdFilterInput>
@@ -87,9 +89,10 @@ export type ArticleFiltersInput = {
 }
 
 export type ArticleInput = {
+  author?: InputMaybe<Enum_Article_Author>
   category?: InputMaybe<Scalars['ID']['input']>
   content?: InputMaybe<Array<InputMaybe<ComponentTextContentInput>>>
-  cover?: InputMaybe<Scalars['ID']['input']>
+  cover?: InputMaybe<ComponentImageImageInput>
   description?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
   slug?: InputMaybe<Scalars['String']['input']>
@@ -182,35 +185,69 @@ export type CategoryInput = {
 
 export type ComponentImageImage = {
   __typename?: 'ComponentImageImage'
-  alt?: Maybe<Scalars['String']['output']>
-  description?: Maybe<Scalars['String']['output']>
   id: Scalars['ID']['output']
   image?: Maybe<UploadFileEntityResponse>
   type?: Maybe<Enum_Componentimageimage_Type>
 }
 
 export type ComponentImageImageFiltersInput = {
-  alt?: InputMaybe<StringFilterInput>
   and?: InputMaybe<Array<InputMaybe<ComponentImageImageFiltersInput>>>
-  description?: InputMaybe<StringFilterInput>
   not?: InputMaybe<ComponentImageImageFiltersInput>
   or?: InputMaybe<Array<InputMaybe<ComponentImageImageFiltersInput>>>
+  title?: InputMaybe<StringFilterInput>
   type?: InputMaybe<StringFilterInput>
 }
 
 export type ComponentImageImageInput = {
-  alt?: InputMaybe<Scalars['String']['input']>
-  description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['ID']['input']>
   image?: InputMaybe<Scalars['ID']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
   type?: InputMaybe<Enum_Componentimageimage_Type>
 }
 
-export type ComponentSocialSocial = {
-  __typename?: 'ComponentSocialSocial'
-  icon: Enum_Componentsocialsocial_Icon
+export type ComponentLinksLinks = {
+  __typename?: 'ComponentLinksLinks'
+  description?: Maybe<Scalars['String']['output']>
   id: Scalars['ID']['output']
-  link?: Maybe<Scalars['String']['output']>
+  title: Scalars['String']['output']
+  url: Scalars['String']['output']
+}
+
+export type ComponentLinksLinksFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentLinksLinksFiltersInput>>>
+  description?: InputMaybe<StringFilterInput>
+  not?: InputMaybe<ComponentLinksLinksFiltersInput>
+  or?: InputMaybe<Array<InputMaybe<ComponentLinksLinksFiltersInput>>>
+  title?: InputMaybe<StringFilterInput>
+  url?: InputMaybe<StringFilterInput>
+}
+
+export type ComponentLinksLinksInput = {
+  description?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['ID']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
+  url?: InputMaybe<Scalars['String']['input']>
+}
+
+export type ComponentLinksSocial = {
+  __typename?: 'ComponentLinksSocial'
+  icon: Enum_Componentlinkssocial_Icon
+  id: Scalars['ID']['output']
+  link: Scalars['String']['output']
+}
+
+export type ComponentLinksSocialFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentLinksSocialFiltersInput>>>
+  icon?: InputMaybe<StringFilterInput>
+  link?: InputMaybe<StringFilterInput>
+  not?: InputMaybe<ComponentLinksSocialFiltersInput>
+  or?: InputMaybe<Array<InputMaybe<ComponentLinksSocialFiltersInput>>>
+}
+
+export type ComponentLinksSocialInput = {
+  icon?: InputMaybe<Enum_Componentlinkssocial_Icon>
+  id?: InputMaybe<Scalars['ID']['input']>
+  link?: InputMaybe<Scalars['String']['input']>
 }
 
 export type ComponentTextContent = {
@@ -232,12 +269,14 @@ export type ComponentTextContentFiltersInput = {
   not?: InputMaybe<ComponentTextContentFiltersInput>
   or?: InputMaybe<Array<InputMaybe<ComponentTextContentFiltersInput>>>
   paragraph?: InputMaybe<StringFilterInput>
+  title?: InputMaybe<StringFilterInput>
 }
 
 export type ComponentTextContentInput = {
   id?: InputMaybe<Scalars['ID']['input']>
   image?: InputMaybe<Array<InputMaybe<ComponentImageImageInput>>>
   paragraph?: InputMaybe<Scalars['String']['input']>
+  title?: InputMaybe<Scalars['String']['input']>
 }
 
 export type DateTimeFilterInput = {
@@ -264,22 +303,20 @@ export type DateTimeFilterInput = {
   startsWith?: InputMaybe<Scalars['DateTime']['input']>
 }
 
+export enum Enum_Article_Author {
+  RomeoBalta = 'Romeo_Balta',
+}
+
 export enum Enum_Componentimageimage_Type {
-  Default = 'default',
   Fit = 'fit',
+  Inside = 'inside',
   Wide = 'wide',
 }
 
-export enum Enum_Componentsocialsocial_Icon {
+export enum Enum_Componentlinkssocial_Icon {
   Github = 'github',
   Linkedin = 'linkedin',
   Threads = 'threads',
-}
-
-export type Error = {
-  __typename?: 'Error'
-  code: Scalars['String']['output']
-  message?: Maybe<Scalars['String']['output']>
 }
 
 export type FileInfoInput = {
@@ -316,7 +353,8 @@ export type GenericMorph =
   | Article
   | Category
   | ComponentImageImage
-  | ComponentSocialSocial
+  | ComponentLinksLinks
+  | ComponentLinksSocial
   | ComponentTextContent
   | Home
   | I18NLocale
@@ -328,13 +366,26 @@ export type GenericMorph =
 
 export type Home = {
   __typename?: 'Home'
-  bio?: Maybe<Scalars['String']['output']>
+  bio: Scalars['String']['output']
   createdAt?: Maybe<Scalars['DateTime']['output']>
-  description?: Maybe<Scalars['String']['output']>
-  name?: Maybe<Scalars['String']['output']>
+  description: Scalars['String']['output']
+  links: Array<Maybe<ComponentLinksLinks>>
+  name: Scalars['String']['output']
   publishedAt?: Maybe<Scalars['DateTime']['output']>
-  socials?: Maybe<Array<Maybe<HomeSocialsDynamicZone>>>
+  socials: Array<Maybe<ComponentLinksSocial>>
   updatedAt?: Maybe<Scalars['DateTime']['output']>
+}
+
+export type HomeLinksArgs = {
+  filters?: InputMaybe<ComponentLinksLinksFiltersInput>
+  pagination?: InputMaybe<PaginationArg>
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+}
+
+export type HomeSocialsArgs = {
+  filters?: InputMaybe<ComponentLinksSocialFiltersInput>
+  pagination?: InputMaybe<PaginationArg>
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
 }
 
 export type HomeEntity = {
@@ -351,12 +402,11 @@ export type HomeEntityResponse = {
 export type HomeInput = {
   bio?: InputMaybe<Scalars['String']['input']>
   description?: InputMaybe<Scalars['String']['input']>
+  links?: InputMaybe<Array<InputMaybe<ComponentLinksLinksInput>>>
   name?: InputMaybe<Scalars['String']['input']>
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>
-  socials?: InputMaybe<Array<Scalars['HomeSocialsDynamicZoneInput']['input']>>
+  socials?: InputMaybe<Array<InputMaybe<ComponentLinksSocialInput>>>
 }
-
-export type HomeSocialsDynamicZone = ComponentSocialSocial | Error
 
 export type I18NLocale = {
   __typename?: 'I18NLocale'
@@ -687,6 +737,7 @@ export type Query = {
 
 export type QueryArticleArgs = {
   id?: InputMaybe<Scalars['ID']['input']>
+  slug: Scalars['String']['input']
 }
 
 export type QueryArticlesArgs = {
@@ -1159,28 +1210,69 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>
 }
 
-export type HomeQueryVariables = Exact<{ [key: string]: never }>
+export type ArticleQueryVariables = Exact<{
+  slug: Scalars['String']['input']
+}>
 
-export type HomeQuery = {
+export type ArticleQuery = {
   __typename?: 'Query'
-  home?: {
-    __typename?: 'HomeEntityResponse'
+  article?: {
+    __typename?: 'ArticleEntityResponse'
     data?: {
-      __typename?: 'HomeEntity'
+      __typename?: 'ArticleEntity'
       attributes?: {
-        __typename?: 'Home'
-        bio?: string | null
+        __typename?: 'Article'
+        title?: string | null
         description?: string | null
-        name?: string | null
-        socials?: Array<
-          | {
-              __typename?: 'ComponentSocialSocial'
-              icon: Enum_Componentsocialsocial_Icon
-              link?: string | null
-            }
-          | { __typename?: 'Error' }
-          | null
-        > | null
+        publishedAt?: any | null
+        author?: Enum_Article_Author | null
+        cover?: {
+          __typename?: 'ComponentImageImage'
+          type?: Enum_Componentimageimage_Type | null
+          image?: {
+            __typename?: 'UploadFileEntityResponse'
+            data?: {
+              __typename?: 'UploadFileEntity'
+              attributes?: {
+                __typename?: 'UploadFile'
+                url: string
+                alternativeText?: string | null
+                caption?: string | null
+              } | null
+            } | null
+          } | null
+        } | null
+        category?: {
+          __typename?: 'CategoryEntityResponse'
+          data?: {
+            __typename?: 'CategoryEntity'
+            attributes?: {
+              __typename?: 'Category'
+              name: string
+              slug?: string | null
+            } | null
+          } | null
+        } | null
+        content?: Array<{
+          __typename?: 'ComponentTextContent'
+          paragraph?: string | null
+          image?: Array<{
+            __typename?: 'ComponentImageImage'
+            type?: Enum_Componentimageimage_Type | null
+            image?: {
+              __typename?: 'UploadFileEntityResponse'
+              data?: {
+                __typename?: 'UploadFileEntity'
+                attributes?: {
+                  __typename?: 'UploadFile'
+                  url: string
+                  alternativeText?: string | null
+                  caption?: string | null
+                } | null
+              } | null
+            } | null
+          } | null> | null
+        } | null> | null
       } | null
     } | null
   } | null
@@ -1202,8 +1294,8 @@ export type ArticlesQuery = {
         __typename?: 'Article'
         title?: string | null
         description?: string | null
+        publishedAt?: any | null
         slug?: string | null
-        createdAt?: any | null
         thumbnail?: {
           __typename?: 'UploadFileEntityResponse'
           data?: {
@@ -1232,6 +1324,35 @@ export type ArticlesQuery = {
   } | null
 }
 
+export type HomeQueryVariables = Exact<{ [key: string]: never }>
+
+export type HomeQuery = {
+  __typename?: 'Query'
+  home?: {
+    __typename?: 'HomeEntityResponse'
+    data?: {
+      __typename?: 'HomeEntity'
+      attributes?: {
+        __typename?: 'Home'
+        bio: string
+        description: string
+        name: string
+        socials: Array<{
+          __typename?: 'ComponentLinksSocial'
+          icon: Enum_Componentlinkssocial_Icon
+          link: string
+        } | null>
+        links: Array<{
+          __typename?: 'ComponentLinksLinks'
+          title: string
+          url: string
+          description?: string | null
+        } | null>
+      } | null
+    } | null
+  } | null
+}
+
 export type CategoriesQueryVariables = Exact<{ [key: string]: never }>
 
 export type CategoriesQuery = {
@@ -1251,18 +1372,48 @@ export type CategoriesQuery = {
   } | null
 }
 
-export const HomeDocument = gql`
-  query Home {
-    home {
+export const ArticleDocument = gql`
+  query Article($slug: String!) {
+    article(slug: $slug) {
       data {
         attributes {
-          bio
+          title
           description
-          name
-          socials {
-            ... on ComponentSocialSocial {
-              icon
-              link
+          publishedAt
+          author
+          cover {
+            type
+            image {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                  caption
+                }
+              }
+            }
+          }
+          category {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
+          content {
+            paragraph
+            image {
+              type
+              image {
+                data {
+                  attributes {
+                    url
+                    alternativeText
+                    caption
+                  }
+                }
+              }
             }
           }
         }
@@ -1272,45 +1423,54 @@ export const HomeDocument = gql`
 `
 
 /**
- * __useHomeQuery__
+ * __useArticleQuery__
  *
- * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useArticleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticleQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useHomeQuery({
+ * const { data, loading, error } = useArticleQuery({
  *   variables: {
+ *      slug: // value for 'slug'
  *   },
  * });
  */
-export function useHomeQuery(
-  baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>
+export function useArticleQuery(
+  baseOptions: Apollo.QueryHookOptions<ArticleQuery, ArticleQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options)
-}
-export function useHomeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(
-    HomeDocument,
+  return Apollo.useQuery<ArticleQuery, ArticleQueryVariables>(
+    ArticleDocument,
     options
   )
 }
-export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>
-export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>
-export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>
+export function useArticleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ArticleQuery, ArticleQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<ArticleQuery, ArticleQueryVariables>(
+    ArticleDocument,
+    options
+  )
+}
+export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>
+export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>
+export type ArticleQueryResult = Apollo.QueryResult<
+  ArticleQuery,
+  ArticleQueryVariables
+>
 export const ArticlesDocument = gql`
   query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
-    articles(pagination: $pagination, sort: "id:asc", filters: $filters) {
+    articles(pagination: $pagination, sort: "id:desc", filters: $filters) {
       data {
         id
         attributes {
           title
+          description
+          publishedAt
           thumbnail {
             data {
               attributes {
@@ -1320,7 +1480,6 @@ export const ArticlesDocument = gql`
               }
             }
           }
-          description
           category {
             data {
               attributes {
@@ -1329,7 +1488,6 @@ export const ArticlesDocument = gql`
             }
           }
           slug
-          createdAt
         }
       }
       meta {
@@ -1388,6 +1546,62 @@ export type ArticlesQueryResult = Apollo.QueryResult<
   ArticlesQuery,
   ArticlesQueryVariables
 >
+export const HomeDocument = gql`
+  query Home {
+    home {
+      data {
+        attributes {
+          bio
+          description
+          name
+          socials {
+            icon
+            link
+          }
+          links {
+            title
+            url
+            description
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useHomeQuery__
+ *
+ * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options)
+}
+export function useHomeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(
+    HomeDocument,
+    options
+  )
+}
+export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>
+export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>
+export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>
 export const CategoriesDocument = gql`
   query Categories {
     categories {

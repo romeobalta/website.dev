@@ -11,8 +11,6 @@ interface CodeRendererProps {
 }
 
 export function CodeRenderer({ code }: CodeRendererProps) {
-  console.log(code)
-
   return (
     <Highlight theme={theme} code={code.lines} language={code.language}>
       {({ className, tokens, getLineProps, getTokenProps }) => (

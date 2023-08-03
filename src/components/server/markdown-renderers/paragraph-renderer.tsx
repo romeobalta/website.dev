@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import { ParagraphElementValue } from '@/lib/parse-markdown'
 
+import { P } from '../p'
+
 export const renderParagraphElement = (element: ParagraphElementValue) => {
   switch (element.type) {
     case 'bold':
@@ -53,5 +55,5 @@ export interface ParagraphRendererProps {
 }
 
 export function ParagraphRenderer({ paragraph }: ParagraphRendererProps) {
-  return <p>{paragraph.map(element => renderParagraphElement(element))}</p>
+  return <P>{paragraph.map(element => renderParagraphElement(element))}</P>
 }

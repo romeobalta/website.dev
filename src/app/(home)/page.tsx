@@ -1,19 +1,15 @@
 import Link from 'next/link'
 
-import { ArticleBox, Bio, Socials } from '@/components'
-import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
+import { ArticleBox, Socials } from '@/components'
+import { Bio, MarkdownRenderer } from '@/components/server'
 import { getHome } from '@/data/getHome'
-import { parseMarkdown } from '@/lib/parse-markdown'
 
 export const dynamic = 'force-static'
 
 export default async function Home() {
-  const { data, loading, error } = await getHome()
+  const { data, error } = await getHome()
 
   if (error) throw new Error('Oops, romeo is not home')
-
-  const bioParsed = parseMarkdown(data?.bio ?? '')
-  // console.log(JSON.stringify(bioParsed, null, 2))
 
   return (
     <div className="flex flex-col items-center w-full px-5">
@@ -23,13 +19,13 @@ export default async function Home() {
         picture="https://randomuser.me/api/portraits/men/86.jpg"
       />
 
-      <Socials />
+      <Socials socials={data?.socials} className="mt-4" />
 
       <h1 className="w-full max-w-md mt-10 text-lg font-bold text-center font-source-serif">
         About me
       </h1>
       <div className="w-full max-w-md font-source-serif font-normal text-sm">
-        <MarkdownRenderer markdown={bioParsed} />
+        <MarkdownRenderer markdown={data?.bio} />
       </div>
 
       <h1 className="w-full max-w-md mt-10 text-lg font-bold text-center font-source-serif">
@@ -37,16 +33,21 @@ export default async function Home() {
       </h1>
       <div className="w-full max-w-md font-source-serif font-normal text-sm">
         <ul className="list-disc pl-5">
-          <li className="my-1">
-            <Link href="/articles" className="text-sky-500">
-              Articles I wrote
-            </Link>
-          </li>
-          <li className="my-1">
-            <Link href="#" className="text-sky-500">
-              Stuff I built
-            </Link>
-          </li>
+          {data?.links?.map(link => {
+            const { url, title } = {
+              url: '',
+              title: '',
+              // description: '',
+              ...link,
+            }
+            return (
+              <li key={url} className="my-1">
+                <Link href={url} className="text-sky-500">
+                  {title}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </div>
 

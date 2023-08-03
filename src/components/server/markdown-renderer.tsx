@@ -1,4 +1,4 @@
-import { Markdown } from '@/lib/parse-markdown'
+import { Markdown, parseMarkdown } from '@/lib/parse-markdown'
 
 import {
   BlockquoteRenderer,
@@ -9,13 +9,15 @@ import {
 } from './markdown-renderers'
 
 interface MarkdownRendererProps {
-  markdown: Markdown
+  markdown?: string | null
 }
 
 export function MarkdownRenderer({ markdown }: MarkdownRendererProps) {
+  const blocks = parseMarkdown(markdown ?? '')
+
   return (
     <>
-      {markdown.map((element, index) => {
+      {blocks.map((element, index) => {
         switch (element.type) {
           case 'paragraph':
             return <ParagraphRenderer key={index} paragraph={element.value} />

@@ -6,7 +6,7 @@
   @apply max-w-screen-xl w-screen;
 }
 
-.article-image-default {
+.article-image-inside {
   @apply max-w-4xl w-screen px-5;
 }
 

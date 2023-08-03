@@ -2,7 +2,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { clsx } from 'clsx'
 import React from 'react'
 
-import { Button } from './button'
+import { Button } from './server/button'
 
 interface SelectProps {
   options: { value: string; label: string }[]
