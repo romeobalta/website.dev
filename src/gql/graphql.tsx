@@ -369,10 +369,10 @@ export type Home = {
   bio: Scalars['String']['output']
   createdAt?: Maybe<Scalars['DateTime']['output']>
   description: Scalars['String']['output']
-  links: Array<Maybe<ComponentLinksLinks>>
+  links?: Maybe<Array<Maybe<ComponentLinksLinks>>>
   name: Scalars['String']['output']
   publishedAt?: Maybe<Scalars['DateTime']['output']>
-  socials: Array<Maybe<ComponentLinksSocial>>
+  socials?: Maybe<Array<Maybe<ComponentLinksSocial>>>
   updatedAt?: Maybe<Scalars['DateTime']['output']>
 }
 
@@ -1324,35 +1324,6 @@ export type ArticlesQuery = {
   } | null
 }
 
-export type HomeQueryVariables = Exact<{ [key: string]: never }>
-
-export type HomeQuery = {
-  __typename?: 'Query'
-  home?: {
-    __typename?: 'HomeEntityResponse'
-    data?: {
-      __typename?: 'HomeEntity'
-      attributes?: {
-        __typename?: 'Home'
-        bio: string
-        description: string
-        name: string
-        socials: Array<{
-          __typename?: 'ComponentLinksSocial'
-          icon: Enum_Componentlinkssocial_Icon
-          link: string
-        } | null>
-        links: Array<{
-          __typename?: 'ComponentLinksLinks'
-          title: string
-          url: string
-          description?: string | null
-        } | null>
-      } | null
-    } | null
-  } | null
-}
-
 export type CategoriesQueryVariables = Exact<{ [key: string]: never }>
 
 export type CategoriesQuery = {
@@ -1369,6 +1340,35 @@ export type CategoriesQuery = {
         createdAt?: any | null
       } | null
     }>
+  } | null
+}
+
+export type HomeQueryVariables = Exact<{ [key: string]: never }>
+
+export type HomeQuery = {
+  __typename?: 'Query'
+  home?: {
+    __typename?: 'HomeEntityResponse'
+    data?: {
+      __typename?: 'HomeEntity'
+      attributes?: {
+        __typename?: 'Home'
+        bio: string
+        description: string
+        name: string
+        socials?: Array<{
+          __typename?: 'ComponentLinksSocial'
+          icon: Enum_Componentlinkssocial_Icon
+          link: string
+        } | null> | null
+        links?: Array<{
+          __typename?: 'ComponentLinksLinks'
+          title: string
+          url: string
+          description?: string | null
+        } | null> | null
+      } | null
+    } | null
   } | null
 }
 
@@ -1546,62 +1546,6 @@ export type ArticlesQueryResult = Apollo.QueryResult<
   ArticlesQuery,
   ArticlesQueryVariables
 >
-export const HomeDocument = gql`
-  query Home {
-    home {
-      data {
-        attributes {
-          bio
-          description
-          name
-          socials {
-            icon
-            link
-          }
-          links {
-            title
-            url
-            description
-          }
-        }
-      }
-    }
-  }
-`
-
-/**
- * __useHomeQuery__
- *
- * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHomeQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHomeQuery(
-  baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options)
-}
-export function useHomeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(
-    HomeDocument,
-    options
-  )
-}
-export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>
-export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>
-export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>
 export const CategoriesDocument = gql`
   query Categories {
     categories {
@@ -1664,3 +1608,59 @@ export type CategoriesQueryResult = Apollo.QueryResult<
   CategoriesQuery,
   CategoriesQueryVariables
 >
+export const HomeDocument = gql`
+  query Home {
+    home {
+      data {
+        attributes {
+          bio
+          description
+          name
+          socials {
+            icon
+            link
+          }
+          links {
+            title
+            url
+            description
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useHomeQuery__
+ *
+ * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options)
+}
+export function useHomeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(
+    HomeDocument,
+    options
+  )
+}
+export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>
+export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>
+export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>

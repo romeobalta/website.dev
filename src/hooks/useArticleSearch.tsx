@@ -2,9 +2,13 @@
 
 import { useSearchParams } from 'next/navigation'
 import React from 'react'
+import useSWR from 'swr'
 
-import { GetArticlesResultData, useArticles } from '@/data/useArticles'
-import { GetCategoriesResultData, useCategories } from '@/data/useCategories'
+import {
+  GetArticlesResultData,
+  GetArticlesResultPagination,
+} from '@/data/getArticles'
+import { GetCategoriesResultData } from '@/data/getCategories'
 import { ARTICLES_PER_PAGE } from '@/lib/constants'
 
 export interface ArticleSearchContextValue {
@@ -61,26 +65,60 @@ export function ArticleSearchProvider({
   const [page, setPage] = React.useState(1)
   const [hasNextPage, setHasNextPage] = React.useState(false)
 
-  const {
-    data: categories,
-    // loading: categoriesLoading,
-    // error: categoriesError,
-  } = useCategories()
-
-  const {
-    data: articlesPage,
-    pagination,
-    loading,
-    // error,
-  } = useArticles({
-    pagination: {
-      start: (page - 1) * ARTICLES_PER_PAGE,
-      limit: ARTICLES_PER_PAGE,
-    },
-    category: selectedCategory,
-    year: selectedYear,
-    term: searchTerm,
+  const { data: categoriesData, isLoading: categoriesIsLoading } = useSWR<{
+    data: GetCategoriesResultData
+  }>('/api/categories', async url => {
+    return fetch(url).then(res => res.json())
   })
+
+  const categories = React.useMemo(
+    () => (categoriesIsLoading ? [] : categoriesData?.data || []),
+    [categoriesData?.data, categoriesIsLoading]
+  )
+
+  const articlesFiltering = React.useMemo(() => {
+    const params = new URLSearchParams({
+      start: ((page - 1) * ARTICLES_PER_PAGE).toString(),
+      limit: ARTICLES_PER_PAGE.toString(),
+    })
+
+    if (selectedCategory) {
+      params.set('category', selectedCategory)
+    }
+    if (selectedYear) {
+      params.set('year', selectedYear)
+    }
+    if (searchTerm) {
+      params.set('search', searchTerm)
+    }
+    return params.toString()
+  }, [page, selectedCategory, selectedYear, searchTerm])
+
+  const { data: articlesData, isLoading: loading } = useSWR<{
+    data: GetArticlesResultData
+    pagination: GetArticlesResultPagination
+  }>(`/api/articles?${articlesFiltering}`, async url => {
+    return fetch(url).then(res => res.json())
+  })
+
+  const articlesPage = React.useMemo(
+    () => articlesData?.data || [],
+    [articlesData]
+  )
+  const pagination = React.useMemo(
+    () => articlesData?.pagination || { page: 0, pageCount: 0 },
+    [articlesData]
+  )
+
+  // useArticles({
+  //   pagination: {
+  //     start: (page - 1) * ARTICLES_PER_PAGE,
+  //     limit: ARTICLES_PER_PAGE,
+  //   },
+  //   category: selectedCategory,
+  //   year: selectedYear,
+  //   term: searchTerm,
+  // })
 
   // const modifyQueryString = React.useCallback(
   //   (filters: { name: string; value: string | null }[]) => {

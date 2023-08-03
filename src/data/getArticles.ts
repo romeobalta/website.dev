@@ -57,6 +57,11 @@ export type GetArticlesResultData = Extract<
   { __typename?: 'ArticleEntityResponseCollection' }
 >['data']
 
+export type GetArticlesResultPagination = Extract<
+  ArticlesQuery['articles'],
+  { __typename?: 'ArticleEntityResponseCollection' }
+>['meta']['pagination']
+
 export async function getArticles(filter?: GetArticlesFilter) {
   const pagination = {
     start: 0,
@@ -103,16 +108,19 @@ export async function getArticles(filter?: GetArticlesFilter) {
     ]
   }
 
-  const { data } = await client.query<ArticlesQuery>({
-    query: ARTICLES_QUERY,
-    variables: {
-      pagination,
-      filters,
-    },
-  })
-
-  return {
-    data: data?.articles?.data,
-    pagination: data?.articles?.meta?.pagination,
+  try {
+    const { data } = await client.query<ArticlesQuery>({
+      query: ARTICLES_QUERY,
+      variables: {
+        pagination,
+        filters,
+      },
+    })
+    return {
+      data: data?.articles?.data,
+      pagination: data?.articles?.meta?.pagination,
+    }
+  } catch (e) {
+    console.log(JSON.stringify(e, null, 2))
   }
 }

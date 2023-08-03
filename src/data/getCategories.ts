@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
+import client from '@/apollo-client'
 import { CategoriesQuery } from '@/gql/graphql'
 
 const CATEGORIES_QUERY = gql`
@@ -23,8 +24,10 @@ export type GetCategoriesResultData = Extract<
   { __typename?: 'CategoryEntityResponseCollection' }
 >['data']
 
-export function useCategories() {
-  const { data, loading, error } = useQuery<CategoriesQuery>(CATEGORIES_QUERY)
+export async function getCategories() {
+  const { data, loading, error } = await client.query<CategoriesQuery>({
+    query: CATEGORIES_QUERY,
+  })
 
   return {
     data: data?.categories?.data,
