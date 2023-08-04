@@ -22,7 +22,7 @@ export default async function Home() {
       <Bio
         name={home?.name ?? ''}
         description={home?.description ?? ''}
-        picture="https://randomuser.me/api/portraits/men/86.jpg"
+        picture={home?.avatar?.data?.attributes?.url ?? ''}
       />
 
       <Socials socials={home?.socials} className="mt-2" />

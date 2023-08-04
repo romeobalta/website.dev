@@ -1372,6 +1372,18 @@ export type HomeQuery = {
         bio: string
         description: string
         name: string
+        avatar?: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: {
+              __typename?: 'UploadFile'
+              url: string
+              alternativeText?: string | null
+              caption?: string | null
+            } | null
+          } | null
+        } | null
         socials?: Array<{
           __typename?: 'ComponentLinksSocial'
           icon: Enum_Componentlinkssocial_Icon
@@ -1694,6 +1706,15 @@ export const HomeDocument = gql`
           bio
           description
           name
+          avatar {
+            data {
+              attributes {
+                url
+                alternativeText
+                caption
+              }
+            }
+          }
           socials {
             icon
             link

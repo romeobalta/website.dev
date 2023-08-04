@@ -11,6 +11,15 @@ const HomeDocument = gql`
           bio
           description
           name
+          avatar {
+            data {
+              attributes {
+                url
+                alternativeText
+                caption
+              }
+            }
+          }
           socials {
             icon
             link
