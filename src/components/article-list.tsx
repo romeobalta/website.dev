@@ -24,6 +24,13 @@ export function ArticleList() {
 
   return (
     <main className="w-full max-w-6xl flex-1 grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-4 gap-x-4 gap-y-8 @5xl:gap-y-8 mt-4 px-5 pb-10">
+      {articles?.length === 0 && !loading && (
+        <div className="w-full text-center @2xl:col-span-2 @5xl:col-span-4">
+          <h1 className="text-2xl font-bold font-source-serif mt-10">
+            No articles here at the moment
+          </h1>
+        </div>
+      )}
       {articles?.map(article => (
         <ArticleBox
           key={article.id}

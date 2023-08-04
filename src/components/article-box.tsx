@@ -8,7 +8,7 @@ interface ArticleBoxProps {
   title: string
   description: string
   category?: string
-  date: string
+  date?: string
   link: string
   image: Maybe<string>
 }
@@ -30,13 +30,17 @@ export function ArticleBox({
       href={link}
       className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
     >
-      <div className="w-full @5xl:h-auto flex flex-row @5xl:flex-col group gap-x-3 gap-y-2">
+      <div className="w-full @5xl:h-auto flex flex-row @5xl:flex-col group gap-x-5 gap-y-2">
         <span className="hidden @5xl:block text-xs text-left font-roboto">
-          {new Date(date).toLocaleDateString('en-us', {
-            year: 'numeric',
-            day: '2-digit',
-            month: 'long',
-          })}{' '}
+          {date && (
+            <>
+              {new Date(date).toLocaleDateString('en-us', {
+                year: 'numeric',
+                day: '2-digit',
+                month: 'long',
+              })}{' '}
+            </>
+          )}
           {category && (
             <>
               in{' '}
@@ -62,22 +66,24 @@ export function ArticleBox({
             {title}
           </h1>
 
-          <h2 className="w-full text-slate-950 font-roboto text-sm leading-[1.175rem]">
+          <h2 className="w-full text-slate-950 font-roboto font-light text-sm leading-[1.175rem]">
             {description}
           </h2>
 
           <span className="flex-1 w-full block @5xl:hidden text-xs text-left font-roboto font-light">
-            <span className="block">
-              on
-              <span className="font-bold uppercase font-roboto-condensed">
-                {' '}
-                {new Date(date).toLocaleDateString('en-us', {
-                  year: 'numeric',
-                  day: '2-digit',
-                  month: 'long',
-                })}
+            {date && (
+              <span className="block">
+                on
+                <span className="font-bold uppercase font-roboto-condensed">
+                  {' '}
+                  {new Date(date).toLocaleDateString('en-us', {
+                    year: 'numeric',
+                    day: '2-digit',
+                    month: 'long',
+                  })}
+                </span>
               </span>
-            </span>
+            )}
             <span className="block">
               {category && (
                 <>

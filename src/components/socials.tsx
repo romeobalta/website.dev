@@ -5,10 +5,12 @@ import { Maybe } from '@/gql/graphql'
 
 interface SocialsProps {
   className?: string
-  socials?: Maybe<{
-    icon: string
-    link: string
-  }>[]
+  socials?: Maybe<
+    Maybe<{
+      icon: string
+      link: string
+    }>[]
+  >
 }
 
 export function Socials({ className, socials }: SocialsProps) {

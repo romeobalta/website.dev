@@ -51,7 +51,7 @@ export function Search() {
 
   // TODO: remove suspene, add loading state
   return (
-    <div className="w-full flex flex-col items-center bg-slate-200 font-roboto">
+    <div className="w-full flex flex-col items-center bg-gray-200 font-roboto">
       <div className="w-full max-w-6xl flex flex-row flex-wrap gap-2 px-5 py-3">
         <input
           type="text"

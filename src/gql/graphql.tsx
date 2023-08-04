@@ -366,6 +366,7 @@ export type GenericMorph =
 
 export type Home = {
   __typename?: 'Home'
+  avatar?: Maybe<UploadFileEntityResponse>
   bio: Scalars['String']['output']
   createdAt?: Maybe<Scalars['DateTime']['output']>
   description: Scalars['String']['output']
@@ -400,6 +401,7 @@ export type HomeEntityResponse = {
 }
 
 export type HomeInput = {
+  avatar?: InputMaybe<Scalars['ID']['input']>
   bio?: InputMaybe<Scalars['String']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   links?: InputMaybe<Array<InputMaybe<ComponentLinksLinksInput>>>
@@ -1278,6 +1280,20 @@ export type ArticleQuery = {
   } | null
 }
 
+export type ArticlePathsQueryVariables = Exact<{ [key: string]: never }>
+
+export type ArticlePathsQuery = {
+  __typename?: 'Query'
+  articles?: {
+    __typename?: 'ArticleEntityResponseCollection'
+    data: Array<{
+      __typename?: 'ArticleEntity'
+      id?: string | null
+      attributes?: { __typename?: 'Article'; slug?: string | null } | null
+    }>
+  } | null
+}
+
 export type ArticlesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>
   filters?: InputMaybe<ArticleFiltersInput>
@@ -1461,6 +1477,68 @@ export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>
 export type ArticleQueryResult = Apollo.QueryResult<
   ArticleQuery,
   ArticleQueryVariables
+>
+export const ArticlePathsDocument = gql`
+  query ArticlePaths {
+    articles(pagination: { limit: 9999 }) {
+      data {
+        id
+        attributes {
+          slug
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useArticlePathsQuery__
+ *
+ * To run a query within a React component, call `useArticlePathsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticlePathsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArticlePathsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useArticlePathsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ArticlePathsQuery,
+    ArticlePathsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<ArticlePathsQuery, ArticlePathsQueryVariables>(
+    ArticlePathsDocument,
+    options
+  )
+}
+export function useArticlePathsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ArticlePathsQuery,
+    ArticlePathsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<ArticlePathsQuery, ArticlePathsQueryVariables>(
+    ArticlePathsDocument,
+    options
+  )
+}
+export type ArticlePathsQueryHookResult = ReturnType<
+  typeof useArticlePathsQuery
+>
+export type ArticlePathsLazyQueryHookResult = ReturnType<
+  typeof useArticlePathsLazyQuery
+>
+export type ArticlePathsQueryResult = Apollo.QueryResult<
+  ArticlePathsQuery,
+  ArticlePathsQueryVariables
 >
 export const ArticlesDocument = gql`
   query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {

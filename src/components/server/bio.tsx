@@ -14,7 +14,7 @@ export function Bio({ name, handle, picture, description }: BioProps) {
         className="rounded-full w-24 h-24"
       />
 
-      <h1 className="mt-2 text-xl font-source-serif text-center">{name}</h1>
+      <h1 className="mt-5 text-xl font-source-serif text-center">{name}</h1>
 
       {handle && (
         <h2 className="text-sm -mt-0.5 font-roboto text-center text-slate-600">

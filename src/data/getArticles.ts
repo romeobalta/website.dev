@@ -108,19 +108,15 @@ export async function getArticles(filter?: GetArticlesFilter) {
     ]
   }
 
-  try {
-    const { data } = await client.query<ArticlesQuery>({
-      query: ARTICLES_QUERY,
-      variables: {
-        pagination,
-        filters,
-      },
-    })
-    return {
-      data: data?.articles?.data,
-      pagination: data?.articles?.meta?.pagination,
-    }
-  } catch (e) {
-    console.log(JSON.stringify(e, null, 2))
+  const { data } = await client.query<ArticlesQuery>({
+    query: ARTICLES_QUERY,
+    variables: {
+      pagination,
+      filters,
+    },
+  })
+  return {
+    data: data?.articles?.data,
+    pagination: data?.articles?.meta?.pagination,
   }
 }
