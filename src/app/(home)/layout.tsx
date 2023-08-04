@@ -4,6 +4,16 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'romeo.dev',
   description: "Home of Romeo's thoughts",
+  metadataBase: new URL(`https://${process.env.SITE_TAG}`),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'romeo.dev',
+    description: "Home of Romeo's thoughts",
+    siteName: process.env.SITE_TAG,
+  },
 }
 
 export default function RootLayout({
