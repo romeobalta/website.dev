@@ -60,7 +60,7 @@ export default async function Home() {
         </ul>
       </div>
 
-      {articles?.length && (
+      {!!articles?.length && (
         <>
           <h1 className="w-full max-w-md mt-5 text-lg font-bold text-center font-source-serif">
             Latest articles
