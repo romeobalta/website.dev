@@ -19,6 +19,7 @@ module.exports = {
         'source-serif': 'var(--font-source-serif)',
         'roboto-condensed': 'var(--font-roboto-condensed)',
         roboto: 'var(--font-roboto)',
+        'open-sans': 'var(--font-open-sans)',
       },
       screens: {
         xs: '475px',
