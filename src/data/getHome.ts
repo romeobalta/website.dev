@@ -29,6 +29,7 @@ const HomeDocument = gql`
             url
             description
           }
+          updatedAt
         }
       }
     }

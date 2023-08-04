@@ -5,11 +5,12 @@ import { ArticlePathsQuery } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
   query ArticlePaths {
-    articles(pagination: { limit: 9999 }) {
+    articles(pagination: { limit: 9999 }, sort: "updatedAt:desc") {
       data {
         id
         attributes {
           slug
+          updatedAt
         }
       }
     }

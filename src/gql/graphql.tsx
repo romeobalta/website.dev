@@ -1289,7 +1289,11 @@ export type ArticlePathsQuery = {
     data: Array<{
       __typename?: 'ArticleEntity'
       id?: string | null
-      attributes?: { __typename?: 'Article'; slug?: string | null } | null
+      attributes?: {
+        __typename?: 'Article'
+        slug?: string | null
+        updatedAt?: any | null
+      } | null
     }>
   } | null
 }
@@ -1372,6 +1376,7 @@ export type HomeQuery = {
         bio: string
         description: string
         name: string
+        updatedAt?: any | null
         avatar?: {
           __typename?: 'UploadFileEntityResponse'
           data?: {
@@ -1492,11 +1497,12 @@ export type ArticleQueryResult = Apollo.QueryResult<
 >
 export const ArticlePathsDocument = gql`
   query ArticlePaths {
-    articles(pagination: { limit: 9999 }) {
+    articles(pagination: { limit: 9999 }, sort: "updatedAt:desc") {
       data {
         id
         attributes {
           slug
+          updatedAt
         }
       }
     }
@@ -1724,6 +1730,7 @@ export const HomeDocument = gql`
             url
             description
           }
+          updatedAt
         }
       }
     }
