@@ -17,7 +17,9 @@ function renderList(list: ListElementValue) {
     >
       {items?.map((item, index) => (
         <li key={index} className="my-1">
-          {item.value.map(element => renderParagraphElement(element))}
+          {item.value.map((element, elementIndex) =>
+            renderParagraphElement(element, `list-${index}-${elementIndex}`)
+          )}
           {item.subList && renderList(item.subList.value)}
         </li>
       ))}
