@@ -27,10 +27,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // fetch data
   const { data } = await getArticle(slug)
+  const author = data?.author?.replace('_', ' ') ?? ''
 
   return {
     title: `${data?.title ?? ''} - ${process.env.SITE_TAG}`,
     description: data?.description ?? '',
+    openGraph: {
+      type: 'article',
+      publishedTime: data?.publishedAt ?? '',
+      authors: author ? [author] : undefined,
+      title: data?.title ?? '',
+      description: data?.description ?? '',
+      siteName: process.env.SITE_TAG,
+      images: [
+        {
+          url: data?.cover?.image?.data?.attributes?.url ?? '',
+          alt: data?.cover?.image?.data?.attributes?.alternativeText ?? '',
+        },
+      ],
+    },
   }
 }
 
