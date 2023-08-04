@@ -11,6 +11,7 @@ const ARTICLE_QUERY = gql`
           title
           description
           publishedAt
+          updatedAt
           author
           cover {
             type

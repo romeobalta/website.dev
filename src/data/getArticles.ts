@@ -12,6 +12,7 @@ const ARTICLES_QUERY = gql`
           title
           description
           publishedAt
+          updatedAt
           thumbnail {
             data {
               attributes {

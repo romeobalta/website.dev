@@ -1,4 +1,5 @@
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
+import { BlogPosting, WithContext } from 'schema-dts'
 
 import {
   ArticleCategory,
@@ -80,17 +81,26 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
   const author = data?.author?.replace('_', ' ') ?? ''
   const coverImage = getLinkOnServer(data?.cover?.image?.data?.attributes?.url)
 
-  const jsonLd = {
-    '@context': 'http://schema.org',
-    '@type': 'Article',
-    headline: data?.title,
-    image: coverImage,
+  const jsonLd: WithContext<BlogPosting> = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: data?.title ?? '',
+    image: coverImage ?? '',
     author: {
       '@type': 'Person',
       name: author,
+      url: `https://${process.env.SITE_TAG}`,
+    },
+    publisher: {
+      '@type': 'Person',
+      name: author,
+      url: `https://${process.env.SITE_TAG}`,
     },
     datePublished: data?.publishedAt,
-    articleBody: data?.description,
+    dateCreated: data?.publishedAt,
+    articleBody: data?.description ?? '',
+    url: `https://${process.env.SITE_TAG}/article/${slug}`,
+    dateModified: data?.updatedAt,
   }
 
   return (

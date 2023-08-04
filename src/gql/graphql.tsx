@@ -1227,6 +1227,7 @@ export type ArticleQuery = {
         title?: string | null
         description?: string | null
         publishedAt?: any | null
+        updatedAt?: any | null
         author?: Enum_Article_Author | null
         cover?: {
           __typename?: 'ComponentImageImage'
@@ -1315,6 +1316,7 @@ export type ArticlesQuery = {
         title?: string | null
         description?: string | null
         publishedAt?: any | null
+        updatedAt?: any | null
         slug?: string | null
         thumbnail?: {
           __typename?: 'UploadFileEntityResponse'
@@ -1413,6 +1415,7 @@ export const ArticleDocument = gql`
           title
           description
           publishedAt
+          updatedAt
           author
           cover {
             type
@@ -1567,6 +1570,7 @@ export const ArticlesDocument = gql`
           title
           description
           publishedAt
+          updatedAt
           thumbnail {
             data {
               attributes {

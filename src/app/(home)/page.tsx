@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Person, WithContext } from 'schema-dts'
 
 import { ArticleBox } from '@/components'
 import { Bio, MarkdownRenderer, Socials } from '@/components/server'
@@ -17,8 +18,22 @@ export default async function Home() {
 
   if (error) throw new Error('Oops, romeo is not home')
 
+  const jsonLd: WithContext<Person> = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: home?.name,
+    url: `https://${process.env.SITE_TAG}`,
+    image: home?.avatar?.data?.attributes?.url,
+    sameAs: home?.socials?.map(social => social?.link ?? ''),
+  }
+
   return (
     <div className="flex flex-col items-center w-full px-5">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <Bio
         name={home?.name ?? ''}
         description={home?.description ?? ''}
