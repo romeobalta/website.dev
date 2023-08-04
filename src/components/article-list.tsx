@@ -33,7 +33,7 @@ export function ArticleList() {
       )}
       {articles?.map(article => (
         <ArticleBox
-          key={article.id}
+          key={article.attributes?.slug}
           title={article.attributes?.title ?? ''}
           description={article.attributes?.description ?? ''}
           category={article.attributes?.category?.data?.attributes?.name}

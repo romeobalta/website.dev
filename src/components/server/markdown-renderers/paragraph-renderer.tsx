@@ -4,27 +4,39 @@ import { ParagraphElementValue } from '@/lib/parse-markdown'
 
 import { P } from '../p'
 
-export const renderParagraphElement = (element: ParagraphElementValue) => {
+export const renderParagraphElement = (
+  element: ParagraphElementValue,
+  key: number | string
+) => {
   switch (element.type) {
     case 'bold':
       return (
-        <strong className="font-bold">
-          {element.value.map(renderParagraphElement)}
+        <strong key={key} className="font-bold">
+          {element.value.map((element, index) =>
+            renderParagraphElement(element, `${key}-${index}`)
+          )}
         </strong>
       )
     case 'italic':
       return (
-        <i className="italic">{element.value.map(renderParagraphElement)}</i>
+        <i key={key} className="italic">
+          {element.value.map((element, index) =>
+            renderParagraphElement(element, `${key}-${index}`)
+          )}
+        </i>
       )
     case 'strikethrough':
       return (
-        <span className="line-through">
-          {element.value.map(renderParagraphElement)}
+        <span key={key} className="line-through">
+          {element.value.map((element, index) =>
+            renderParagraphElement(element, `${key}-${index}`)
+          )}
         </span>
       )
     case 'link':
       return (
         <Link
+          key={key}
           className="text-sky-500"
           href={element.value.url}
           title={element.value.tooltip}
@@ -34,19 +46,24 @@ export const renderParagraphElement = (element: ParagraphElementValue) => {
       )
     case 'code':
       return (
-        <code className="font-mono px-1.5 py-px border border-slate-900/20 bg-[#f9f5d7] rounded-sm text-sm text-[#9d0006]">
+        <code
+          key={key}
+          className="font-mono px-1.5 py-px border border-slate-900/20 bg-[#f9f5d7] rounded-sm text-sm text-[#9d0006]"
+        >
           {element.value}
         </code>
       )
     case 'underline':
       return (
-        <span className="underline">
-          {element.value.map(renderParagraphElement)}
+        <span key={key} className="underline">
+          {element.value.map((element, index) =>
+            renderParagraphElement(element, `${key}-${index}`)
+          )}
         </span>
       )
     case 'text':
     default:
-      return <span>{element.value}</span>
+      return <span key={key}>{element.value}</span>
   }
 }
 
@@ -55,5 +72,11 @@ export interface ParagraphRendererProps {
 }
 
 export function ParagraphRenderer({ paragraph }: ParagraphRendererProps) {
-  return <P>{paragraph.map(element => renderParagraphElement(element))}</P>
+  return (
+    <P>
+      {paragraph.map((element, index) =>
+        renderParagraphElement(element, index)
+      )}
+    </P>
+  )
 }

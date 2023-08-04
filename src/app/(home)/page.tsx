@@ -69,7 +69,7 @@ export default async function Home() {
           <div className="w-full grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-4 gap-x-4 gap-y-4 @5xl:gap-y-8 mt-4">
             {articles?.map(article => (
               <ArticleBox
-                key={article?.id}
+                key={article?.attributes?.slug}
                 title={article?.attributes?.title ?? ''}
                 description={article?.attributes?.description ?? ''}
                 category={
