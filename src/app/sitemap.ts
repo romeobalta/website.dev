@@ -4,11 +4,11 @@ import { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: `https://${process.env.SITE_NAME}`,
+      url: `https://${process.env.SITE_TAG}`,
       lastModified: new Date(),
     },
     {
-      url: `https://${process.env.SITE_NAME}/articles`,
+      url: `https://${process.env.SITE_TAG}/articles`,
       lastModified: new Date(),
     },
   ]

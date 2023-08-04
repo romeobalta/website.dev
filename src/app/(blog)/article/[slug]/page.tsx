@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { data } = await getArticle(slug)
 
   return {
-    title: `${data?.title ?? ''} - ${process.env.SITE_NAME}`,
+    title: `${data?.title ?? ''} - ${process.env.SITE_TAG}`,
     description: data?.description ?? '',
   }
 }
