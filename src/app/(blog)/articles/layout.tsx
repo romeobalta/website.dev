@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { BlogHeader } from '@/components'
+import { BlogHeader } from '@/components/server'
 
 export const metadata: Metadata = {
   title: 'Articles - romeo.dev',

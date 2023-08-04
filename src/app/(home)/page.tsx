@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { ArticleBox, Socials } from '@/components'
-import { Bio, MarkdownRenderer } from '@/components/server'
+import { ArticleBox } from '@/components'
+import { Bio, MarkdownRenderer, Socials } from '@/components/server'
 import { getArticles } from '@/data/getArticles'
 import { getHome } from '@/data/getHome'
 
