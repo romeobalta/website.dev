@@ -26,7 +26,7 @@ export function Bio({ name, handle, picture, description }: BioProps) {
         </h2>
       )}
 
-      <p className="text-sm font-roboto text-center text-slate-950">
+      <p className="text-sm font-roboto text-center text-slate-950 font-light">
         {description}
       </p>
     </>

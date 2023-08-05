@@ -41,17 +41,17 @@ export default async function Home() {
 
       <Socials socials={home?.socials} className="mt-2" />
 
-      <h1 className="w-full max-w-md mt-5 text-lg font-bold text-center font-source-serif">
+      <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
         About me
       </h1>
       <div className="w-full max-w-md font-roboto font-normal text-sm">
         <MarkdownRenderer markdown={home?.bio} />
       </div>
 
-      <h1 className="w-full max-w-md mt-5 text-lg font-bold text-center font-source-serif">
+      <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
         Links
       </h1>
-      <div className="w-full max-w-md font-source-serif font-normal text-sm">
+      <div className="w-full max-w-md font-roboto font-normal text-sm">
         <ul className="list-disc pl-5">
           {home?.links?.map(link => {
             const { url, title, description } = {
@@ -76,7 +76,7 @@ export default async function Home() {
 
       {!!articles?.length && (
         <>
-          <h1 className="w-full max-w-md mt-5 text-lg font-bold text-center font-source-serif">
+          <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
             Latest articles
           </h1>
 
