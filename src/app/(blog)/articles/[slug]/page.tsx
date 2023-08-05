@@ -5,6 +5,9 @@ import { ArticleList } from '@/components/server/article-list'
 import { getArticles } from '@/data/getArticles'
 import { getCategories } from '@/data/getCategories'
 
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
 type Props = {
   params: { slug: string }
 }

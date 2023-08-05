@@ -14,6 +14,9 @@ import { getArticlesPaths } from '@/data/getArticlePaths'
 import { calculateReadingTime } from '@/lib/article-functions'
 import { getLinkOnServer } from '@/lib/url-functions'
 
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
 type Props = {
   params: { slug: string }
 }
