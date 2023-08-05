@@ -36,7 +36,7 @@ export function ArticleList({
             year: 'numeric',
           })
           header = (
-            <h1 className="text-xl font-bold font-roboto-condensed mt-3 mb-3 first:mt-0">
+            <h1 className="text-xl font-bold font-roboto-condensed mt-3 mb-3">
               {dateValue}
             </h1>
           )
