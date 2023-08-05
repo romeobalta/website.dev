@@ -39,8 +39,8 @@ const openSans = Open_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Articles by Romeo',
-  description: 'A collection of articles written by Romeo',
+  title: `${process.env.SITE_TAG}: Page not found`,
+  description: 'Page not found',
 }
 export default function NotFound() {
   return (
