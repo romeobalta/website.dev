@@ -56,7 +56,7 @@ export default function NotFound() {
           'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100'
         )}
       >
-        <div className="w-full max-w-6xl px-5">
+        <div className="w-full max-w-2xl px-5">
           <BlogHeader border />
         </div>
         <div className="h-full w-full flex flex-col justify-stretch items-center">
