@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { Person, WithContext } from 'schema-dts'
 
-import { ArticleBox } from '@/components'
-import { Bio, MarkdownRenderer, Socials } from '@/components/server'
+import { ArticleBox, Bio, MarkdownRenderer, Socials } from '@/components/server'
 import { getArticles } from '@/data/getArticles'
 import { getHome } from '@/data/getHome'
 

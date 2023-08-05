@@ -1,19 +1,30 @@
-'use client'
-
-import { ApolloProvider } from '@apollo/react-hooks'
+import { Metadata } from 'next'
 import { Blog, WithContext } from 'schema-dts'
 
-import client from '@/apollo-client'
-import { ArticleList, Search } from '@/components'
-import { ArticleSearchProvider } from '@/hooks/useArticleSearch'
+import { ArticleList } from '@/components/server'
+import { getArticles } from '@/data/getArticles'
 
-interface CategoryPageProps {
-  searchParams: {
-    category: string
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `${process.env.SITE_TAG}: Articles`,
+    description: 'A collection of articles written by Romeo',
+    metadataBase: new URL(`https://${process.env.SITE_TAG}`),
+    alternates: {
+      canonical: `/articles`,
+    },
+    openGraph: {
+      type: 'website',
+      title: 'Articles - romeo.dev',
+      description: 'A collection of articles written by Romeo',
+      siteName: process.env.SITE_TAG,
+    },
   }
 }
 
-export default function CategoryPage({ searchParams }: CategoryPageProps) {
+export default async function CategoryPage() {
+  // fetch data
+  const { data } = await getArticles()
+
   const jsonLd: WithContext<Blog> = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
@@ -30,13 +41,8 @@ export default function CategoryPage({ searchParams }: CategoryPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ApolloProvider client={client}>
-        <ArticleSearchProvider searchParams={searchParams}>
-          <Search />
 
-          <ArticleList />
-        </ArticleSearchProvider>
-      </ApolloProvider>
+      <ArticleList articles={data ?? []} showCategories />
     </>
   )
 }

@@ -14,7 +14,7 @@ export function ArticleCategory({
   slug,
   className,
 }: ArticleCategoryProps) {
-  const link = `/articles?category=${slug}`
+  const link = `/articles/${slug}`
 
   return (
     <div

@@ -4,8 +4,12 @@ import client from '@/apollo-client'
 import { ArticleFiltersInput, ArticlesQuery, Maybe } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
-  query Articles($filters: ArticleFiltersInput) {
-    articles(sort: "id:desc", filters: $filters, pagination: { limit: 9999 }) {
+  query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
+    articles(
+      sort: "publishedAt:desc"
+      filters: $filters
+      pagination: $pagination
+    ) {
       data {
         id
         attributes {
@@ -29,6 +33,9 @@ const ARTICLES_QUERY = gql`
 
 export interface GetArticlesFilter {
   category?: Maybe<string>
+  pagination?: {
+    limit: number
+  }
 }
 
 export type GetArticlesResultData = Extract<
@@ -38,6 +45,13 @@ export type GetArticlesResultData = Extract<
 
 export async function getArticles(filter?: GetArticlesFilter) {
   const filters: ArticleFiltersInput = {}
+  const pagination = {
+    limit: 9999,
+  }
+
+  if (filter?.pagination?.limit) {
+    pagination.limit = filter.pagination.limit
+  }
 
   if (filter?.category) {
     filters.category = {
@@ -51,6 +65,7 @@ export async function getArticles(filter?: GetArticlesFilter) {
     query: ARTICLES_QUERY,
     variables: {
       filters,
+      pagination,
     },
   })
   return {

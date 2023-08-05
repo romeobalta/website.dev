@@ -14,9 +14,6 @@ import { getArticlesPaths } from '@/data/getArticlePaths'
 import { calculateReadingTime } from '@/lib/article-functions'
 import { getLinkOnServer } from '@/lib/url-functions'
 
-export const dynamic = 'force-static'
-export const dynamicParams = false
-
 type Props = {
   params: { slug: string }
 }
@@ -30,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const author = data?.author?.replace('_', ' ') ?? ''
 
   return {
-    title: `${data?.title ?? ''} - ${process.env.SITE_TAG}`,
+    title: `${process.env.SITE_TAG}: ${data?.title ?? ''}`,
     description: data?.description ?? '',
     metadataBase: new URL(`https://${process.env.SITE_TAG}`),
     alternates: {
@@ -127,12 +124,12 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           readingTime={`${readingTime} min`}
         />
 
-        <ArticleImage
+        {/* <ArticleImage
           src={coverImage}
           description={data?.cover?.image?.data?.attributes?.caption}
           variant={data?.cover?.type}
           alt={data?.cover?.image?.data?.attributes?.alternativeText}
-        />
+        />*/}
 
         {data?.content?.map((content, contentKey) => (
           <>
