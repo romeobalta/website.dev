@@ -1,9 +1,5 @@
 import { clsx } from 'clsx'
-import Image from 'next/image'
 import Link from 'next/link'
-
-import { Maybe } from '@/gql/graphql'
-import { PLACEHOLDER_IMAGE } from '@/lib/constants'
 
 interface ArticleBoxProps {
   title: string
@@ -11,7 +7,6 @@ interface ArticleBoxProps {
   category?: string
   date?: string
   link: string
-  image: Maybe<string>
   className?: string
 }
 
@@ -21,13 +16,8 @@ export function ArticleBox({
   category,
   date,
   link,
-  image,
   className = '',
 }: ArticleBoxProps) {
-  if (!image) {
-    image = PLACEHOLDER_IMAGE
-  }
-
   return (
     <Link
       href={link}
@@ -61,17 +51,7 @@ export function ArticleBox({
           )}
         </span>
 
-        <div className="w-5/12 @5xl:w-full">
-          <Image
-            className="w-full h-auto border border-slate-900/10"
-            src={image}
-            alt="Article Image"
-            width={264}
-            height={264}
-          />
-        </div>
-
-        <div className="w-7/12 @5xl:w-full flex flex-col justify-start gap-y-2">
+        <div className="w-full @5xl:w-full flex flex-col justify-start gap-y-2">
           <h1 className="w-full -mt-0.5 @5xl:mt-0 text-slate-950 font-source-serif text-lg leading-5 font-bold group-hover:underline">
             {title}
           </h1>

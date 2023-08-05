@@ -4,8 +4,8 @@ import client from '@/apollo-client'
 import { ArticleFiltersInput, ArticlesQuery, Maybe } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
-  query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
-    articles(pagination: $pagination, sort: "id:desc", filters: $filters) {
+  query Articles($filters: ArticleFiltersInput) {
+    articles(sort: "id:desc", filters: $filters, pagination: { limit: 9999 }) {
       data {
         id
         attributes {
@@ -13,15 +13,6 @@ const ARTICLES_QUERY = gql`
           description
           publishedAt
           updatedAt
-          thumbnail {
-            data {
-              attributes {
-                url
-                alternativeText
-                caption
-              }
-            }
-          }
           category {
             data {
               attributes {
@@ -32,25 +23,12 @@ const ARTICLES_QUERY = gql`
           slug
         }
       }
-      meta {
-        pagination {
-          page
-          pageCount
-        }
-      }
     }
   }
 `
 
 export interface GetArticlesFilter {
   category?: Maybe<string>
-  year?: Maybe<string>
-  term?: Maybe<string>
-
-  pagination?: {
-    start?: number
-    limit?: number
-  }
 }
 
 export type GetArticlesResultData = Extract<
@@ -58,18 +36,7 @@ export type GetArticlesResultData = Extract<
   { __typename?: 'ArticleEntityResponseCollection' }
 >['data']
 
-export type GetArticlesResultPagination = Extract<
-  ArticlesQuery['articles'],
-  { __typename?: 'ArticleEntityResponseCollection' }
->['meta']['pagination']
-
 export async function getArticles(filter?: GetArticlesFilter) {
-  const pagination = {
-    start: 0,
-    limit: 10,
-    ...filter?.pagination,
-  }
-
   const filters: ArticleFiltersInput = {}
 
   if (filter?.category) {
@@ -80,44 +47,13 @@ export async function getArticles(filter?: GetArticlesFilter) {
     }
   }
 
-  if (filter?.year) {
-    filters.createdAt = {
-      gte: `${filter.year}-01-01T00:00:00.000Z`,
-      lte: `${filter.year}-12-31T23:59:59.999Z`,
-    }
-  }
-
-  if (filter?.term) {
-    filters.or = [
-      {
-        title: {
-          contains: filter.term,
-        },
-      },
-      {
-        description: {
-          contains: filter.term,
-        },
-      },
-      {
-        content: {
-          paragraph: {
-            contains: filter.term,
-          },
-        },
-      },
-    ]
-  }
-
   const { data } = await client.query<ArticlesQuery>({
     query: ARTICLES_QUERY,
     variables: {
-      pagination,
       filters,
     },
   })
   return {
     data: data?.articles?.data,
-    pagination: data?.articles?.meta?.pagination,
   }
 }
