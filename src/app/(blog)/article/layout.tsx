@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <div className="w-full max-w-6xl px-5">
+      <div className="w-full max-w-2xl px-5">
         <BlogHeader border />
       </div>
       <div className="h-full w-full flex flex-col justify-stretch items-center">

@@ -1,3 +1,4 @@
+import { clsx } from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -11,6 +12,7 @@ interface ArticleBoxProps {
   date?: string
   link: string
   image: Maybe<string>
+  className?: string
 }
 
 export function ArticleBox({
@@ -20,6 +22,7 @@ export function ArticleBox({
   date,
   link,
   image,
+  className = '',
 }: ArticleBoxProps) {
   if (!image) {
     image = PLACEHOLDER_IMAGE
@@ -28,9 +31,16 @@ export function ArticleBox({
   return (
     <Link
       href={link}
-      className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950"
+      className={clsx(
+        `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950`,
+        className
+      )}
     >
-      <div className="w-full @5xl:h-auto flex flex-row @5xl:flex-col group gap-x-5 gap-y-2">
+      <div
+        className={clsx(
+          `w-full @5xl:h-auto flex flex-row @5xl:flex-col group gap-x-5 gap-y-2`
+        )}
+      >
         <span className="hidden @5xl:block text-xs text-left font-roboto">
           {date && (
             <>

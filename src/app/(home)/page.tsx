@@ -45,7 +45,7 @@ export default async function Home() {
       <h1 className="w-full max-w-md mt-5 text-lg font-bold text-center font-source-serif">
         About me
       </h1>
-      <div className="w-full max-w-md font-source-serif font-normal text-sm">
+      <div className="w-full max-w-md font-roboto font-normal text-sm">
         <MarkdownRenderer markdown={home?.bio} />
       </div>
 

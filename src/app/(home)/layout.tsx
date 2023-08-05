@@ -24,9 +24,7 @@ export default function RootLayout({
   return (
     <>
       <main
-        className={clsx(
-          'h-full w-full max-w-6xl items-stretch py-5 @container'
-        )}
+        className={clsx('h-full w-full max-w-md items-stretch py-5 @container')}
       >
         {children}
       </main>
