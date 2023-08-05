@@ -30,9 +30,10 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Articles by Romeo',
-  description: 'A collection of articles written by Romeo',
+  title: process.env.SITE_TAG,
+  description: 'The website of Romeo Balta',
 }
+
 export default function RootLayout({
   children,
 }: {
