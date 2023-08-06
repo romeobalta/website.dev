@@ -18,7 +18,7 @@ export function CodeRenderer({ code }: CodeRendererProps) {
           <pre
             className={clsx(
               className,
-              'py-2 font-mono text-sm rounded-md border border-slate-900/20 max-w-full md:min-w-max flex-1 bg-[#f9f5d7] overflow-x-scroll md:overflow-x-visible'
+              'py-2 font-mono text-sm rounded-md border border-slate-100/20 max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible'
             )}
           >
             {tokens.map((line, i) => (

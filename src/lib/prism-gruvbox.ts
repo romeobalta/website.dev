@@ -1,14 +1,14 @@
 import type { PrismTheme } from 'prism-react-renderer'
 const theme: PrismTheme = {
   plain: {
-    color: '#393A34',
-    backgroundColor: '#f6f8fa',
+    color: '#fbf1c7',
+    backgroundColor: '#7c6f64',
   },
   styles: [
     {
       types: ['comment', 'prolog', 'cdata'],
       style: {
-        color: '#908174',
+        color: '#a89984',
         fontStyle: 'italic',
       },
     },
@@ -16,68 +16,69 @@ const theme: PrismTheme = {
       types: [
         'delimiter',
         'boolean',
-        'keyword',
         'selector',
         'important',
         'atrule',
+        'parameter',
+        'attr-name',
       ],
       style: {
-        color: '#9d0006',
-      },
-    },
-    {
-      types: ['operator', 'punctuation', 'attr-name'],
-      style: {
-        color: '#7c6f64',
+        color: '#fb4934',
       },
     },
     {
       types: ['tag', 'punctuation', 'doctype', 'builtin'],
       style: {
-        color: '#b57614',
+        color: '#fabd2f',
       },
     },
     {
       types: ['entity', 'number', 'symbol'],
       style: {
-        color: '#8f3f71',
+        color: '#d3869b',
+      },
+    },
+    {
+      types: ['string', 'char', 'string-property', 'property', 'attr-value'],
+      style: {
+        color: '#b8bb26',
       },
     },
     {
       types: ['property', 'constant', 'variable'],
       style: {
-        color: '#9d0006',
-      },
-    },
-    {
-      types: ['string', 'char'],
-      style: {
-        color: '#797403',
-      },
-    },
-    {
-      types: ['attr-value', 'punctuation'],
-      style: {
-        color: '#7c6f64',
+        color: '#fb4934',
       },
     },
     {
       types: ['url'],
       style: {
-        color: '#797403',
+        color: '#b8bb26',
         textDecorationLine: 'underline',
       },
     },
     {
-      types: ['function', 'maybe-class-name'],
+      types: ['function'],
       style: {
-        color: '#076678',
+        color: '#458588',
+      },
+    },
+    {
+      types: ['class-name', 'keyword'],
+      style: {
+        color: '#b16286',
+      },
+    },
+    {
+      types: ['maybe-class-name'],
+      style: {
+        color: '#458588',
       },
     },
     {
       types: ['regex'],
       style: {
-        background: '#797403',
+        background: '#b8bb26',
       },
     },
     {
@@ -95,13 +96,19 @@ const theme: PrismTheme = {
     {
       types: ['inserted'],
       style: {
-        background: '#7c6f64',
+        background: '#a89984',
       },
     },
     {
       types: ['deleted'],
       style: {
-        background: '#9d0006',
+        background: '#fb4934',
+      },
+    },
+    {
+      types: ['nil', 'punctuation', 'operator'],
+      style: {
+        color: '#fe8019',
       },
     },
   ],

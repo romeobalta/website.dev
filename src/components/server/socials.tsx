@@ -15,7 +15,7 @@ interface SocialsProps {
 
 export function Socials({ className, socials }: SocialsProps) {
   return (
-    <div className={clsx('flex justify-center space-x-4', className)}>
+    <div className={clsx('flex justify-center space-x-4 invert', className)}>
       {socials?.map(social => {
         const { icon, link } = {
           icon: '',

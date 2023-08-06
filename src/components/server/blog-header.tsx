@@ -12,7 +12,7 @@ export function BlogHeader({ border }: BlogHeaderProps) {
     <header
       className={clsx(
         'w-full font-roboto py-3 flex flex-row justify-between items-center',
-        border && 'border-b border-slate-800/30'
+        border && 'border-b border-slate-200/30'
       )}
     >
       <Link href="/">
