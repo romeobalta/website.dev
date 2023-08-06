@@ -101,7 +101,7 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
   }
 
   return (
-    <main className="w-full max-w-2xl p-5">
+    <main className="w-full py-5">
       <article className="flex-1 flex flex-col items-center w-full h-full">
         <script
           type="application/ld+json"
@@ -112,10 +112,11 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           name={data?.category?.data?.attributes?.name}
           slug={data?.category?.data?.attributes?.slug}
         />
-        <H1 className="mt-3 mb-2.5">{data?.title}</H1>
-        <ArticleDesc className="mb-3">{data?.description}</ArticleDesc>
+        <H1 className="mt-3 mb-1">{data?.title}</H1>
+        <ArticleDesc>{data?.description}</ArticleDesc>
 
         <ArticleInfo
+          className="mt-3"
           author={author}
           date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
             year: 'numeric',

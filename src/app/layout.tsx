@@ -48,7 +48,9 @@ export default function RootLayout({
           robotoCondensed.variable,
           roboto.variable,
           'min-h-screen flex flex-col items-center',
-          'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100'
+          true &&
+            'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100',
+          false && 'bg-slate-700 text-slate-100'
         )}
       >
         {children}

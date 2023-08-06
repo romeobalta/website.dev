@@ -23,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="w-full max-w-2xl px-5 @container">
+    <div className="w-full max-w-xl px-5 pb-5 md@container">
       <BlogHeader border />
-      <div className="h-full w-full max-w-2xl flex flex-col justify-stretch items-center">
+      <div className="h-full w-full flex flex-col justify-stretch items-center">
         {children}
       </div>
     </div>
