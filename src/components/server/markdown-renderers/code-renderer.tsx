@@ -31,6 +31,12 @@ export function CodeRenderer({ code }: CodeRendererProps) {
                   {i + 1}.
                 </span>
                 {line.map((token, key) => {
+                  if (
+                    token.types.includes('string-property') &&
+                    token.types.includes('property')
+                  ) {
+                    token.types = ['string-property']
+                  }
                   return <span key={key} {...getTokenProps({ token })} />
                 })}
               </div>

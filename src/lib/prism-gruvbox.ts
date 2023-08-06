@@ -1,7 +1,7 @@
 import type { PrismTheme } from 'prism-react-renderer'
 const theme: PrismTheme = {
   plain: {
-    color: '#fbf1c7',
+    color: '#ebdbb2',
     backgroundColor: '#7c6f64',
   },
   styles: [
@@ -39,7 +39,7 @@ const theme: PrismTheme = {
       },
     },
     {
-      types: ['string', 'char', 'string-property', 'property', 'attr-value'],
+      types: ['string', 'char', 'attr-value'],
       style: {
         color: '#b8bb26',
       },
@@ -48,6 +48,12 @@ const theme: PrismTheme = {
       types: ['property', 'constant', 'variable'],
       style: {
         color: '#fb4934',
+      },
+    },
+    {
+      types: ['string-property'],
+      style: {
+        color: '#b8bb26',
       },
     },
     {
