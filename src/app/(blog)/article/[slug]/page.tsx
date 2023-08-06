@@ -22,10 +22,8 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // read route params
   const { slug } = params
 
-  // fetch data
   const { data } = await getArticle(slug)
   const author = data?.author?.replace('_', ' ') ?? ''
 

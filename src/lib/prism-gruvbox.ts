@@ -8,7 +8,8 @@ const theme: PrismTheme = {
     {
       types: ['comment', 'prolog', 'cdata'],
       style: {
-        color: '#7c6f64',
+        color: '#908174',
+        fontStyle: 'italic',
       },
     },
     {
@@ -68,7 +69,7 @@ const theme: PrismTheme = {
       },
     },
     {
-      types: ['function'],
+      types: ['function', 'maybe-class-name'],
       style: {
         color: '#076678',
       },

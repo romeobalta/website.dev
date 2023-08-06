@@ -11,7 +11,7 @@ export default async function Home() {
   const { data: home, error } = await getHome()
   const { data: articles } = await getArticles({
     pagination: {
-      limit: 8,
+      limit: 5,
     },
   })
 
