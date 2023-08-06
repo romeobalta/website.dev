@@ -7,6 +7,7 @@ import {
   Roboto_Condensed,
   Source_Serif_4,
 } from 'next/font/google'
+import Script from 'next/script'
 
 const lusitana = Lusitana({
   subsets: ['latin'],
@@ -53,6 +54,14 @@ export default function RootLayout({
           true && 'bg-neutral-800 text-slate-200'
         )}
       >
+        {!!process.env.ENABLE_ANALYTICS && (
+          <Script
+            strategy="afterInteractive"
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "3499495a931b4017a28c79444264f7b5"}'
+          />
+        )}
         {children}
       </body>
     </html>
