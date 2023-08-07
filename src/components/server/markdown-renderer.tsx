@@ -1,4 +1,4 @@
-import { Markdown, parseMarkdown } from '@/lib/parse-markdown'
+import { parseMarkdown } from '@/lib/parse-markdown'
 
 import {
   BlockquoteRenderer,

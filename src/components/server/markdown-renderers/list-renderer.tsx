@@ -12,7 +12,7 @@ function renderList(list: ListElementValue) {
     <ListTag
       className={clsx(
         type === 'ordered' ? 'list-decimal' : 'list-disc',
-        'pl-5'
+        'pl-5 w-full'
       )}
     >
       {items?.map((item, index) => (

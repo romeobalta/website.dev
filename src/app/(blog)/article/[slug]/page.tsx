@@ -113,19 +113,20 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           slug={data?.category?.data?.attributes?.slug}
         />
         <H1 className="mt-3 mb-1">{data?.title}</H1>
-        <ArticleDesc>{data?.description}</ArticleDesc>
+        {/*<ArticleDesc>{data?.description}</ArticleDesc>*/}
 
-        <ArticleInfo
-          className="mt-3"
-          author={author}
-          date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: '2-digit',
-          })}
-          readingTime={`${readingTime} min`}
-        />
-
+        <div className=" border-b border-slate-200/30 w-full">
+          <ArticleInfo
+            className="mt-3"
+            author={author}
+            date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: '2-digit',
+            })}
+            readingTime={`${readingTime} min`}
+          />
+        </div>
         {/* <ArticleImage
           src={coverImage}
           description={data?.cover?.image?.data?.attributes?.caption}
@@ -133,23 +134,28 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           alt={data?.cover?.image?.data?.attributes?.alternativeText}
         />*/}
 
-        {data?.content?.map((content, contentKey) => (
-          <>
-            <MarkdownRenderer key={contentKey} markdown={content?.paragraph} />
+        <div className="w-full text-lg">
+          {data?.content?.map((content, contentKey) => (
+            <>
+              <MarkdownRenderer
+                key={contentKey}
+                markdown={content?.paragraph}
+              />
 
-            {content?.image?.map(async (image, imageKey) => {
-              return (
-                <ArticleImage
-                  key={`${contentKey}-${imageKey}`}
-                  src={getLinkOnServer(image?.image?.data?.attributes?.url)}
-                  description={image?.image?.data?.attributes?.caption}
-                  variant={image?.type}
-                  alt={image?.image?.data?.attributes?.alternativeText}
-                />
-              )
-            })}
-          </>
-        ))}
+              {content?.image?.map(async (image, imageKey) => {
+                return (
+                  <ArticleImage
+                    key={`${contentKey}-${imageKey}`}
+                    src={getLinkOnServer(image?.image?.data?.attributes?.url)}
+                    description={image?.image?.data?.attributes?.caption}
+                    variant={image?.type}
+                    alt={image?.image?.data?.attributes?.alternativeText}
+                  />
+                )
+              })}
+            </>
+          ))}
+        </div>
       </article>
     </main>
   )
