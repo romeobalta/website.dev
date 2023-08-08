@@ -7,8 +7,6 @@ interface PProps {
 
 export function P({ children, className }: PProps) {
   return (
-    <p className={clsx('text-lg my-4', 'w-full max-w-2xl', className)}>
-      {children}
-    </p>
+    <p className={clsx('', 'my-5 w-full max-w-2xl', className)}>{children}</p>
   )
 }

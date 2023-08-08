@@ -3,6 +3,7 @@ import { clsx } from 'clsx'
 import type { Metadata } from 'next'
 import {
   Lusitana,
+  Open_Sans,
   Roboto,
   Roboto_Condensed,
   Source_Serif_4,
@@ -29,6 +30,11 @@ const roboto = Roboto({
   subsets: ['latin'],
   variable: '--font-roboto',
 })
+const openSans = Open_Sans({
+  weight: 'variable',
+  subsets: ['latin'],
+  variable: '--font-open-sans',
+})
 
 export const metadata: Metadata = {
   title: process.env.SITE_TAG,
@@ -44,14 +50,15 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={clsx(
-          lusitana.className,
+          lusitana.variable,
           sourceSerif.variable,
           robotoCondensed.variable,
           roboto.variable,
+          openSans.variable,
           'min-h-screen flex flex-col items-center',
           false &&
             'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100',
-          true && 'bg-neutral-800 text-slate-200'
+          true && 'bg-neutral-800 text-neutral-300'
         )}
       >
         {!!process.env.ENABLE_ANALYTICS && (

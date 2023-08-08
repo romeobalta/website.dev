@@ -59,7 +59,7 @@ export function ArticleBox({
             )}
           </span>
 
-          <h2 className="w-full font-roboto font-light text-sm leading-[1.175rem]">
+          <h2 className="w-full font-open-sans font-light text-sm leading-[1.175rem] text-neutral-400">
             {description}
           </h2>
         </div>

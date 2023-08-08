@@ -108,15 +108,23 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
+        <H1 className="mt-0 mb-2">{data?.title}</H1>
+
         <ArticleCategory
+          className="mb-5 text-neutral-400"
           name={data?.category?.data?.attributes?.name}
           slug={data?.category?.data?.attributes?.slug}
+          date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          })}
+          readingTime={`${readingTime} min`}
         />
-        <H1 className="mt-3 mb-1">{data?.title}</H1>
         {/*<ArticleDesc>{data?.description}</ArticleDesc>*/}
 
         <div className=" border-b border-slate-200/30 w-full">
-          <ArticleInfo
+          {/*<ArticleInfo
             className="mt-3"
             author={author}
             date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
@@ -125,7 +133,7 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
               day: '2-digit',
             })}
             readingTime={`${readingTime} min`}
-          />
+          />*/}
         </div>
         {/* <ArticleImage
           src={coverImage}
@@ -134,7 +142,7 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           alt={data?.cover?.image?.data?.attributes?.alternativeText}
         />*/}
 
-        <div className="w-full text-lg">
+        <div className="w-full text-base leading-7 font-roboto">
           {data?.content?.map((content, contentKey) => (
             <>
               <MarkdownRenderer

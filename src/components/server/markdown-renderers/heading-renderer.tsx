@@ -1,33 +1,30 @@
-import { clsx } from 'clsx'
+import { H1, H2, H3, H4, H5, H6 } from '../'
 
-import { HeadingElementValue } from '@/lib/parse-markdown'
-
-import { H1, H2, H3, H4, H5, H6 } from '../headings'
-
-interface HeadingRendererProps {
-  heading: HeadingElementValue
+interface endererProps {
+  children: React.ReactNode
+  level: number
 }
 
-export function HeadingRenderer({ heading }: HeadingRendererProps) {
-  if (heading.level === 1) {
-    return <H1>{heading.text}</H1>
+export function HeadingRenderer({ children, level }: endererProps) {
+  if (level === 1) {
+    return <H1>{children}</H1>
   }
 
-  if (heading.level === 2) {
-    return <H2>{heading.text}</H2>
+  if (level === 2) {
+    return <H2>{children}</H2>
   }
 
-  if (heading.level === 3) {
-    return <H3>{heading.text}</H3>
+  if (level === 3) {
+    return <H3>{children}</H3>
   }
 
-  if (heading.level === 4) {
-    return <H4>{heading.text}</H4>
+  if (level === 4) {
+    return <H4>{children}</H4>
   }
 
-  if (heading.level === 5) {
-    return <H5>{heading.text}</H5>
+  if (level === 5) {
+    return <H5>{children}</H5>
   }
 
-  return <H6>{heading.text}</H6>
+  return <H6>{children}</H6>
 }

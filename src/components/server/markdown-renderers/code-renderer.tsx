@@ -3,16 +3,23 @@
 import { clsx } from 'clsx'
 import { Highlight } from 'prism-react-renderer'
 
-import { CodeElementValue } from '@/lib/parse-markdown'
 import theme from '@/lib/prism-gruvbox'
 
 interface CodeRendererProps {
-  code: CodeElementValue
+  children: React.ReactNode
+  inline?: boolean
+  className?: string
 }
 
-export function CodeRenderer({ code }: CodeRendererProps) {
-  return (
-    <Highlight theme={theme} code={code.lines} language={code.language}>
+export function CodeRenderer({
+  children,
+  inline,
+  className,
+}: CodeRendererProps) {
+  const [_, language] = /language-(\w+)/.exec(className || '') || []
+  const code = String(children).replace(/\n$/, '')
+  return !inline ? (
+    <Highlight theme={theme} code={code} language={language ?? 'text'}>
       {({ className, tokens, getLineProps, getTokenProps }) => (
         <div className="my-4 flex flex-row justify-center w-full">
           <pre
@@ -45,5 +52,9 @@ export function CodeRenderer({ code }: CodeRendererProps) {
         </div>
       )}
     </Highlight>
+  ) : (
+    <code className="font-mono px-1.5 py-px border border-slate-100/20 bg-neutral-900 rounded-sm text-sm text-[#ebdbb2]">
+      {children}
+    </code>
   )
 }

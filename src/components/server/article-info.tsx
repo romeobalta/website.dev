@@ -22,7 +22,11 @@ export function ArticleInfo({
         className
       )}
     >
-      <span>By</span> <span className="font-bold">{author}</span> | {date} |{' '}
+      {author && (
+        <>
+          <span>By</span> <span className="font-bold">{author}</span> | )
+        </>
+      )}
       {readingTime} read
     </div>
   )

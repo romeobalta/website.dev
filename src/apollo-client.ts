@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import fetch from 'cross-fetch'
