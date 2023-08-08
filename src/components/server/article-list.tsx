@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { GetArticlesResultData } from '@/data/getArticles'
+import { ArticlesQuery } from '@/gql/graphql'
 
 import { ArticleBox } from './article-box'
 
 interface ArticleListProps {
-  articles: GetArticlesResultData
+  articles: ArticlesQuery['articles']
   showCategories?: boolean
 }
 
@@ -25,7 +25,7 @@ export function ArticleList({
         </div>
       )}
       {articles?.map((article, i) => {
-        const date = new Date(article.attributes?.publishedAt)
+        const date = new Date(article.publishedAt)
         let header = null
 
         // if different month, show month and year
@@ -46,16 +46,12 @@ export function ArticleList({
           <React.Fragment key={i}>
             {header}
             <ArticleBox
-              key={article.attributes?.slug}
-              title={article.attributes?.title ?? ''}
-              description={article.attributes?.description ?? ''}
-              category={
-                showCategories
-                  ? article.attributes?.category?.data?.attributes?.name
-                  : null
-              }
-              date={article.attributes?.publishedAt}
-              link={`/article/${article.attributes?.slug}`}
+              key={article.slug}
+              title={article.title ?? ''}
+              description={article.description ?? ''}
+              category={showCategories ? article.category?.title ?? '' : null}
+              date={article.publishedAt}
+              link={`/article/${article.slug}`}
             />
           </React.Fragment>
         )

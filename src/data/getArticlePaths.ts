@@ -5,14 +5,10 @@ import { ArticlePathsQuery } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
   query ArticlePaths {
-    articles(pagination: { limit: 9999 }, sort: "updatedAt:desc") {
-      data {
-        id
-        attributes {
-          slug
-          updatedAt
-        }
-      }
+    articles(first: 99999, orderBy: updatedAt_DESC) {
+      id
+      slug
+      updatedAt
     }
   }
 `
@@ -27,6 +23,6 @@ export async function getArticlesPaths() {
     query: ARTICLES_QUERY,
   })
   return {
-    data: data?.articles?.data ?? [],
+    data: data?.articles ?? [],
   }
 }

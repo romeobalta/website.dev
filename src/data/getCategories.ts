@@ -6,14 +6,11 @@ import { CategoriesQuery } from '@/gql/graphql'
 const CATEGORIES_QUERY = gql`
   query Categories {
     categories {
-      data {
-        id
-        attributes {
-          name
-          slug
-          createdAt
-        }
-      }
+      id
+      title
+      slug
+      createdAt
+      updatedAt
     }
   }
 `
@@ -29,6 +26,6 @@ export async function getCategories() {
   })
 
   return {
-    data: data?.categories?.data ?? [],
+    data: data?.categories ?? [],
   }
 }

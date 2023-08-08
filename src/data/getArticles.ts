@@ -1,74 +1,63 @@
 import { gql } from 'apollo-boost'
 
 import client from '@/apollo-client'
-import { ArticleFiltersInput, ArticlesQuery, Maybe } from '@/gql/graphql'
+import { ArticlesQuery, ArticleWhereInput, Maybe } from '@/gql/graphql'
 
 const ARTICLES_QUERY = gql`
-  query Articles($pagination: PaginationArg, $filters: ArticleFiltersInput) {
+  query Articles($limit: Int, $filters: ArticleWhereInput) {
     articles(
-      sort: "publishedAt:desc"
-      filters: $filters
-      pagination: $pagination
+      stage: PUBLISHED
+      orderBy: publishedAt_DESC
+      where: $filters
+      first: $limit
     ) {
-      data {
-        id
-        attributes {
-          title
-          description
-          publishedAt
-          updatedAt
-          category {
-            data {
-              attributes {
-                name
-              }
-            }
-          }
-          slug
-        }
+      id
+      title
+      description
+      slug
+      category {
+        title
+        slug
       }
+      createdAt
+      updatedAt
+      publishedAt
     }
   }
 `
 
 export interface GetArticlesFilter {
   category?: Maybe<string>
-  pagination?: {
-    limit: number
-  }
+  limit?: number
 }
 
-export type GetArticlesResultData = Extract<
-  ArticlesQuery['articles'],
-  { __typename?: 'ArticleEntityResponseCollection' }
->['data']
-
 export async function getArticles(filter?: GetArticlesFilter) {
-  const filters: ArticleFiltersInput = {}
+  const filters: ArticleWhereInput = {}
   const pagination = {
     limit: 9999,
   }
 
-  if (filter?.pagination?.limit) {
-    pagination.limit = filter.pagination.limit
+  if (filter?.limit) {
+    pagination.limit = filter.limit
   }
 
   if (filter?.category) {
     filters.category = {
-      slug: {
-        eq: filter.category,
-      },
+      slug: filter.category,
     }
   }
 
-  const { data } = await client.query<ArticlesQuery>({
+  const { data, error } = await client.query<ArticlesQuery>({
     query: ARTICLES_QUERY,
     variables: {
       filters,
-      pagination,
+      limit: pagination.limit,
     },
   })
+
+  if (error) throw error
+
   return {
-    data: data?.articles?.data,
+    data: data?.articles,
   }
 }

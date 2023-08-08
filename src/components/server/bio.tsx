@@ -1,21 +1,32 @@
 import Image from 'next/image'
 
 interface BioProps {
-  name: string
+  name?: string
   handle?: string
-  picture: string
-  description: string
+  picture?: {
+    url: string
+    width: string
+    height: string
+    secure_url: string
+    context: {
+      custom: {
+        alt: string
+        caption: string
+      }
+    }
+  }
+  description?: string
 }
 
 export function Bio({ name, handle, picture, description }: BioProps) {
   return (
     <>
       <Image
-        src={picture}
-        alt="A picture of a mountain"
+        src={picture?.secure_url ?? ''}
+        alt={picture?.context.custom.alt ?? ''}
         className="rounded-full w-24 h-24"
-        width={96}
-        height={96}
+        width={parseInt(picture?.width ?? '0')}
+        height={parseInt(picture?.height ?? '0')}
       />
 
       <h1 className="mt-5 text-xl font-source-serif text-center">{name}</h1>

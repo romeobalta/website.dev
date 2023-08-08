@@ -5,51 +5,18 @@ import { ArticleQuery } from '@/gql/graphql'
 
 const ARTICLE_QUERY = gql`
   query Article($slug: String!) {
-    article(slug: $slug) {
-      data {
-        attributes {
-          title
-          description
-          publishedAt
-          updatedAt
-          author
-          cover {
-            type
-            image {
-              data {
-                attributes {
-                  url
-                  alternativeText
-                  caption
-                }
-              }
-            }
-          }
-          category {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          content {
-            paragraph
-            image {
-              type
-              image {
-                data {
-                  attributes {
-                    url
-                    alternativeText
-                    caption
-                  }
-                }
-              }
-            }
-          }
-        }
+    article(where: { slug: $slug }) {
+      id
+      title
+      description
+      publishedAt
+      createdAt
+      updatedAt
+      category {
+        title
+        slug
       }
+      content
     }
   }
 `
@@ -64,7 +31,7 @@ export async function getArticle(slug: string) {
   })
 
   return {
-    data: data?.article?.data?.attributes,
+    data: data?.article,
     loading,
     error,
   }

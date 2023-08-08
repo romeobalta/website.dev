@@ -8,7 +8,7 @@ interface SocialsProps {
   socials?: Maybe<
     Maybe<{
       icon: string
-      link: string
+      url: string
     }>[]
   >
 }
@@ -17,15 +17,15 @@ export function Socials({ className, socials }: SocialsProps) {
   return (
     <div className={clsx('flex justify-center space-x-4 invert', className)}>
       {socials?.map(social => {
-        const { icon, link } = {
+        const { icon, url } = {
           icon: '',
-          link: '',
+          url: '',
           ...social,
         }
         return (
           <a
             key={icon}
-            href={link ?? ''}
+            href={url ?? ''}
             target="_blank"
             rel="noopener noreferrer"
           >

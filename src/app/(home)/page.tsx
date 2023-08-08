@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { Person, WithContext } from 'schema-dts'
 
@@ -7,23 +8,47 @@ import { getHome } from '@/data/getHome'
 
 export const dynamic = 'force-static'
 
-export default async function Home() {
-  const { data: home, error } = await getHome()
-  const { data: articles } = await getArticles({
-    pagination: {
-      limit: 5,
-    },
-  })
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: home } = await getHome()
 
-  if (error) throw new Error('Oops, romeo is not home')
+  return {
+    title: home?.siteTitle,
+    description: home?.siteDescription,
+    metadataBase: new URL(home?.siteUrl ?? 'http://localhost:3000'),
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      type: 'website',
+      title: home?.siteTitle,
+      description: home?.siteDescription,
+      siteName: home?.siteTitle,
+      images: [
+        {
+          url: home?.openGraphImage?.url,
+          secureUrl: home?.openGraphImage?.secure_url,
+          width: home?.openGraphImage?.width,
+          height: home?.openGraphImage?.height,
+          alt: home?.openGraphImage?.context.custom?.alt,
+        },
+      ],
+    },
+  }
+}
+
+export default async function Home() {
+  const { data: home } = await getHome()
+  const { data: articles } = await getArticles({
+    limit: 5,
+  })
 
   const jsonLd: WithContext<Person> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: home?.name,
+    name: home?.name ?? '',
     url: `https://${process.env.SITE_TAG}`,
-    image: home?.avatar?.data?.attributes?.url,
-    sameAs: home?.socials?.map(social => social?.link ?? ''),
+    image: home?.avatar?.data?.url,
+    sameAs: home?.socials?.map(social => social?.url ?? ''),
   }
 
   return (
@@ -34,9 +59,9 @@ export default async function Home() {
       />
 
       <Bio
-        name={home?.name ?? ''}
-        description={home?.description ?? ''}
-        picture={home?.avatar?.data?.attributes?.url ?? ''}
+        name={home?.name}
+        description={home?.description}
+        picture={home?.avatar}
       />
 
       <Socials socials={home?.socials} className="mt-2" />
@@ -52,7 +77,8 @@ export default async function Home() {
         Links
       </h1>
       <div className="w-full max-w-md font-roboto font-normal text-sm">
-        <ul className="list-disc pl-5">
+        <MarkdownRenderer markdown={home?.links} />
+        {/*        <ul className="list-disc pl-5">
           {home?.links?.map(link => {
             const { url, title, description } = {
               url: '',
@@ -72,6 +98,7 @@ export default async function Home() {
             )
           })}
         </ul>
+*/}
       </div>
 
       {!!articles?.length && (
@@ -83,14 +110,12 @@ export default async function Home() {
           <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
             {articles?.map(article => (
               <ArticleBox
-                key={article?.attributes?.slug}
-                title={article?.attributes?.title ?? ''}
-                description={article?.attributes?.description ?? ''}
-                category={
-                  article?.attributes?.category?.data?.attributes?.name ?? ''
-                }
-                link={`/article/${article?.attributes?.slug}`}
-                date={article?.attributes?.publishedAt ?? ''}
+                key={article?.slug}
+                title={article?.title}
+                description={article?.description}
+                category={article?.category?.title}
+                link={`/article/${article?.slug}`}
+                date={article?.publishedAt}
               />
             ))}
           </div>

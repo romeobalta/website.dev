@@ -3,26 +3,38 @@ import { Blog, WithContext } from 'schema-dts'
 
 import { ArticleList } from '@/components/server'
 import { getArticles } from '@/data/getArticles'
+import { getHome } from '@/data/getHome'
 
 export async function generateMetadata(): Promise<Metadata> {
+  const { data: home } = await getHome()
+
   return {
-    title: `${process.env.SITE_TAG}: Articles`,
-    description: 'A collection of articles written by Romeo',
-    metadataBase: new URL(`https://${process.env.SITE_TAG}`),
+    title: `${home?.siteTitle}: Articles`,
+    description: `A collection of articles written by ${home?.name}`,
+    metadataBase: new URL(home?.siteUrl ?? 'http://localhost:3000'),
     alternates: {
       canonical: `/articles`,
     },
     openGraph: {
       type: 'website',
-      title: 'Articles - romeo.dev',
+      title: `Articles - ${home?.siteTitle}`,
       description: 'A collection of articles written by Romeo',
-      siteName: process.env.SITE_TAG,
+      siteName: home?.siteTitle,
+      images: [
+        {
+          url: home?.openGraphImage?.url,
+          secureUrl: home?.openGraphImage?.secure_url,
+          width: home?.openGraphImage?.width,
+          height: home?.openGraphImage?.height,
+          alt: home?.openGraphImage?.context.custom?.alt,
+        },
+      ],
     },
   }
 }
 
 export default async function CategoryPage() {
-  // fetch data
+  const { data: home } = await getHome()
   const { data } = await getArticles()
 
   const jsonLd: WithContext<Blog> = {
@@ -31,7 +43,7 @@ export default async function CategoryPage() {
     author: {
       '@type': 'Person',
       name: 'Romeo Balta',
-      url: `https://${process.env.SITE_TAG}`,
+      url: home?.siteUrl ?? '',
     },
   }
 
