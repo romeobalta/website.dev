@@ -1,21 +1,4 @@
-import type { Metadata } from 'next'
-
 import { BlogHeader } from '@/components/server'
-
-// export const metadata: Metadata = {
-//   title: 'Articles - romeo.dev',
-//   description: 'A collection of articles written by Romeo',
-//   metadataBase: new URL(`https://${process.env.SITE_TAG}`),
-//   alternates: {
-//     canonical: '/articles',
-//   },
-//   openGraph: {
-//     type: 'website',
-//     title: 'Articles - romeo.dev',
-//     description: 'A collection of articles written by Romeo',
-//     siteName: process.env.SITE_TAG,
-//   },
-// }
 
 export default function RootLayout({
   children,

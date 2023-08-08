@@ -1,18 +1,11 @@
 import { Metadata } from 'next'
 import { BlogPosting, WithContext } from 'schema-dts'
 
-import {
-  ArticleCategory,
-  ArticleDesc,
-  ArticleInfo,
-  H1,
-  MarkdownRenderer,
-} from '@/components/server'
-import { ArticleImage } from '@/components/server/article-image'
+import { ArticleCategory, H1, MarkdownRenderer } from '@/components/server'
 import { getArticle } from '@/data/getArticle'
 import { getArticlesPaths } from '@/data/getArticlePaths'
+import { getHome } from '@/data/getHome'
 import { calculateReadingTime } from '@/lib/article-functions'
-import { getLinkOnServer } from '@/lib/url-functions'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -22,15 +15,16 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { data: home } = await getHome()
   const { slug } = params
 
   const { data } = await getArticle(slug)
-  const author = data?.author?.replace('_', ' ') ?? ''
+  const author = home?.name ?? ''
 
   return {
-    title: `${process.env.SITE_TAG}: ${data?.title ?? ''}`,
+    title: `${home?.siteTitle}: ${data?.title}`,
     description: data?.description ?? '',
-    metadataBase: new URL(`https://${process.env.SITE_TAG}`),
+    metadataBase: new URL(home?.siteUrl ?? 'http://localhost:3000'),
     alternates: {
       canonical: `/article/${slug}`,
     },
@@ -40,11 +34,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: author ? [author] : undefined,
       title: data?.title ?? '',
       description: data?.description ?? '',
-      siteName: process.env.SITE_TAG,
+      siteName: home?.siteTitle,
       images: [
         {
-          url: data?.cover?.image?.data?.attributes?.url ?? '',
-          alt: data?.cover?.image?.data?.attributes?.alternativeText ?? '',
+          url: home?.openGraphImage?.url,
+          secureUrl: home?.openGraphImage?.secure_url,
+          width: home?.openGraphImage?.width,
+          height: home?.openGraphImage?.height,
+          alt: home?.openGraphImage?.context.custom?.alt,
         },
       ],
     },
@@ -55,9 +52,9 @@ export async function generateStaticParams() {
   const { data } = await getArticlesPaths()
 
   return data
-    ?.filter(article => !!article.attributes?.slug)
+    ?.filter(article => !!article.slug)
     .map(article => ({
-      slug: article?.attributes?.slug ?? '',
+      slug: article?.slug ?? '',
     }))
 }
 
@@ -68,36 +65,36 @@ export interface ArticleProps {
 }
 
 export default async function ArticlePage({ params: { slug } }: ArticleProps) {
+  const { data: home } = await getHome()
   const { data, error } = await getArticle(slug)
 
   if (error) throw new Error('Oops, romeo is not home')
 
-  const contentText =
-    data?.content?.map(content => content?.paragraph).join('\n') ?? ''
+  const contentText = data?.content ?? ''
   const readingTime = calculateReadingTime(contentText)
-  const author = data?.author?.replace('_', ' ') ?? ''
-  const coverImage = getLinkOnServer(data?.cover?.image?.data?.attributes?.url)
+  const author = home?.name
+  // const coverImage = getLinkOnServer(data?.cover?.image?.data?.url)
 
   const jsonLd: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: data?.title ?? '',
-    image: coverImage ?? '',
+    headline: data?.title,
+    image: home?.openGraphImage?.secure_url,
     author: {
       '@type': 'Person',
       name: author,
-      url: `https://${process.env.SITE_TAG}`,
+      url: home?.siteUrl,
     },
     publisher: {
       '@type': 'Person',
       name: author,
-      url: `https://${process.env.SITE_TAG}`,
+      url: home?.siteUrl,
     },
     datePublished: data?.publishedAt,
-    dateCreated: data?.publishedAt,
-    articleBody: data?.description ?? '',
-    url: `https://${process.env.SITE_TAG}/article/${slug}`,
+    dateCreated: data?.createdAt,
     dateModified: data?.updatedAt,
+    articleBody: data?.content,
+    url: `${home?.siteUrl}/article/${slug}`,
   }
 
   return (
@@ -112,8 +109,8 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
 
         <ArticleCategory
           className="mb-5 text-neutral-400"
-          name={data?.category?.data?.attributes?.name}
-          slug={data?.category?.data?.attributes?.slug}
+          name={data?.category?.title}
+          slug={data?.category?.slug}
           date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -137,13 +134,14 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
         </div>
         {/* <ArticleImage
           src={coverImage}
-          description={data?.cover?.image?.data?.attributes?.caption}
+          description={data?.cover?.image?.data?.caption}
           variant={data?.cover?.type}
-          alt={data?.cover?.image?.data?.attributes?.alternativeText}
+          alt={data?.cover?.image?.data?.alternativeText}
         />*/}
 
         <div className="w-full text-base leading-7 font-roboto">
-          {data?.content?.map((content, contentKey) => (
+          <MarkdownRenderer markdown={data?.content} />
+          {/*data?.content?.map((content, contentKey) => (
             <>
               <MarkdownRenderer
                 key={contentKey}
@@ -154,15 +152,15 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
                 return (
                   <ArticleImage
                     key={`${contentKey}-${imageKey}`}
-                    src={getLinkOnServer(image?.image?.data?.attributes?.url)}
-                    description={image?.image?.data?.attributes?.caption}
+                    src={getLinkOnServer(image?.image?.data?.url)}
+                    description={image?.image?.data?.caption}
                     variant={image?.type}
-                    alt={image?.image?.data?.attributes?.alternativeText}
+                    alt={image?.image?.data?.alternativeText}
                   />
                 )
               })}
             </>
-          ))}
+          ))*/}
         </div>
       </article>
     </main>

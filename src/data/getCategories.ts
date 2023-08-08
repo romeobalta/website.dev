@@ -5,7 +5,7 @@ import { CategoriesQuery } from '@/gql/graphql'
 
 const CATEGORIES_QUERY = gql`
   query Categories {
-    categories {
+    categories(orderBy: updatedAt_DESC) {
       id
       title
       slug

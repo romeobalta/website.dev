@@ -37,8 +37,6 @@ export async function getHome(id: string = 'cll28pflhq57y0blainztcumm') {
     fetchPolicy: 'no-cache',
   })
 
-  console.log(data)
-
   if (error) throw error
 
   return {

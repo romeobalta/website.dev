@@ -4,6 +4,7 @@ import { Blog, WithContext } from 'schema-dts'
 import { ArticleList } from '@/components/server/article-list'
 import { getArticles } from '@/data/getArticles'
 import { getCategories } from '@/data/getCategories'
+import { getHome } from '@/data/getHome'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -13,23 +14,33 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { data: home } = await getHome()
+  const { data: categories } = await getCategories()
   const { slug } = params
-  const { data } = await getCategories()
 
-  const category = data?.find(category => category.attributes?.slug === slug)
+  const category = categories?.find(category => category.slug === slug)
 
   return {
-    title: `romeo.dev: ${category?.attributes?.name ?? ''}`,
-    description: 'A collection of articles written by Romeo',
-    metadataBase: new URL(`https://${process.env.SITE_TAG}`),
+    title: `${home?.siteTitle}: ${category?.title ?? ''}`,
+    description: `A collection of articles written by ${home?.name}`,
+    metadataBase: new URL(home?.siteUrl ?? 'http://localhost:3000'),
     alternates: {
       canonical: `/articles/${slug}`,
     },
     openGraph: {
       type: 'website',
-      title: `${slug} - romeo.dev`,
-      description: 'A collection of articles written by Romeo',
-      siteName: process.env.SITE_TAG,
+      title: `${category?.title} - ${home?.siteTitle}`,
+      description: `A collection of articles written by ${home?.name}`,
+      siteName: home?.siteTitle,
+      images: [
+        {
+          url: home?.openGraphImage?.url,
+          secureUrl: home?.openGraphImage?.secure_url,
+          width: home?.openGraphImage?.width,
+          height: home?.openGraphImage?.height,
+          alt: home?.openGraphImage?.context.custom?.alt,
+        },
+      ],
     },
   }
 }
@@ -38,9 +49,9 @@ export async function generateStaticParams() {
   const { data } = await getCategories()
 
   return data
-    ?.filter(category => !!category.attributes?.slug)
+    ?.filter(category => !!category.slug)
     .map(category => ({
-      slug: category?.attributes?.slug ?? '',
+      slug: category?.slug ?? '',
     }))
 }
 
@@ -51,6 +62,7 @@ interface CategoryPageProps {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { data: home } = await getHome()
   const { data } = await getArticles({ category: params.slug })
 
   const jsonLd: WithContext<Blog> = {
@@ -59,7 +71,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     author: {
       '@type': 'Person',
       name: 'Romeo Balta',
-      url: `https://${process.env.SITE_TAG}`,
+      url: home?.siteUrl ?? '',
     },
   }
 
