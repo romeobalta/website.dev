@@ -55,7 +55,7 @@ export default function RootLayout({
           robotoCondensed.variable,
           roboto.variable,
           openSans.variable,
-          'min-h-screen flex flex-col items-center',
+          'min-h-screen flex flex-col items-center antialiased',
           false &&
             'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100',
           true && 'bg-neutral-800 text-neutral-300'
