@@ -105,10 +105,10 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        <H1 className="mt-0 mb-2">{data?.title}</H1>
+        <H1 className="mt-6 mb-6 text-center">{data?.title}</H1>
 
         <ArticleCategory
-          className="mb-5 text-neutral-400"
+          className="mb-8 text-neutral-400"
           name={data?.category?.title}
           slug={data?.category?.slug}
           date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
@@ -120,8 +120,7 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
         />
         {/*<ArticleDesc>{data?.description}</ArticleDesc>*/}
 
-        <div className=" border-b border-slate-200/30 w-full">
-          {/*<ArticleInfo
+        {/*<ArticleInfo
             className="mt-3"
             author={author}
             date={new Date(data?.publishedAt).toLocaleDateString('en-US', {
@@ -131,7 +130,6 @@ export default async function ArticlePage({ params: { slug } }: ArticleProps) {
             })}
             readingTime={`${readingTime} min`}
           />*/}
-        </div>
         {/* <ArticleImage
           src={coverImage}
           description={data?.cover?.image?.data?.caption}

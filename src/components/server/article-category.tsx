@@ -23,8 +23,8 @@ export function ArticleCategory({
   return (
     <div
       className={clsx(
-        'font-roboto-condensed text-sm',
-        'w-full max-w-2xl',
+        'font-roboto-condensed text-sm text-center',
+        'w-full max-w-2xl my-4',
         className
       )}
     >
@@ -34,7 +34,7 @@ export function ArticleCategory({
           {name}
         </span>
       </Link>{' '}
-      | {readingTime} read
+      <span className="block">{readingTime} read</span>
     </div>
   )
 }

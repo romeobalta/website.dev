@@ -66,44 +66,23 @@ export default async function Home() {
 
       <Socials socials={home?.socials} className="mt-2" />
 
-      <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
+      <h1 className="w-full max-w-md my-8 text-2xl font-bold text-center font-source-serif">
         About me
       </h1>
       <div className="w-full max-w-md font-roboto font-normal text-sm">
         <MarkdownRenderer markdown={home?.bio} />
       </div>
 
-      <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
+      <h1 className="w-full max-w-md my-8 text-2xl font-bold text-center font-source-serif">
         Links
       </h1>
       <div className="w-full max-w-md font-roboto font-normal text-sm">
         <MarkdownRenderer markdown={home?.links} />
-        {/*        <ul className="list-disc pl-5">
-          {home?.links?.map(link => {
-            const { url, title, description } = {
-              url: '',
-              title: '',
-              ...link,
-            }
-            return (
-              <li key={url} className="my-1">
-                <Link
-                  href={url}
-                  className="text-sky-500"
-                  title={description ?? ''}
-                >
-                  {title}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-*/}
       </div>
 
       {!!articles?.length && (
         <>
-          <h1 className="w-full max-w-md my-5 text-lg font-bold text-center font-source-serif">
+          <h1 className="w-full max-w-md my-8 text-2xl font-bold text-center font-source-serif">
             Latest articles
           </h1>
 

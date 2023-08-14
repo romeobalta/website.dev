@@ -16,7 +16,7 @@ export function ArticleList({
   let currentDate: Date | null = null
 
   return (
-    <main className="w-full grid grid-cols-1 gap-x-4 gap-y-4 mt-4">
+    <main className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
       {articles?.length === 0 && (
         <div className="w-full text-center col-span-2">
           <h1 className="text-2xl font-bold font-source-serif mt-10">

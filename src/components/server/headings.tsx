@@ -10,7 +10,7 @@ export function H1({ children, className }: HeadingProps) {
     <h1
       className={clsx(
         'font-source-serif font-black',
-        'text-4xl lg:text-[2.25rem] lg:leading-[2.5rem]',
+        'text-[8cqw] leading-[11cqw]',
         'my-5',
         'w-full max-w-2xl',
         className
@@ -26,7 +26,7 @@ export function H2({ children, className }: HeadingProps) {
     <h2
       className={clsx(
         'font-source-serif font-[900]',
-        'text-[2rem] leading-[2.25rem]',
+        'text-[7.5cqw] leading-[10cqw]',
         'my-5',
         'w-full max-w-2xl',
         className
@@ -42,7 +42,7 @@ export function H3({ children, className }: HeadingProps) {
     <h3
       className={clsx(
         'font-source-serif font-[900]',
-        'text-[1.75rem] leading-[1.75rem]',
+        'text-[7cqw] leading-[9cqw]',
         'my-5',
         'w-full max-w-2xl',
         className
@@ -58,7 +58,7 @@ export function H4({ children, className }: HeadingProps) {
     <h4
       className={clsx(
         'font-source-serif font-[900]',
-        'text-[1.5rem] leading-[1.5rem]',
+        'text-[6.5cqw] leading-[6.5cqw]',
         'my-5',
         'w-full max-w-2xl',
         className
@@ -74,7 +74,7 @@ export function H5({ children, className }: HeadingProps) {
     <h5
       className={clsx(
         'font-source-serif font-[900]',
-        'text-[1.25rem] leading-[1.25rem]',
+        'text-[6cqw] leading-[6cqw]',
         'my-5',
         'w-full max-w-2xl',
         className
@@ -90,7 +90,7 @@ export function H6({ children, className }: HeadingProps) {
     <h6
       className={clsx(
         'font-source-serif font-[900]',
-        'text-[1rem] leading-[1rem]',
+        'text-[5.5cqw] leading-[5.5cqw]',
         'my-5',
         'w-full max-w-2xl',
         className

@@ -29,7 +29,9 @@ export function Bio({ name, handle, picture, description }: BioProps) {
         height={parseInt(picture?.height ?? '0')}
       />
 
-      <h1 className="mt-5 text-xl font-source-serif text-center">{name}</h1>
+      <h1 className="mt-5 text-2xl font-bold text-center font-source-serif">
+        {name}
+      </h1>
 
       {handle && (
         <h2 className="text-sm -mt-0.5 font-roboto text-center text-slate-600">
@@ -37,9 +39,7 @@ export function Bio({ name, handle, picture, description }: BioProps) {
         </h2>
       )}
 
-      <p className="text-sm font-roboto text-center font-light">
-        {description}
-      </p>
+      <p className="text-sm font-roboto text-center">{description}</p>
     </>
   )
 }

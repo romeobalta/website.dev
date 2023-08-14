@@ -28,7 +28,7 @@ export function ArticleBox({
     >
       <div className={clsx(`w-full flex flex-row group gap-x-5 gap-y-2`)}>
         <div className="w-full flex flex-col justify-start gap-y-2">
-          <h1 className="w-full -mt-0.5 font-source-serif text-lg leading-5 font-bold group-hover:underline">
+          <h1 className="w-full -mt-0.5 font-roboto text-lg leading-5 font-bold group-hover:underline">
             {title}
           </h1>
 
@@ -59,7 +59,7 @@ export function ArticleBox({
             )}
           </span>
 
-          <h2 className="w-full font-open-sans font-light text-sm leading-[1.175rem] text-neutral-400">
+          <h2 className="w-full font-open-sans font-normal text-sm leading-[1.175rem] text-neutral-400">
             {description}
           </h2>
         </div>
