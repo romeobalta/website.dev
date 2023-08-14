@@ -1,20 +1,9 @@
 import './globals.css'
 import { clsx } from 'clsx'
 import type { Metadata } from 'next'
-import {
-  Lusitana,
-  Open_Sans,
-  Roboto,
-  Roboto_Condensed,
-  Source_Serif_4,
-} from 'next/font/google'
+import { Roboto, Roboto_Condensed, Source_Serif_4 } from 'next/font/google'
 import Script from 'next/script'
 
-const lusitana = Lusitana({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-lusitana',
-})
 const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   weight: 'variable',
@@ -29,11 +18,6 @@ const roboto = Roboto({
   weight: ['300', '400', '700'],
   subsets: ['latin'],
   variable: '--font-roboto',
-})
-const openSans = Open_Sans({
-  weight: 'variable',
-  subsets: ['latin'],
-  variable: '--font-open-sans',
 })
 
 export const metadata: Metadata = {
@@ -50,11 +34,9 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={clsx(
-          lusitana.variable,
           sourceSerif.variable,
           robotoCondensed.variable,
           roboto.variable,
-          openSans.variable,
           'min-h-screen flex flex-col items-center antialiased',
           false &&
             'bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100',

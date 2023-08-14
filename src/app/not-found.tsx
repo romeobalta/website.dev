@@ -2,7 +2,6 @@ import './globals.css'
 import { clsx } from 'clsx'
 import type { Metadata } from 'next'
 import {
-  Lusitana,
   Open_Sans,
   Roboto,
   Roboto_Condensed,
@@ -12,11 +11,6 @@ import Link from 'next/link'
 
 import { BlogHeader, H2, P } from '@/components/server'
 
-const lusitana = Lusitana({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-lusitana',
-})
 const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   weight: 'variable',
@@ -47,7 +41,6 @@ export default function NotFound() {
     <html lang="en">
       <body
         className={clsx(
-          lusitana.className,
           sourceSerif.variable,
           robotoCondensed.variable,
           roboto.variable,
