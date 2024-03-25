@@ -1,6 +1,7 @@
 import { MDXRenderer } from "@/components/mdx-renderer";
 import { _ } from "@/debug";
 import { router } from "@/router";
+import WithLayout from "@/with-layout";
 import { notFound } from "next/navigation";
 
 export const dynamicParams = true;
@@ -14,15 +15,19 @@ type PageProps = {
 };
 
 export default async function generatePage({ params }: PageProps) {
-  const { path = ["/"] } = params;
+  const { path = [] } = params;
   const pathname = path.join("/");
 
-  const { content, filename } = await router.getFile(pathname);
+  const { content, filename } = await router.getFile("/" + pathname);
 
   if (content.length && filename.length) {
-    const { MDXContent } = await router.getContent(content, filename);
+    const { MDXContent, metadata } = await router.getContent(content, filename);
 
-    return <MDXRenderer Component={MDXContent} />;
+    return (
+      <WithLayout layout={metadata.layout} metadata={metadata}>
+        <MDXRenderer Component={MDXContent} />
+      </WithLayout>
+    );
   }
 
   return notFound();

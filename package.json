@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
     "@vcarl/remark-headings": "^0.1.0",
     "clsx": "^2.1.0",
     "github-slugger": "^2.0.0",
@@ -16,6 +17,7 @@
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
+    "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
