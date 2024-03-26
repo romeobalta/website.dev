@@ -1,7 +1,7 @@
 import { ArticleCategory } from "@/components/blog/article-category";
 import { BlogHeader } from "@/components/blog/blog-header";
 import { H1 } from "@/components/common/headings";
-import { _ } from "@/debug";
+import { d } from "@/debug";
 import { ReadTimeResults } from "reading-time";
 
 type ArticleLayoutProps = {
@@ -21,13 +21,6 @@ export function ArticleLayout({
 }: ArticleLayoutProps) {
   // TODO: add jsonLd
   const jsonLd = {};
-
-  _({
-    title,
-    publishedAt,
-    category,
-    readingTime,
-  });
 
   // TODO: add slugify
   return (
