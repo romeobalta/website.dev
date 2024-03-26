@@ -1,7 +1,5 @@
 import { ArticleCategory } from "@/components/blog/article-category";
 import { BlogHeader } from "@/components/blog/blog-header";
-import { H1 } from "@/components/common/headings";
-import { d } from "@/debug";
 import { ReadTimeResults } from "reading-time";
 
 type ArticleLayoutProps = {
@@ -34,7 +32,9 @@ export function ArticleLayout({
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            <H1 className="mt-6 mb-6 text-center">{title}</H1>
+            <h1 className="font-source-serif font-black text-[8cqw] leading-[11cqw] my-5 w-full max-w-2xl mt-6 mb-6 text-center">
+              {title}
+            </h1>
 
             <ArticleCategory
               className="mb-8 text-neutral-400"

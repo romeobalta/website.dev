@@ -1,14 +1,12 @@
-import { Bio } from "@/components/home/bio";
-import { Socials } from "@/components/home/socials";
+import { Author } from "@/components/home/author";
 import { PropsOf } from "@/util";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
-  bio: PropsOf<typeof Bio>;
-  socials: PropsOf<typeof Socials>["socials"];
+  author: PropsOf<typeof Author>;
 };
 
-export function HomeLayout({ children, bio, socials }: HomeLayoutProps) {
+export function HomeLayout({ children, author }: HomeLayoutProps) {
   // TODO: add jsonLd
   const jsonLd = {};
 
@@ -19,13 +17,12 @@ export function HomeLayout({ children, bio, socials }: HomeLayoutProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="flex flex-col items-center w-full px-5">
-        <Bio
-          name={bio.name}
-          description={bio.description}
-          avatar={bio.avatar}
+        <Author
+          name={author.name}
+          description={author.description}
+          avatar={author.avatar}
+          socials={author.socials}
         />
-
-        <Socials socials={socials} />
 
         {children}
       </div>
