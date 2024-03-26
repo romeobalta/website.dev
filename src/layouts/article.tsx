@@ -37,7 +37,7 @@ export function ArticleLayout({
             </h1>
 
             <ArticleCategory
-              className="mb-8 text-neutral-400"
+              className="mb-8 text-muted-foreground"
               name={category}
               slug={category}
               date={new Date(publishedAt).toLocaleDateString("en-US", {

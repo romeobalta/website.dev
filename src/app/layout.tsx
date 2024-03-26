@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto, Roboto_Condensed, Source_Serif_4 } from "next/font/google";
 import Script from "next/script";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
@@ -30,16 +31,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           sourceSerif.variable,
           robotoCondensed.variable,
           roboto.variable,
           "min-h-screen flex flex-col items-center antialiased",
-          false &&
-            "bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100",
-          true && "bg-neutral-800 text-neutral-300",
         )}
       >
         {!!process.env.ENABLE_CLOUDFLARE_ANALYTICS && (
@@ -50,7 +48,14 @@ export default function RootLayout({
             data-cf-beacon='{"token": process.env.CLOUDFLARE_ANALYTICS_TOKEN}'
           />
         )}
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -6,7 +6,7 @@ interface ArticleBoxProps {
   description: string;
   category: string | null;
   publishedAt: string;
-  slug: string;
+  url: string;
   className?: string;
 }
 
@@ -15,12 +15,12 @@ export function ArticleBox({
   description,
   category,
   publishedAt,
-  slug,
+  url,
   className = "",
 }: ArticleBoxProps) {
   return (
     <Link
-      href={`/article/${slug}`}
+      href={url}
       className={cn(
         `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950`,
         className,
@@ -28,11 +28,11 @@ export function ArticleBox({
     >
       <div className={cn(`w-full flex flex-row group gap-x-5 gap-y-2`)}>
         <div className="w-full flex flex-col justify-start gap-y-2">
-          <h1 className="w-full -mt-0.5 font-roboto text-xl leading-5 font-bold group-hover:underline">
+          <h1 className="w-full -mt-0.5 font-roboto text-xl leading-5 font-bold underline">
             {title}
           </h1>
 
-          <span className="flex-1 w-full block text-md text-left font-roboto font-light">
+          <span className="flex-1 w-full block text-md text-left font-roboto font-light text-muted-foreground">
             {publishedAt && (
               <>
                 {" "}
@@ -59,7 +59,7 @@ export function ArticleBox({
             )}
           </span>
 
-          <h2 className="w-full font-roboto font-normal text-base leading-[1.175rem] text-neutral-400">
+          <h2 className="w-full font-roboto font-normal text-base leading-[1.175rem] text-muted-foreground">
             {description}
           </h2>
         </div>
