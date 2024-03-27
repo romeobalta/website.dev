@@ -1,50 +1,71 @@
-interface HeadingProps {
-  children?: React.ReactNode;
-}
+import { DetailedHTMLProps } from "react";
 
-export function H1({ children }: HeadingProps) {
+type HeadingProps = DetailedHTMLProps<
+  React.HTMLAttributes<HTMLHeadingElement>,
+  HTMLHeadingElement
+>;
+
+export function H1({ children, className, ...props }: HeadingProps) {
   return (
-    <h1 className="font-roboto-condensed font-black text-[8cqw] leading-[11cqw] my-5 w-full max-w-2xl">
+    <h1
+      className="font-roboto-condensed font-black text-[8cqw] leading-[11cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h1>
   );
 }
 
-export function H2({ children }: HeadingProps) {
+export function H2({ children, className, ...props }: HeadingProps) {
   return (
-    <h2 className="font-roboto-condensed font-[900] text-[7.5cqw] leading-[10cqw] my-5 w-full max-w-2xl">
+    <h2
+      className="font-roboto-condensed font-[900] text-[7.5cqw] leading-[10cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h2>
   );
 }
 
-export function H3({ children }: HeadingProps) {
+export function H3({ children, className, ...props }: HeadingProps) {
   return (
-    <h3 className="font-roboto-condensed font-[900] text-[7cqw] leading-[9cqw] my-5 w-full max-w-2xl">
+    <h3
+      className="font-roboto-condensed font-[900] text-[7cqw] leading-[9cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h3>
   );
 }
 
-export function H4({ children }: HeadingProps) {
+export function H4({ children, className, ...props }: HeadingProps) {
   return (
-    <h4 className="font-roboto-condensed font-[900] text-[6.5cqw] leading-[6.5cqw] my-5 w-full max-w-2xl">
+    <h4
+      className="font-roboto-condensed font-[900] text-[6.5cqw] leading-[6.5cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h4>
   );
 }
 
-export function H5({ children }: HeadingProps) {
+export function H5({ children, className, ...props }: HeadingProps) {
   return (
-    <h5 className="font-roboto-condensed font-[900] text-[6cqw] leading-[6cqw] my-5 w-full max-w-2xl">
+    <h5
+      className="font-roboto-condensed font-[900] text-[6cqw] leading-[6cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h5>
   );
 }
 
-export function H6({ children }: HeadingProps) {
+export function H6({ children, className, ...props }: HeadingProps) {
   return (
-    <h6 className="font-roboto-condensed font-[900] text-[5.5cqw] leading-[5.5cqw] my-5 w-full max-w-2xl">
+    <h6
+      className="font-roboto-condensed font-[900] text-[5.5cqw] leading-[5.5cqw] my-5 w-full max-w-2xl"
+      {...props}
+    >
       {children}
     </h6>
   );

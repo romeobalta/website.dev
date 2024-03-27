@@ -1,20 +1,14 @@
 import Link from "next/link";
+import { DetailedHTMLProps } from "react";
 
-export function A({
-  children,
-  href,
-  title,
-}: {
-  children?: React.ReactNode;
-  href?: string;
-  title?: string;
-}) {
+type AProps = DetailedHTMLProps<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  HTMLAnchorElement
+>;
+
+export function A({ children, href = "#", className, ...props }: AProps) {
   return (
-    <Link
-      href={href ?? ""}
-      title={title}
-      className="underline underline-offset-4"
-    >
+    <Link href={href} className="underline underline-offset-4" {...props}>
       {children}
     </Link>
   );
