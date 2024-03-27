@@ -1,4 +1,4 @@
-import { SITE_TAG } from "@/env";
+import { SITE_TAG } from "@/config";
 import { cn } from "@/util";
 import Link from "next/link";
 import { Separator } from "../ui/separator";

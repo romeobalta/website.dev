@@ -32,7 +32,7 @@ export function ArticleBox({
             {title}
           </h1>
 
-          <span className="flex-1 w-full block text-md text-left font-roboto font-light text-muted-foreground">
+          <span className="flex-1 w-full block text-md text-left font-roboto text-muted-foreground">
             {publishedAt && (
               <>
                 {" "}
@@ -59,7 +59,7 @@ export function ArticleBox({
             )}
           </span>
 
-          <h2 className="w-full font-roboto font-normal text-base leading-[1.175rem] text-muted-foreground">
+          <h2 className="w-full font-roboto font-normal text-base text-muted-foreground">
             {description}
           </h2>
         </div>

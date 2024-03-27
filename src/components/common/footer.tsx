@@ -1,6 +1,6 @@
 "use client";
 
-import { SITE_TAG } from "@/env";
+import { SITE_TAG } from "@/config";
 import { Separator } from "../ui/separator";
 import { A } from "../ui/a";
 
@@ -14,7 +14,8 @@ export function Footer() {
         </div>
         <Separator orientation="vertical" />
         <div>
-          built using <A href="https://nextjs.org">website.dev</A>
+          built using{" "}
+          <A href="https://github.com/romeobalta/website.dev">website.dev</A>
         </div>
       </div>
     </div>

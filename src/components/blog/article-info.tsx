@@ -1,7 +1,7 @@
 import { cn } from "@/util";
 import Link from "next/link";
 
-interface ArticleCategoryProps {
+interface ArticleInfoProps {
   className?: string;
   name?: string;
   slug?: string;
@@ -9,13 +9,13 @@ interface ArticleCategoryProps {
   readingTime?: string;
 }
 
-export function ArticleCategory({
+export function ArticleInfo({
   name,
   slug,
   className,
   date,
   readingTime,
-}: ArticleCategoryProps) {
+}: ArticleInfoProps) {
   const link = `/category/${slug}`;
 
   return (
