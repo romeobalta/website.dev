@@ -11,7 +11,7 @@ export async function LatestArticles() {
         <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
           {articles?.map((article) => (
             <ArticleBox
-              key={article.slug}
+              key={article.url}
               title={article.title}
               description={article.description}
               category={article.category}

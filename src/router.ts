@@ -193,7 +193,7 @@ async function createRouter() {
     categories: string[];
   }> {
     let counter = 0;
-    const categories = new Set<string>([""]);
+    const categories = new Set<string>(["all"]);
     const articles: {
       [key: string]: string;
     }[] = [];
@@ -248,12 +248,24 @@ async function createRouter() {
 
   const getCategoriesPaths = cache(async () => {
     return new Map(
-      categories.map((category) => [join("/articles", category), "category"]),
+      categories.map((category) => [join("/category", category), "category"]),
     );
   });
 
   const getArticles = cache(async () => {
-    return articles;
+    return articles.sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    );
+  });
+
+  const getArticlesByCategory = cache(async (category: string) => {
+    return articles
+      .filter((article) => article.category === category)
+      .sort(
+        (a, b) =>
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+      );
   });
 
   return {
@@ -262,6 +274,7 @@ async function createRouter() {
     getArticlesAndCategories,
     getCategoriesPaths,
     getArticles,
+    getArticlesByCategory,
   };
 }
 

@@ -22,13 +22,13 @@ export function ArticleBox({
     <Link
       href={url}
       className={cn(
-        `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950`,
+        `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground`,
         className,
       )}
     >
       <div className={cn(`w-full flex flex-row group gap-x-5 gap-y-2`)}>
         <div className="w-full flex flex-col justify-start gap-y-2">
-          <h1 className="w-full -mt-0.5 font-roboto text-xl leading-5 font-bold underline">
+          <h1 className="w-full -mt-0.5 font-roboto text-xl leading-5 font-bold underline underline-offset-2">
             {title}
           </h1>
 

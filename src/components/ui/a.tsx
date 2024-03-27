@@ -10,7 +10,11 @@ export function A({
   title?: string;
 }) {
   return (
-    <Link href={href ?? ""} title={title} className="text-sky-500">
+    <Link
+      href={href ?? ""}
+      title={title}
+      className="underline underline-offset-4"
+    >
       {children}
     </Link>
   );
