@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { AboutMe } from "./home/about-me";
 import { LatestArticles } from "./home/latest-articles";
 import * as Headings from "./common/headings";
-import { Code } from "./common/code";
+import { Code, CodeBlock, CodeTabs } from "./common/code";
 import { Blockquote } from "./common/blockquote";
 import { P } from "./common/p";
 import { A } from "./common/a";
@@ -12,6 +12,8 @@ import { WithList } from "./common/list";
 const components: MDXComponents = {
   AboutMe,
   LatestArticles,
+  CodeTabs: CodeTabs,
+  CodeBlock: CodeBlock,
 
   // Common components
   h1: Headings.H1,
