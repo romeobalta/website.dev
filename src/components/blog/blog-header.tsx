@@ -5,9 +5,9 @@ import { Separator } from "../ui/separator";
 
 // import { Socials } from './socials'
 
-interface BlogHeaderProps {
+type BlogHeaderProps = {
   border?: boolean;
-}
+};
 
 export function BlogHeader({ border }: BlogHeaderProps) {
   return (

@@ -3,9 +3,9 @@ import React from "react";
 import { ArticleBox } from "./article-box";
 import { router } from "@/router";
 
-interface ArticleListProps {
+type ArticleListProps = {
   category: string;
-}
+};
 
 export async function ArticleList({ category }: ArticleListProps) {
   const articles =

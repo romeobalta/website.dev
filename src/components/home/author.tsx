@@ -2,7 +2,7 @@ import Image from "next/image";
 
 type SocialType = "github" | "threads" | "linkedin";
 
-interface AuthorProps {
+type AuthorProps = {
   name: string;
   avatar: {
     url: string;
@@ -11,7 +11,7 @@ interface AuthorProps {
   };
   description: string;
   socials?: { type: SocialType; url: string }[];
-}
+};
 
 export function Author({ name, avatar, description, socials }: AuthorProps) {
   return (
