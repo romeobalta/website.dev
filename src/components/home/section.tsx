@@ -1,17 +1,17 @@
 type SectionProps = {
-  heading: string;
+  title?: string;
   children: React.ReactNode;
 };
 
-export function Section({ children, heading }: SectionProps) {
+export function Section({ children, title }: SectionProps) {
   return (
-    <>
-      <h1 className="w-full max-w-md my-8 text-lg font-bold text-center font-roboto-condensed uppercase text-muted-foreground">
-        {heading}
-      </h1>
-      <div className="w-full max-w-md font-roboto font-normal text-base">
-        {children}
-      </div>
-    </>
+    <div className="w-full mt-16">
+      {title && (
+        <h1 className="w-full mb-8 text-lg font-bold text-center font-roboto-condensed uppercase text-muted-foreground">
+          {title}
+        </h1>
+      )}
+      <div className="w-full font-roboto font-normal text-base">{children}</div>
+    </div>
   );
 }

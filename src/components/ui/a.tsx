@@ -8,7 +8,11 @@ type AProps = DetailedHTMLProps<
 
 export function A({ children, href = "#", className, ...props }: AProps) {
   return (
-    <Link href={href} className="underline underline-offset-4" {...props}>
+    <Link
+      href={href}
+      className="underline underline-offset-4 text-sky-500"
+      {...props}
+    >
       {children}
     </Link>
   );

@@ -21,8 +21,7 @@ export function ArticleInfo({
   return (
     <div
       className={cn(
-        "font-roboto-condensed text-sm text-center",
-        "w-full max-w-2xl my-4",
+        "font-roboto-condensed text-sm w-full max-w-2xl text-muted-foreground",
         className,
       )}
     >

@@ -10,8 +10,8 @@ type ArticleListProps = {
 export async function ArticleList({ category }: ArticleListProps) {
   const articles =
     category != "all"
-      ? await router.getArticlesByCategory(category)
-      : await router.getArticles();
+      ? router.getArticlesByCategory(category)
+      : router.getArticles();
 
   let currentDate: Date | null = null;
 
@@ -36,7 +36,7 @@ export async function ArticleList({ category }: ArticleListProps) {
             year: "numeric",
           });
           header = (
-            <h1 className="text-xl font-bold font-roboto-condensed mt-3 mb-3">
+            <h1 className="text-xl font-bold font-roboto-condensed mt-3 mb-3 text-muted-foreground">
               {dateValue}
             </h1>
           );
