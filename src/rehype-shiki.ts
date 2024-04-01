@@ -39,12 +39,13 @@ import clsx from "clsx";
 // Add extra languages here
 
 type Data = {
-  meta: string;
+  meta?: string;
 };
 type WithData<T> = T & {
-  data: Data;
+  data?: Data;
 };
-type Root = WithData<Omit<import("hast").Root, "data">>;
+type Root = import("hast").Root;
+type RootContent = import("hast").RootContent;
 type ElementContent = import("hast").ElementContent;
 type Element = WithData<import("hast").Element>;
 
@@ -74,7 +75,7 @@ function getMetaParameter(meta: unknown, key: string): string | undefined {
     : undefined;
 }
 
-function isPreBlock(node: ElementContent): node is Element {
+function isPreBlock(node: RootContent): node is Element {
   return Boolean(node.type === "element" && node.tagName === "pre");
 }
 function isCodeBlock(node: ElementContent): node is Element {
@@ -85,7 +86,7 @@ export default function rehypeShikiji() {
   return async function (tree: Root) {
     const memoizedShiki = await getShiki();
 
-    visit(tree, "element", (_, index: number, parent: Element) => {
+    visit(tree, "element", (_, index, parent) => {
       const languages = [];
       const displayNames = [];
       const codeTabsChildren = [];
@@ -93,41 +94,43 @@ export default function rehypeShikiji() {
       let defaultTab = "0";
       let currentIndex = index;
 
-      let element = parent?.children[currentIndex];
-      while (currentIndex && isPreBlock(element)) {
-        const codeElement = element.children[0];
+      while (currentIndex) {
+        let element = parent?.children[currentIndex];
+        if (element && isPreBlock(element)) {
+          const codeElement = element.children[0];
 
-        if (isCodeBlock(codeElement)) {
-          const displayName = getMetaParameter(
-            codeElement.data?.meta,
-            "displayName",
-          );
+          if (isCodeBlock(codeElement)) {
+            const displayName = getMetaParameter(
+              codeElement.data?.meta,
+              "displayName",
+            );
 
-          // We should get the language name from the class name
-          if (
-            Array.isArray(codeElement.properties.className) &&
-            codeElement.properties.className.length
-          ) {
-            const className = codeElement.properties.className.join(" ");
-            const matches = className.match(/language-(?<language>.*)/);
+            // We should get the language name from the class name
+            if (
+              Array.isArray(codeElement.properties.className) &&
+              codeElement.properties.className.length
+            ) {
+              const className = codeElement.properties.className.join(" ");
+              const matches = className.match(/language-(?<language>.*)/);
 
-            languages.push(matches?.groups?.language ?? "text");
-          }
+              languages.push(matches?.groups?.language ?? "text");
+            }
 
-          // Map the display names of each variant for the CodeTab
-          displayNames.push(displayName?.replaceAll("|", "") ?? "");
+            // Map the display names of each variant for the CodeTab
+            displayNames.push(displayName?.replaceAll("|", "") ?? "");
 
-          codeTabsChildren.push(element);
+            codeTabsChildren.push(element);
 
-          // If `active="true"` is provided in a CodeBox
-          // then the default selected entry of the CodeTabs will be the desired entry
-          const specificActive = getMetaParameter(
-            codeElement.data?.meta,
-            "default",
-          );
+            // If `active="true"` is provided in a CodeBox
+            // then the default selected entry of the CodeTabs will be the desired entry
+            const specificActive = getMetaParameter(
+              codeElement.data?.meta,
+              "default",
+            );
 
-          if (specificActive === "true") {
-            defaultTab = String(codeTabsChildren.length - 1);
+            if (specificActive === "true") {
+              defaultTab = String(codeTabsChildren.length - 1);
+            }
           }
         }
 
@@ -153,8 +156,8 @@ export default function rehypeShikiji() {
 
         // This removes all the original Code Elements and adds a new CodeTab Element
         // at the original start of the first Code Element
-        if (index !== null && currentIndex !== null) {
-          parent.children.splice(index, currentIndex - index, codeTabElement);
+        if (index !== undefined && currentIndex !== undefined) {
+          parent?.children.splice(index, currentIndex - index, codeTabElement);
         }
 
         // Prevent visiting the code block children and for the next N Elements
@@ -172,8 +175,12 @@ export default function rehypeShikiji() {
 
         // This removes all the original Code Elements and adds a new CodeTab Element
         // at the original start of the first Code Element
-        if (index !== null && currentIndex !== null) {
-          parent.children.splice(index, currentIndex - index, codeBlockElement);
+        if (index !== undefined && currentIndex !== undefined) {
+          parent?.children.splice(
+            index,
+            currentIndex - index,
+            codeBlockElement,
+          );
         }
 
         // Prevent visiting the code block children and for the next N Elements
@@ -182,7 +189,7 @@ export default function rehypeShikiji() {
       }
     });
 
-    visit(tree, "element", (node: Element, index: number, parent: Element) => {
+    visit(tree, "element", (node, index, parent) => {
       // We only want to process <pre>...</pre> elements
       if (!parent || index == null || !isPreBlock(node)) {
         return;
