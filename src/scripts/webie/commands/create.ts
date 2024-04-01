@@ -1,3 +1,4 @@
+import { EDITOR, EDITOR_IS_TERMINAL } from "@/config";
 import {
   getContentData,
   getContentFiles,
@@ -7,13 +8,16 @@ import { Separator, input, select } from "@inquirer/prompts";
 import chalk from "chalk";
 import { mkdir } from "fs/promises";
 import GithubSlugger from "github-slugger";
+import { exec, spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import { join } from "path";
 
 const error = chalk.bold.red;
 const success = chalk.bold.green;
-const warning = chalk.hex("#FFA500"); // Orange color
+const warning = chalk.hex("#FFA500");
+const write = (text: string) => console.log(text);
+const writeln = (text: string) => console.log("\n" + text + "\n");
 
 type Article = {
   title?: string;
@@ -21,7 +25,7 @@ type Article = {
   url?: string;
 };
 export async function create() {
-  console.log(chalk.bold("Create a new article\n"));
+  write(chalk.bold("Create a new article\n"));
 
   const data: Article = {};
 
@@ -58,7 +62,7 @@ export async function create() {
   while (paths.has(fullUrl)) {
     index += 1;
     if (index === 1) {
-      console.log(
+      writeln(
         warning(`⚠️ An article with the url "${defaultUrl}" already exists.`),
       );
     }
@@ -110,8 +114,24 @@ layout: article
     }
 
     await writeFile(fullPath, fileContent, "utf8");
-    console.log(success(`✅ Article created at ${fullPath}`));
+    writeln(success(`✅ Article created at ${fullPath}`));
+
+    if (EDITOR) {
+      if (EDITOR_IS_TERMINAL) {
+        spawn(EDITOR, [fullPath], { stdio: "inherit" });
+        return;
+      }
+
+      exec(`${EDITOR} ${fullPath}`, (err) => {
+        if (err) {
+          writeln(error(`Error opening file: ${err}`));
+          return;
+        }
+      });
+    }
+
+    // open vim to edit the file
   } catch (err) {
-    console.log(error(`Error creating article at ${fullPath}: ${err}`));
+    writeln(error(`Error creating article at ${fullPath}: ${err}`));
   }
 }

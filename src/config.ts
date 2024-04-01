@@ -8,6 +8,9 @@ import vitesseDark from "shiki/themes/vitesse-dark.mjs";
 export const CODE_HIGHLIGHTER_LANGUAGES = [js, python, ts, jsx, tsx];
 export const CODE_HIGHLIGHTER_THEME = vitesseDark;
 
+export const EDITOR = process.env.EDITOR || null;
+export const EDITOR_IS_TERMINAL = process.env.EDITOR_IS_TERMINAL === "true";
+
 export const IS_DEV = process.env.NODE_ENV === "development";
 export const IS_DEMO = process.env.IS_DEMO === "true";
 
