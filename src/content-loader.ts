@@ -38,13 +38,13 @@ export async function getContentData(files: string[]): Promise<{
   articles: {
     [key: string]: string;
   }[];
-  categories: string[];
+  categories: Map<string, { [key: string]: string }>;
   site: {
     [key: string]: string;
   };
 }> {
   let counter = 0;
-  const categories = new Set<string>(["all"]);
+  const categories = new Map<string, { [key: string]: string }>([["all", {}]]);
   const articles: {
     [key: string]: string;
   }[] = [];
@@ -80,16 +80,54 @@ export async function getContentData(files: string[]): Promise<{
 
           switch (metadata.layout) {
             case "article":
+              // Skip if the article is not published
+              if (!metadata.publishedAt) {
+                return resolve();
+              }
+
               articles.push({
                 ...metadata,
                 url: `/article/${basename(filename, extname(filename))}`,
               });
-              categories.add(metadata.category);
+
+              // Update the last modified date of the "all" category
+              if (
+                new Date(metadata.publishedAt).getTime() >
+                new Date(categories.get("all")?.updatedAt || 0).getTime()
+              ) {
+                categories.set("all", {
+                  updatedAt: metadata.updatedAt,
+                });
+              }
+
+              if (metadata.category) {
+                if (!categories.has(metadata.category)) {
+                  categories.set(metadata.category, {
+                    updatedAt: metadata.updatedAt,
+                  });
+
+                  return resolve();
+                }
+
+                // Update the last modified date of the category
+                if (
+                  new Date(metadata.publishedAt).getTime() >
+                  new Date(
+                    categories.get(metadata.category)?.updatedAt || 0,
+                  ).getTime()
+                ) {
+                  categories.set(metadata.category, {
+                    updatedAt: metadata.updatedAt,
+                  });
+                }
+              }
+
               break;
             case "home":
               site = {
                 author: metadata.author,
               };
+
               break;
             default:
               break;
@@ -101,5 +139,35 @@ export async function getContentData(files: string[]): Promise<{
   );
 
   await Promise.all(promises);
-  return { articles, categories: Array.from(categories), site };
+  return { articles, categories, site };
+}
+
+export function getArticles(
+  articles: { [key: string]: string }[],
+  count?: number,
+) {
+  return articles
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    )
+    .slice(0, count);
+}
+
+export function getArticlesByCategory(
+  articles: { [key: string]: string }[],
+  category: string,
+) {
+  return articles
+    .filter((article) => article.category === category)
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    );
+}
+
+export function getCategoriesPaths(categories: string[]) {
+  return new Map(
+    categories.map((category) => [join("/category", category), "category"]),
+  );
 }

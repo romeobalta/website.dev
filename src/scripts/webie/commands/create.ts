@@ -37,7 +37,8 @@ export async function create() {
   data.category = await select({
     message: "Category: ",
     choices: [
-      ...categories.map((category) => ({
+      // TODO: this probably needs some refactoring
+      ...[...categories.keys()].map((category) => ({
         value: category,
         name: category,
       })),
@@ -100,6 +101,7 @@ title: ${data.title}
 description: 
 category: ${data.category}
 publishedAt: 
+updatedAt:
 layout: article
 ---`;
 

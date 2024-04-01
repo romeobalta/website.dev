@@ -43,6 +43,9 @@ import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 import {
+  getArticles,
+  getArticlesByCategory,
+  getCategoriesPaths,
   getContentData,
   getContentFiles,
   getContentPaths,
@@ -158,35 +161,23 @@ async function createRouter() {
     return site;
   });
 
-  const getCategoriesPaths = cache(() => {
-    return new Map(
-      categories.map((category) => [join("/category", category), "category"]),
-    );
+  const getCategoriesPathsCached = cache(() => {
+    return getCategoriesPaths([...categories.keys()]);
   });
 
-  const getArticles = cache((count?: number) => {
-    return articles
-      .sort(
-        (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-      )
-      .slice(0, count);
+  const getArticlesCached = cache((count?: number) => {
+    return getArticles(articles, count);
   });
 
-  const getArticlesByCategory = cache((category: string) => {
-    return articles
-      .filter((article) => article.category === category)
-      .sort(
-        (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-      );
+  const getArticlesByCategoryCached = cache((category: string) => {
+    return getArticlesByCategory(articles, category);
   });
 
   return {
-    getArticles,
-    getArticlesByCategory,
+    getArticles: getArticlesCached,
+    getArticlesByCategory: getArticlesByCategoryCached,
     getArticlesPaths,
-    getCategoriesPaths,
+    getCategoriesPaths: getCategoriesPathsCached,
     getContent,
     getFile,
     getMetadata,
