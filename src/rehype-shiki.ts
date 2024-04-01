@@ -28,13 +28,13 @@
  */
 "use strict";
 
-import classNames from "classnames";
 import { toString } from "hast-util-to-string";
 import type { HighlighterCore } from "shiki/core";
 import { getHighlighterCore } from "shiki/core";
 import getWasm from "shiki/wasm";
 import { SKIP, visit } from "unist-util-visit";
 import { CODE_HIGHLIGHTER_LANGUAGES, CODE_HIGHLIGHTER_THEME } from "./config";
+import clsx from "clsx";
 
 // Add extra languages here
 
@@ -239,7 +239,7 @@ export default function rehypeShikiji() {
       };
 
       // Adds the original language back to the <pre> element
-      children[0].properties.class = classNames(
+      children[0].properties.class = clsx(
         children[0].properties.class,
         codeLanguage,
       );
