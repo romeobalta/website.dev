@@ -1,5 +1,6 @@
 import { MDXRenderer } from "@/components/mdx-renderer";
 import WithLayout, { Layouts } from "@/components/with-layout";
+import { p } from "@/debug";
 import { router } from "@/router";
 import { notFound } from "next/navigation";
 
@@ -21,7 +22,16 @@ export default async function generatePage({ params }: PageProps) {
   const categoriesPaths = await router.getCategoriesPaths();
   const categoryLayout = categoriesPaths.get(pathname) as Layouts;
   if (categoryLayout) {
-    return <WithLayout layout={categoryLayout} />;
+    const category = path[path.length - 1] ?? null;
+
+    return (
+      <WithLayout
+        layout={categoryLayout}
+        metadata={{
+          category,
+        }}
+      />
+    );
   }
 
   // Check if the path exists as a MDX file

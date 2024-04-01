@@ -1,3 +1,4 @@
+import { Footer } from "@/components/common/footer";
 import { Author } from "@/components/home/author";
 import { PropsOf } from "@/util";
 
@@ -11,12 +12,12 @@ export function HomeLayout({ children, author }: HomeLayoutProps) {
   const jsonLd = {};
 
   return (
-    <main className="h-full w-full max-w-md items-stretch py-5 @container">
+    <main className="flex flex-col flex-1 h-full w-full max-w-md items-stretch py-5 @container">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="flex flex-col items-center w-full px-5">
+      <div className="flex flex-col items-center w-full px-5 flex-1">
         <Author
           name={author.name}
           description={author.description}
@@ -26,6 +27,7 @@ export function HomeLayout({ children, author }: HomeLayoutProps) {
 
         {children}
       </div>
+      <Footer />
     </main>
   );
 }

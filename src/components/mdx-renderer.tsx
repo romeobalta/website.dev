@@ -2,12 +2,12 @@ import type { MDXComponents, MDXContent } from "mdx/types";
 import type { FC } from "react";
 import { AboutMe } from "./home/about-me";
 import { LatestArticles } from "./home/latest-articles";
-import * as Headings from "./common/headings";
-import { Code, CodeBlock, CodeTabs } from "./common/code";
-import { Blockquote } from "./common/blockquote";
-import { P } from "./common/p";
-import { A } from "./common/a";
-import { WithList } from "./common/list";
+import { A } from "./ui/a";
+import { Blockquote } from "./ui/blockquote";
+import { Code, CodeBlock, CodeTabs } from "./ui/code";
+import * as Headings from "./ui/headings";
+import { WithList } from "./ui/list";
+import { P } from "./ui/p";
 
 const components: MDXComponents = {
   AboutMe,

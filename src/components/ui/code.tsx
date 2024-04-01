@@ -7,9 +7,9 @@ type CodeProps = {
   children?: React.ReactNode;
 };
 
-export function Code({ children }: CodeProps) {
-  // const matches = className?.match(/language-(?<language>.*)/);
-  // const language = matches?.groups?.language ?? "";
+export function Code({ children, className }: CodeProps) {
+  const matches = className?.match(/language-(?<language>.*)/);
+  const language = matches?.groups?.language ?? "";
 
   let content = children;
 
@@ -41,8 +41,11 @@ export function Code({ children }: CodeProps) {
   }
 
   return (
-    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible">
-      <pre className="p-4" tabIndex={0}>
+    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group">
+      <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
+        {language}
+      </span>
+      <pre className="px-4 pb-2 pt-8" tabIndex={0}>
         {content}
       </pre>
     </div>
@@ -91,7 +94,7 @@ export function CodeTabs({
       <TabsList>{tabs}</TabsList>
       {languages.map((language, index) => (
         <TabsContent
-          className="flex flex-row w-full justify-center"
+          className="flex hidden:hidden flex-row w-full justify-center"
           key={tabs[index].key + "-content"}
           value={tabs[index].key!}
         >

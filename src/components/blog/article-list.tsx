@@ -1,22 +1,18 @@
 import React from "react";
 
 import { ArticleBox } from "./article-box";
+import { router } from "@/router";
 
 interface ArticleListProps {
-  articles: {
-    title: string;
-    slug: string;
-    publishedAt: string;
-    description: string;
-    category: string;
-  }[];
-  showCategories?: boolean;
+  category: string;
 }
 
-export function ArticleList({
-  articles,
-  showCategories = false,
-}: ArticleListProps) {
+export async function ArticleList({ category }: ArticleListProps) {
+  const articles =
+    category != "all"
+      ? await router.getArticlesByCategory(category)
+      : await router.getArticles();
+
   let currentDate: Date | null = null;
 
   return (
@@ -50,12 +46,12 @@ export function ArticleList({
           <React.Fragment key={i}>
             {header}
             <ArticleBox
-              key={article.slug}
+              key={article.url}
               title={article.title}
               description={article.description}
-              category={showCategories ? article.category : null}
+              category={category ? category : null}
               publishedAt={article.publishedAt}
-              slug={article.slug}
+              url={article.url}
             />
           </React.Fragment>
         );
