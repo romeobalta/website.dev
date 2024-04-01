@@ -16,7 +16,7 @@ export function CategoryLayout({ category, site, url }: CategoryLayoutProps) {
     "@type": "Blog",
     author: {
       "@type": "Person",
-      name: site.author.name,
+      name: site?.author.name,
       url: `${SITE_URL}${url}`,
     },
   };
