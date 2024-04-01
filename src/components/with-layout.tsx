@@ -1,8 +1,7 @@
+import { ArticleLayout } from "@/layouts/article";
+import { CategoryLayout } from "@/layouts/category";
+import { HomeLayout } from "@/layouts/home";
 import type { PropsWithChildren } from "react";
-
-import { ArticleLayout } from "./layouts/article";
-import { CategoryLayout } from "./layouts/category";
-import { HomeLayout } from "./layouts/home";
 
 const layouts = {
   home: HomeLayout,

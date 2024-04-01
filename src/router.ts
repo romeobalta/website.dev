@@ -250,11 +250,16 @@ async function createRouter() {
     );
   });
 
+  const getArticles = cache(async () => {
+    return articles;
+  });
+
   return {
     getFile,
     getContent,
     getArticlesAndCategories,
     getCategoriesPaths,
+    getArticles,
   };
 }
 

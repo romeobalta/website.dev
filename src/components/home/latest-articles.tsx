@@ -1,16 +1,13 @@
-import { PropsOf } from "@/util";
+import { router } from "@/router";
 import { ArticleBox } from "../blog/article-box";
+import { Section } from "./section";
 
-export function ArticleList() {
-  const articles: PropsOf<typeof ArticleBox>[] = [];
+export async function LatestArticles() {
+  const articles = await router.getArticles();
 
   return (
     !!articles?.length && (
-      <>
-        <h1 className="w-full max-w-md my-8 text-2xl font-bold text-center font-source-serif">
-          Latest articles
-        </h1>
-
+      <Section heading="Latest articles">
         <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
           {articles?.map((article) => (
             <ArticleBox
@@ -23,7 +20,7 @@ export function ArticleList() {
             />
           ))}
         </div>
-      </>
+      </Section>
     )
   );
 }
