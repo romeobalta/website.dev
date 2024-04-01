@@ -1,12 +1,13 @@
 import { isValidElement } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
-type CodeBoxProps = {
+type CodeProps = {
   className?: string;
   showCopyButton?: string;
   children?: React.ReactNode;
 };
 
-export function Code({ children }: CodeBoxProps) {
+export function Code({ children }: CodeProps) {
   // const matches = className?.match(/language-(?<language>.*)/);
   // const language = matches?.groups?.language ?? "";
 
@@ -40,12 +41,63 @@ export function Code({ children }: CodeBoxProps) {
   }
 
   return (
-    <div className="my-4 flex flex-row justify-center w-full">
-      <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible">
-        <pre className="p-4 bg-[#0d1117]" tabIndex={0}>
-          {content}
-        </pre>
-      </div>
+    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible">
+      <pre className="p-4" tabIndex={0}>
+        {content}
+      </pre>
     </div>
+  );
+}
+
+interface CodeBlockProps {
+  children: React.ReactNode;
+}
+
+export function CodeBlock({ children }: CodeBlockProps) {
+  return (
+    <div className="my-4 flex flex-row justify-center w-full">{children}</div>
+  );
+}
+
+type CodeTabsProps = {
+  children: React.ReactNode[];
+  languages: string;
+  displayNames: string;
+  defaultTab?: string;
+};
+
+export function CodeTabs({
+  children,
+  languages: rawLanguages,
+  displayNames: rawDisplayNames,
+  defaultTab = "O",
+}: CodeTabsProps) {
+  const languages = rawLanguages.split("|");
+  const displayNames = rawDisplayNames.split("|") ?? [];
+
+  const tabs = languages.map((language, index) => {
+    const displayName = displayNames[index] ?? language;
+    const key = `${language}-${index}`;
+
+    return (
+      <TabsTrigger key={key} value={key}>
+        {displayName}
+      </TabsTrigger>
+    );
+  });
+
+  return (
+    <Tabs defaultValue={tabs[+defaultTab].key!}>
+      <TabsList>{tabs}</TabsList>
+      {languages.map((language, index) => (
+        <TabsContent
+          className="flex flex-row w-full justify-center"
+          key={tabs[index].key + "-content"}
+          value={tabs[index].key!}
+        >
+          {children![index]}
+        </TabsContent>
+      ))}
+    </Tabs>
   );
 }
