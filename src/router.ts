@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * This file is based on the dynamic router created for the nodejs.org website.
  * https://github.com/nodejs/nodejs.org
@@ -38,9 +36,11 @@ import { readFile } from "node:fs/promises";
 import { join, normalize } from "node:path";
 import { cache } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import { ReadTimeResults } from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
+import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 
@@ -59,14 +59,16 @@ async function createRouter() {
       }
     : new Map();
 
-  const routes = await glob("**/*.{md,mdx}", {
+  // Get all markdown files
+  const mdFiles = await glob("**/*.{md,mdx}", {
     cwd: process.cwd(),
     ignore: ["node_modules/**", "README.md"],
   });
 
+  // Create a map of paths to file names
   const paths = new Map();
 
-  routes.forEach((filename) => {
+  mdFiles.forEach((filename) => {
     let pathname = filename
       .replace(/((\/)?(index))?\.mdx?$/i, "")
       .replace("src/content", "/");
@@ -75,20 +77,28 @@ async function createRouter() {
     paths.set(pathname, filename);
   });
 
+  /**
+   * Get the file content from the cache or read it from the file system
+   * @param {string} pathname
+   * @returns {Promise<{ content: string, filename: string }>}
+   * */
   const getFile = cache(async (pathname: string) => {
     const normalizedPathname = normalize(pathname).replace(".", "");
 
+    // Check if the path exists in the map
     if (paths.has(normalizedPathname)) {
       const filename = paths.get(normalizedPathname);
 
       let filePath = process.cwd();
 
+      // Check if the file content is in the cache
       if (fileCache.has(normalizedPathname)) {
         const content = fileCache.get(normalizedPathname);
 
         return { content, filename };
       }
 
+      // Check if the file exists
       if (existsSync(join(filePath, filename))) {
         filePath = join(filePath, filename);
 
@@ -103,7 +113,20 @@ async function createRouter() {
     return { filename: "", content: "" };
   });
 
-  const compileMDX = async (source: VFile, fileExtension: "mdx" | "md") => {
+  /**
+   * Compile the MDX content to JSX
+   * @param {VFile} source
+   * @param {"mdx" | "md"} fileExtension
+   * @returns {Promise<{ MDXContent: any, headings: Heading[], metadata: Record<string, any> }>}
+   * */
+  const compileMDX = async (
+    source: VFile,
+    fileExtension: "mdx" | "md",
+  ): Promise<{
+    MDXContent: any;
+    headings: Heading[];
+    metadata: Record<string, any>;
+  }> => {
     matter(source, { strip: true });
 
     const { default: MDXContent } = await evaluate(source, {
@@ -114,16 +137,29 @@ async function createRouter() {
           { properties: { ariaHidden: true, tabIndex: -1, class: "anchor" } },
         ],
       ],
-      remarkPlugins: [remarkGfm, remarkHeadings],
+      remarkPlugins: [remarkGfm, remarkHeadings, remarkReadingTime],
       format: fileExtension,
+      baseUrl: import.meta.url,
       ...reactRuntime,
     });
 
-    const { headings, matter: metadata } = source.data as {
+    const {
+      headings,
+      matter: data,
+      readingTime,
+    } = source.data as {
       headings: Heading[];
       matter: Record<string, any>;
+      readingTime: ReadTimeResults;
     };
 
+    // Add reading time to the metadata
+    const metadata = {
+      ...data,
+      readingTime,
+    } as Record<string, any>;
+
+    // Create a slug for each heading
     headings.forEach((heading) => {
       heading.data = { ...heading.data, id: githubSlugger.slug(heading.value) };
     });
@@ -131,8 +167,14 @@ async function createRouter() {
     return { MDXContent, headings, metadata };
   };
 
-  const getContent = cache(async (source: string, filename: string) => {
-    const sourceAsVirtualFile = new VFile(source);
+  /**
+   * Get the JSX content from the MDX content
+   * @param {string} mdContent
+   * @param {string} filename
+   * @returns {Promise<{ MDXContent: any, headings: Heading[], metadata: Record<string, any> }>}
+   * */
+  const getContent = cache(async (mdContent: string, filename: string) => {
+    const sourceAsVirtualFile = new VFile(mdContent);
     const fileExtension = filename.endsWith(".mdx") ? "mdx" : "md";
     return compileMDX(sourceAsVirtualFile, fileExtension);
   });
