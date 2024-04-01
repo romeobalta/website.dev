@@ -62,7 +62,8 @@
     display: none !important;
   }
 
-  .article-body *:first-child {
+  .article-body *:first-child,
+  .section *:first-child {
     @apply mt-0;
   }
 }

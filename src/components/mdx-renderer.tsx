@@ -4,7 +4,7 @@ import { LatestArticles } from "./home/latest-articles";
 import { Section } from "./home/section";
 import { A } from "./ui/a";
 import { Blockquote } from "./ui/blockquote";
-import { Code, CodeBlock, CodeTabs, InlineCode } from "./ui/code";
+import { Pre, CodeBlock, CodeTabs, Code } from "./ui/code";
 import * as Headings from "./ui/headings";
 import { WithList } from "./ui/list";
 import { P } from "./ui/p";
@@ -18,7 +18,7 @@ const components: MDXComponents = {
   // Common components
   a: A,
   blockquote: Blockquote,
-  code: InlineCode,
+  code: Code,
   h1: Headings.H1,
   h2: Headings.H2,
   h3: Headings.H3,
@@ -27,7 +27,7 @@ const components: MDXComponents = {
   h6: Headings.H6,
   ol: WithList(true),
   p: P,
-  pre: Code,
+  pre: Pre,
   ul: WithList(false),
 };
 

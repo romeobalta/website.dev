@@ -1,4 +1,4 @@
-import { IS_DEV } from "./env";
+import { IS_DEV } from "./config";
 
 export const d = (v: unknown) =>
   IS_DEV ? console.log(JSON.stringify(v, null, 2)) : () => {};

@@ -110,11 +110,12 @@ async function createRouter() {
     return { filename: "", content: "" };
   });
 
+  type MDXContent = import("mdx/types.js").MDXContent;
   const compileMDX = async (
     source: VFile,
     fileExtension: "mdx" | "md",
   ): Promise<{
-    MDXContent: any;
+    MDXContent: MDXContent;
     metadata: Record<string, any>;
   }> => {
     matter(source, { strip: true });

@@ -1,13 +1,16 @@
 import { isValidElement } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { cn } from "@/util";
+import { d, p } from "@/debug";
 
-type CodeProps = {
-  className?: string;
+type PreProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLPreElement>,
+  HTMLPreElement
+> & {
   showCopyButton?: string;
-  children?: React.ReactNode;
 };
 
-export function Code({ children, className }: CodeProps) {
+export function Pre({ children, className, ...props }: PreProps) {
   const matches = className?.match(/language-(?<language>.*)/);
   const language = matches?.groups?.language ?? "";
 
@@ -16,7 +19,11 @@ export function Code({ children, className }: CodeProps) {
   if (isValidElement(content)) {
     const code = content.props.children as React.ReactNode[];
 
-    if (content.type === "code" && Array.isArray(code)) {
+    if (
+      typeof content.type === "function" &&
+      content.type.name &&
+      Array.isArray(code)
+    ) {
       content = (
         <code>
           {code
@@ -45,7 +52,7 @@ export function Code({ children, className }: CodeProps) {
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
         {language}
       </span>
-      <pre className="px-4 pb-2 pt-8" tabIndex={0}>
+      <pre className={cn(className, "px-4 pb-2 pt-8")} {...props} tabIndex={0}>
         {content}
       </pre>
     </div>
@@ -105,13 +112,19 @@ export function CodeTabs({
   );
 }
 
-type InlineCodeProps = {
-  children?: React.ReactNode;
-};
+type CodeProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLElement>,
+  HTMLElement
+>;
 
-export function InlineCode({ children }: InlineCodeProps) {
+export function Code({ children, className }: CodeProps) {
   return (
-    <code className="bg-muted text-muted-foreground font-mono px-1.5 py-0.5 rounded">
+    <code
+      className={cn(
+        "bg-muted text-muted-foreground font-mono px-1 py-0.5 rounded",
+        className,
+      )}
+    >
       {children}
     </code>
   );
