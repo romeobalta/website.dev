@@ -39,6 +39,7 @@ export async function update() {
         `updatedAt: "${new Date().toISOString()}"\n`,
       );
       await writeFile(fullPath, content);
+      await execPromise(`git add ${filename}`);
     });
 
     await Promise.all(promises);
