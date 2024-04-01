@@ -1,7 +1,14 @@
 import { MDXRenderer } from "@/components/mdx-renderer";
 import WithLayout, { Layouts } from "@/components/with-layout";
-import { d, p } from "@/debug";
+import {
+  SITE_DESCRIPTION,
+  SITE_IMAGE,
+  SITE_IMAGE_ALT,
+  SITE_TAG,
+  SITE_URL,
+} from "@/config";
 import { router } from "@/router";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export const dynamicParams = false;
@@ -14,12 +21,53 @@ type PageProps = {
   };
 };
 
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { path = [] } = params;
+  const pathname = "/" + path.join("/");
+  const metadata = await router.getMetadata(pathname);
+
+  let title = metadata.title ? `${SITE_TAG}: ${metadata.title}` : SITE_TAG;
+
+  const categoriesPaths = router.getCategoriesPaths();
+  const categoryLayout = categoriesPaths.get(pathname);
+  if (categoryLayout) {
+    const category = path[path.length - 1] ?? null;
+    title = `${SITE_TAG}: ${category}`;
+  }
+
+  return {
+    title,
+    description: SITE_DESCRIPTION,
+    robots: { index: true, follow: true },
+    metadataBase: new URL(SITE_URL),
+    alternates: {
+      canonical: `${SITE_URL}${pathname}`,
+    },
+    twitter: {
+      card: "summary",
+      images: {
+        url: SITE_IMAGE,
+        alt: SITE_IMAGE_ALT,
+      },
+    },
+    openGraph: {
+      type: "website",
+      title: title,
+      description: SITE_DESCRIPTION,
+      siteName: SITE_TAG,
+      images: SITE_IMAGE,
+    },
+  };
+}
+
 export async function generateStaticParams() {
   const paths = [
     ...[...router.getArticlesPaths()].map((path) => ({
       path: path.split("/").filter(Boolean),
     })),
-    ...[...(await router.getCategoriesPaths()).keys()].map((path) => ({
+    ...[...router.getCategoriesPaths().keys()].map((path) => ({
       path: path.split("/").filter(Boolean),
     })),
   ];
@@ -31,8 +79,10 @@ export default async function generatePage({ params }: PageProps) {
   const { path = [] } = params;
   const pathname = "/" + path.join("/");
 
+  const site = router.getSite();
+
   // Check if the path is a category, as those are generated dynamically
-  const categoriesPaths = await router.getCategoriesPaths();
+  const categoriesPaths = router.getCategoriesPaths();
   const categoryLayout = categoriesPaths.get(pathname) as Layouts;
   if (categoryLayout) {
     const category = path[path.length - 1] ?? null;
@@ -42,6 +92,8 @@ export default async function generatePage({ params }: PageProps) {
         layout={categoryLayout}
         metadata={{
           category,
+          url: pathname,
+          site,
         }}
       />
     );
@@ -53,7 +105,10 @@ export default async function generatePage({ params }: PageProps) {
     const { MDXContent, metadata } = await router.getContent(content, filename);
 
     return (
-      <WithLayout layout={metadata.layout} metadata={metadata}>
+      <WithLayout
+        layout={metadata.layout}
+        metadata={{ ...metadata, site, url: pathname }}
+      >
         <MDXRenderer Component={MDXContent} />
       </WithLayout>
     );

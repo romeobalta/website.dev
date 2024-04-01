@@ -1,6 +1,8 @@
 import { Footer } from "@/components/common/footer";
 import { Author } from "@/components/home/author";
+import { SITE_URL } from "@/config";
 import { PropsOf } from "@/util";
+import { Person, WithContext } from "schema-dts";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -8,8 +10,13 @@ type HomeLayoutProps = {
 };
 
 export function HomeLayout({ children, author }: HomeLayoutProps) {
-  // TODO: add jsonLd
-  const jsonLd = {};
+  const jsonLd: WithContext<Person> = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: author?.name ?? "",
+    url: SITE_URL,
+    sameAs: author.socials?.map((social) => social?.url ?? ""),
+  };
 
   return (
     <main className="flex flex-col flex-1 h-full w-full max-w-md items-stretch py-5 @container">

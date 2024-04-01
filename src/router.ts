@@ -27,7 +27,7 @@
  * IN THE SOFTWARE.
  */
 
-import { IS_DEV } from "@/env";
+import { IS_DEV } from "@/config";
 import { Jsx, evaluate } from "@mdx-js/mdx";
 import remarkHeadings, { Heading } from "@vcarl/remark-headings";
 import GitHubSlugger from "github-slugger";
@@ -82,7 +82,7 @@ async function createRouter() {
     paths.set(pathname, filename);
   });
 
-  const { articles, categories } = await getArticlesAndCategories();
+  const { articles, categories, site } = await getArticlesAndCategories();
 
   const getFile = cache(async (pathname: string) => {
     const normalizedPathname = normalize(pathname).replace(".", "");
@@ -120,7 +120,6 @@ async function createRouter() {
     fileExtension: "mdx" | "md",
   ): Promise<{
     MDXContent: any;
-    headings: Heading[];
     metadata: Record<string, any>;
   }> => {
     matter(source, { strip: true });
@@ -134,18 +133,13 @@ async function createRouter() {
         ],
         rehypeShikiji,
       ],
-      remarkPlugins: [remarkGfm, remarkHeadings, remarkReadingTime],
+      remarkPlugins: [remarkGfm, remarkReadingTime],
       format: fileExtension,
       baseUrl: import.meta.url,
       ...reactRuntime,
     });
 
-    const {
-      headings,
-      matter: data,
-      readingTime,
-    } = source.data as {
-      headings: Heading[];
+    const { matter: data, readingTime } = source.data as {
       matter: Record<string, any>;
       readingTime: ReadTimeResults;
     };
@@ -156,14 +150,7 @@ async function createRouter() {
       readingTime,
     } as Record<string, any>;
 
-    // Create a slug for each heading
-    headings.forEach((heading) => {
-      heading.data = { ...heading.data, id: githubSlugger.slug(heading.value) };
-    });
-
-    d({ headings });
-
-    return { MDXContent, headings, metadata };
+    return { MDXContent, metadata };
   };
 
   const getContent = cache(async (mdContent: string, filename: string) => {
@@ -172,17 +159,30 @@ async function createRouter() {
     return compileMDX(sourceAsVirtualFile, fileExtension);
   });
 
+  const getMetadata = cache(async (pathname: string) => {
+    const { content } = await getFile(pathname);
+    const metadata = graymatter(content).data;
+
+    return metadata;
+  });
+
   async function getArticlesAndCategories(): Promise<{
     articles: {
       [key: string]: string;
     }[];
     categories: string[];
+    site: {
+      [key: string]: string;
+    };
   }> {
     let counter = 0;
     const categories = new Set<string>(["all"]);
     const articles: {
       [key: string]: string;
     }[] = [];
+    let site: {
+      [key: string]: string;
+    } = {};
 
     const rawMetadata: { [key: string]: [number, string] } = {};
     const promises = mdFiles.map(
@@ -218,7 +218,11 @@ async function createRouter() {
                 });
                 categories.add(metadata.category);
                 break;
-
+              case "home":
+                site = {
+                  author: metadata.author,
+                };
+                break;
               default:
                 break;
             }
@@ -229,27 +233,31 @@ async function createRouter() {
     );
 
     await Promise.all(promises);
-    return { articles, categories: Array.from(categories) };
+    return { articles, categories: Array.from(categories), site };
   }
 
   const getArticlesPaths = cache(() => {
     return paths.keys();
   });
 
-  const getCategoriesPaths = cache(async () => {
+  const getSite = cache(() => {
+    return site;
+  });
+
+  const getCategoriesPaths = cache(() => {
     return new Map(
       categories.map((category) => [join("/category", category), "category"]),
     );
   });
 
-  const getArticles = cache(async () => {
+  const getArticles = cache(() => {
     return articles.sort(
       (a, b) =>
         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
     );
   });
 
-  const getArticlesByCategory = cache(async (category: string) => {
+  const getArticlesByCategory = cache((category: string) => {
     return articles
       .filter((article) => article.category === category)
       .sort(
@@ -259,13 +267,15 @@ async function createRouter() {
   });
 
   return {
-    getArticlesPaths,
     getArticles,
     getArticlesAndCategories,
     getArticlesByCategory,
+    getArticlesPaths,
     getCategoriesPaths,
     getContent,
     getFile,
+    getMetadata,
+    getSite,
   };
 }
 
