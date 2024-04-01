@@ -3,10 +3,10 @@ import ts from "shiki/langs/typescript.mjs";
 import jsx from "shiki/langs/jsx.mjs";
 import tsx from "shiki/langs/tsx.mjs";
 import python from "shiki/langs/py.mjs";
-import githubDarkDefault from "shiki/themes/github-dark-default.mjs";
+import vitesseDark from "shiki/themes/vitesse-dark.mjs";
 
 export const CODE_HIGHLIGHTER_LANGUAGES = [js, python, ts, jsx, tsx];
-export const CODE_HIGHLIGHTER_THEME = githubDarkDefault;
+export const CODE_HIGHLIGHTER_THEME = vitesseDark;
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 export const IS_DEMO = process.env.IS_DEMO === "true";

@@ -1,7 +1,6 @@
+import { cn } from "@/util";
 import { isValidElement } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { cn } from "@/util";
-import { d, p } from "@/debug";
 
 type PreProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLPreElement>,
@@ -48,11 +47,15 @@ export function Pre({ children, className, ...props }: PreProps) {
   }
 
   return (
-    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group">
+    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group rounded-lg">
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
         {language}
       </span>
-      <pre className={cn(className, "px-4 pb-2 pt-8")} {...props} tabIndex={0}>
+      <pre
+        className={cn(className, "px-4 pb-3 pt-8 rounded-lg")}
+        {...props}
+        tabIndex={0}
+      >
         {content}
       </pre>
     </div>
