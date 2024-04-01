@@ -27,7 +27,7 @@
  * IN THE SOFTWARE.
  */
 
-import { IS_DEV } from "@/config";
+import { IS_DEMO, IS_DEV } from "@/config";
 import { Jsx, evaluate } from "@mdx-js/mdx";
 import { glob } from "glob";
 import graymatter from "gray-matter";
@@ -44,8 +44,8 @@ import remarkGfm from "remark-gfm";
 import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
-import rehypeShikiji from "./rehype-shiki";
 import { d, p } from "./debug";
+import rehypeShikiji from "./rehype-shiki";
 
 const jsxTyped = jsx as Jsx;
 const jsxsTyped = jsxs as Jsx;
@@ -67,7 +67,7 @@ async function createRouter() {
       ignore: ["node_modules/**", "README.md"],
     })
   ).filter((filename) =>
-    IS_DEV
+    IS_DEMO
       ? filename.startsWith("src/demo-content")
       : filename.startsWith("src/content"),
   );

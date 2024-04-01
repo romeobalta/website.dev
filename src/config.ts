@@ -9,6 +9,7 @@ export const CODE_HIGHLIGHTER_LANGUAGES = [js, python, ts, jsx, tsx];
 export const CODE_HIGHLIGHTER_THEME = githubDarkDefault;
 
 export const IS_DEV = process.env.NODE_ENV === "development";
+export const IS_DEMO = process.env.IS_DEMO === "true";
 
 export const SITE_TAG = process.env.NEXT_PUBLIC_SITE_TAG || "website.dev";
 export const SITE_DESCRIPTION =
