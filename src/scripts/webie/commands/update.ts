@@ -13,7 +13,7 @@ const writeln = (text: string) => console.log("\n" + text + "\n");
 const execPromise = promisify(exec);
 
 export async function update() {
-  write(chalk.bold("Publish articles:\n"));
+  write(chalk.bold("Update articles:\n"));
 
   const files: string[] = [];
 
