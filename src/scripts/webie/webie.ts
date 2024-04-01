@@ -2,6 +2,7 @@ import { Command } from "commander";
 import figlet from "figlet";
 import { create } from "./commands/create";
 import { publish } from "./commands/publish";
+import { update } from "./commands/update";
 
 const program = new Command();
 
@@ -23,5 +24,11 @@ program
   .alias("p")
   .description("Publish articles")
   .action(publish);
+
+program
+  .command("update")
+  .alias("u")
+  .description("Update articles modified date")
+  .action(update);
 
 await program.parseAsync(process.argv);
