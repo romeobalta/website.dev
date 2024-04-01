@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 
 export const dynamicParams = false;
 export const dynamic = "force-static";
-export const revalidate = 300;
+export const revalidate = false;
 
 type PageProps = {
   params: {
