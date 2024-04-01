@@ -42,7 +42,11 @@ import remarkGfm from "remark-gfm";
 import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
-import { getContentData, getContentFiles } from "./content-loader";
+import {
+  getContentData,
+  getContentFiles,
+  getContentPaths,
+} from "./content-loader";
 import rehypeShikiji from "./rehype-shiki";
 
 type MDXContent = import("mdx/types.js").MDXContent;
@@ -60,21 +64,8 @@ async function createRouter() {
       }
     : new Map();
 
-  // Get all markdown files
   const contentFiles = await getContentFiles();
-
-  // Create a map of paths to file names
-  const paths = new Map<string, string>();
-
-  contentFiles.forEach((filename) => {
-    let pathname = filename
-      .replace(/((\/)?(index))?\.mdx?$/i, "")
-      .replace(/src\/(demo-)?content/, "/");
-
-    pathname = normalize(pathname).replace(".", "");
-    paths.set(pathname, filename);
-  });
-
+  const paths = getContentPaths(contentFiles);
   const { articles, categories, site } = await getContentData(contentFiles);
 
   const getFile = cache(async (pathname: string) => {

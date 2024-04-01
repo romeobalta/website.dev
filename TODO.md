@@ -1,9 +1,10 @@
 # TODO
 
 [x] Remove Home from the home page html title
-[ ] Tool to generate article file
+[x] Tool to generate article file
+[ ] Add config option with program to run after (`vim ${articlePath}`, `code ${articlePath}`)
 [ ] Tool to publish article
-[ ] Commit hook that checks if article file name (slug) matches the title - maybe also add a way to mark it as used
+[ ] Commit hook that checks if article file name (slug) matches the title - run the same check on publish
 [ ] Add proper demo articles for all features
 [ ] Add readme
-[ ] MAYBE: Add an API to read the data from if we want to invalidate cache
+[ ] Stop hard-coding paths (`/article/{slug}`, `/category/{name}`)

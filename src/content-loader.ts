@@ -1,7 +1,7 @@
 import { glob } from "glob";
 import { createReadStream } from "node:fs";
 import readline from "node:readline";
-import { basename, extname, join } from "path";
+import { basename, extname, join, normalize } from "path";
 import { IS_DEMO } from "./config";
 import graymatter from "gray-matter";
 
@@ -18,6 +18,20 @@ export async function getContentFiles() {
   );
 
   return files;
+}
+
+export function getContentPaths(files: string[]) {
+  const pathToFilename = files.map((filename) => {
+    let pathname = filename
+      .replace(/((\/)?(index))?\.mdx?$/i, "")
+      .replace(/src\/(demo-)?content/, "/");
+
+    pathname = normalize(pathname).replace(".", "");
+
+    return [pathname, filename];
+  }) as [string, string][];
+
+  return new Map<string, string>(pathToFilename);
 }
 
 export async function getContentData(files: string[]): Promise<{
