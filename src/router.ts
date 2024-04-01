@@ -47,6 +47,7 @@ import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 import rehypeShikiji from "./rehype-shiki";
+import { d } from "./debug";
 
 const githubSlugger = new GitHubSlugger();
 
@@ -70,7 +71,7 @@ async function createRouter() {
   });
 
   // Create a map of paths to file names
-  const paths = new Map();
+  const paths = new Map<string, string>();
 
   mdFiles.forEach((filename) => {
     let pathname = filename
@@ -83,11 +84,6 @@ async function createRouter() {
 
   const { articles, categories } = await getArticlesAndCategories();
 
-  /**
-   * Get the file content from the cache or read it from the file system
-   * @param {string} pathname
-   * @returns {Promise<{ content: string, filename: string }>}
-   * */
   const getFile = cache(async (pathname: string) => {
     const normalizedPathname = normalize(pathname).replace(".", "");
 
@@ -105,7 +101,7 @@ async function createRouter() {
       }
 
       // Check if the file exists
-      if (existsSync(join(filePath, filename))) {
+      if (filename && existsSync(join(filePath, filename))) {
         filePath = join(filePath, filename);
 
         const content = await readFile(filePath, "utf8");
@@ -119,12 +115,6 @@ async function createRouter() {
     return { filename: "", content: "" };
   });
 
-  /**
-   * Compile the MDX content to JSX
-   * @param {VFile} source
-   * @param {"mdx" | "md"} fileExtension
-   * @returns {Promise<{ MDXContent: any, headings: Heading[], metadata: Record<string, any> }>}
-   * */
   const compileMDX = async (
     source: VFile,
     fileExtension: "mdx" | "md",
@@ -171,15 +161,11 @@ async function createRouter() {
       heading.data = { ...heading.data, id: githubSlugger.slug(heading.value) };
     });
 
+    d({ headings });
+
     return { MDXContent, headings, metadata };
   };
 
-  /**
-   * Get the JSX content from the MDX content
-   * @param {string} mdContent
-   * @param {string} filename
-   * @returns {Promise<{ MDXContent: any, headings: Heading[], metadata: Record<string, any> }>}
-   * */
   const getContent = cache(async (mdContent: string, filename: string) => {
     const sourceAsVirtualFile = new VFile(mdContent);
     const fileExtension = filename.endsWith(".mdx") ? "mdx" : "md";
@@ -246,6 +232,10 @@ async function createRouter() {
     return { articles, categories: Array.from(categories) };
   }
 
+  const getArticlesPaths = cache(() => {
+    return paths.keys();
+  });
+
   const getCategoriesPaths = cache(async () => {
     return new Map(
       categories.map((category) => [join("/category", category), "category"]),
@@ -269,12 +259,13 @@ async function createRouter() {
   });
 
   return {
-    getFile,
-    getContent,
-    getArticlesAndCategories,
-    getCategoriesPaths,
+    getArticlesPaths,
     getArticles,
+    getArticlesAndCategories,
     getArticlesByCategory,
+    getCategoriesPaths,
+    getContent,
+    getFile,
   };
 }
 

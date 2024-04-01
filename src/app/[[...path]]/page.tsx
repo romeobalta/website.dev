@@ -1,10 +1,10 @@
 import { MDXRenderer } from "@/components/mdx-renderer";
 import WithLayout, { Layouts } from "@/components/with-layout";
-import { p } from "@/debug";
+import { d, p } from "@/debug";
 import { router } from "@/router";
 import { notFound } from "next/navigation";
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 export const dynamic = "force-static";
 export const revalidate = 300;
 
@@ -13,6 +13,19 @@ type PageProps = {
     path: string[];
   };
 };
+
+export async function generateStaticParams() {
+  const paths = [
+    ...[...router.getArticlesPaths()].map((path) => ({
+      path: path.split("/").filter(Boolean),
+    })),
+    ...[...(await router.getCategoriesPaths()).keys()].map((path) => ({
+      path: path.split("/").filter(Boolean),
+    })),
+  ];
+
+  return paths;
+}
 
 export default async function generatePage({ params }: PageProps) {
   const { path = [] } = params;
@@ -36,7 +49,7 @@ export default async function generatePage({ params }: PageProps) {
 
   // Check if the path exists as a MDX file
   const { content, filename } = await router.getFile(pathname);
-  if (content.length && filename.length) {
+  if (content.length && filename?.length) {
     const { MDXContent, metadata } = await router.getContent(content, filename);
 
     return (

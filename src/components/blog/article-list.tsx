@@ -49,7 +49,7 @@ export async function ArticleList({ category }: ArticleListProps) {
               key={article.url}
               title={article.title}
               description={article.description}
-              category={category ? category : null}
+              category={category === "all" ? article.category : null}
               publishedAt={article.publishedAt}
               url={article.url}
             />
