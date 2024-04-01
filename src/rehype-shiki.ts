@@ -44,8 +44,9 @@ type Data = {
 type WithData<T> = T & {
   data?: Data;
 };
-type Root = import("hast").Root;
+
 type RootContent = import("hast").RootContent;
+type Root = import("hast").Root;
 type ElementContent = import("hast").ElementContent;
 type Element = WithData<import("hast").Element>;
 
@@ -75,11 +76,11 @@ function getMetaParameter(meta: unknown, key: string): string | undefined {
     : undefined;
 }
 
-function isPreBlock(node: RootContent): node is Element {
-  return Boolean(node.type === "element" && node.tagName === "pre");
+function isPreBlock(node?: RootContent): node is Element {
+  return Boolean(node?.type === "element" && node.tagName === "pre");
 }
 function isCodeBlock(node: ElementContent): node is Element {
-  return Boolean(node.type === "element" && node.tagName === "code");
+  return Boolean(node?.type === "element" && node.tagName === "code");
 }
 
 export default function rehypeShikiji() {
@@ -94,10 +95,10 @@ export default function rehypeShikiji() {
       let defaultTab = "0";
       let currentIndex = index;
 
-      while (currentIndex) {
-        let element = parent?.children[currentIndex];
-        if (element && isPreBlock(element)) {
-          const codeElement = element.children[0];
+      let element =
+        currentIndex !== undefined ? parent?.children[currentIndex] : undefined;
+      while (element && isPreBlock(element)) {
+        const codeElement = element.children[0];
 
           if (isCodeBlock(codeElement)) {
             const displayName = getMetaParameter(
@@ -134,12 +135,14 @@ export default function rehypeShikiji() {
           }
         }
 
-        const nextNode = parent?.children[currentIndex + 1];
+        if (currentIndex !== undefined) {
+          const nextNode = parent?.children[currentIndex + 1];
 
-        // If the CodeBoxes are on the root tree the next Element will be
-        // an empty text element so we should skip it
-        currentIndex += nextNode && nextNode?.type === "text" ? 2 : 1;
-        element = parent?.children[currentIndex];
+          // If the CodeBoxes are on the root tree the next Element will be
+          // an empty text element so we should skip it
+          currentIndex += nextNode && nextNode?.type === "text" ? 2 : 1;
+          element = parent?.children[currentIndex];
+        }
       }
 
       if (codeTabsChildren.length >= 2) {
