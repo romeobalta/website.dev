@@ -27,14 +27,12 @@
  * IN THE SOFTWARE.
  */
 
-import { IS_DEMO, IS_DEV } from "@/config";
+import { IS_DEV } from "@/config";
 import { Jsx, evaluate } from "@mdx-js/mdx";
-import { glob } from "glob";
 import graymatter from "gray-matter";
-import { createReadStream, existsSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { basename, extname, join, normalize } from "node:path";
-import readline from "node:readline";
+import { join, normalize } from "node:path";
 import { cache } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { ReadTimeResults } from "reading-time";
@@ -44,8 +42,10 @@ import remarkGfm from "remark-gfm";
 import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
-import { d, p } from "./debug";
+import { getContentData, getContentFiles } from "./content-loader";
 import rehypeShikiji from "./rehype-shiki";
+
+type MDXContent = import("mdx/types.js").MDXContent;
 
 const jsxTyped = jsx as Jsx;
 const jsxsTyped = jsxs as Jsx;
@@ -61,21 +61,12 @@ async function createRouter() {
     : new Map();
 
   // Get all markdown files
-  const mdFiles = (
-    await glob("**/*.{md,mdx}", {
-      cwd: process.cwd(),
-      ignore: ["node_modules/**", "README.md"],
-    })
-  ).filter((filename) =>
-    IS_DEMO
-      ? filename.startsWith("src/demo-content")
-      : filename.startsWith("src/content"),
-  );
+  const contentFiles = await getContentFiles();
 
   // Create a map of paths to file names
   const paths = new Map<string, string>();
 
-  mdFiles.forEach((filename) => {
+  contentFiles.forEach((filename) => {
     let pathname = filename
       .replace(/((\/)?(index))?\.mdx?$/i, "")
       .replace(/src\/(demo-)?content/, "/");
@@ -84,7 +75,7 @@ async function createRouter() {
     paths.set(pathname, filename);
   });
 
-  const { articles, categories, site } = await getArticlesAndCategories();
+  const { articles, categories, site } = await getContentData(contentFiles);
 
   const getFile = cache(async (pathname: string) => {
     const normalizedPathname = normalize(pathname).replace(".", "");
@@ -117,7 +108,6 @@ async function createRouter() {
     return { filename: "", content: "" };
   });
 
-  type MDXContent = import("mdx/types.js").MDXContent;
   const compileMDX = async (
     source: VFile,
     fileExtension: "mdx" | "md",
@@ -169,76 +159,6 @@ async function createRouter() {
     return metadata;
   });
 
-  async function getArticlesAndCategories(): Promise<{
-    articles: {
-      [key: string]: string;
-    }[];
-    categories: string[];
-    site: {
-      [key: string]: string;
-    };
-  }> {
-    let counter = 0;
-    const categories = new Set<string>(["all"]);
-    const articles: {
-      [key: string]: string;
-    }[] = [];
-    let site: {
-      [key: string]: string;
-    } = {};
-
-    const rawMetadata: { [key: string]: [number, string] } = {};
-    const promises = mdFiles.map(
-      (filename) =>
-        new Promise<void>((resolve) => {
-          const readStream = createReadStream(join(process.cwd(), filename));
-          const readLine = readline.createInterface({ input: readStream });
-
-          rawMetadata[filename] = [0, ""];
-
-          readLine.on("line", (line) => {
-            rawMetadata[filename][1] += `${line}\n`;
-
-            if (line.startsWith("---")) {
-              rawMetadata[filename][0] += 1;
-            }
-
-            if (rawMetadata[filename][0] === 2) {
-              readLine.close();
-              readStream.close();
-            }
-          });
-
-          readLine.on("close", () => {
-            counter += 1;
-            const metadata = graymatter(rawMetadata[filename][1]).data;
-
-            switch (metadata.layout) {
-              case "article":
-                articles.push({
-                  ...metadata,
-                  url: `/article/${basename(filename, extname(filename))}`,
-                });
-                categories.add(metadata.category);
-                break;
-              case "home":
-                site = {
-                  author: metadata.author,
-                };
-                break;
-              default:
-                break;
-            }
-
-            resolve();
-          });
-        }),
-    );
-
-    await Promise.all(promises);
-    return { articles, categories: Array.from(categories), site };
-  }
-
   const getArticlesPaths = cache(() => {
     return paths.keys();
   });
@@ -273,7 +193,6 @@ async function createRouter() {
 
   return {
     getArticles,
-    getArticlesAndCategories,
     getArticlesByCategory,
     getArticlesPaths,
     getCategoriesPaths,

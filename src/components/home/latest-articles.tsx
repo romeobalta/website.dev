@@ -1,4 +1,4 @@
-import { router } from "@/router";
+import { router } from "@/next.router";
 import { ArticleBox } from "../blog/article-box";
 import { Section } from "./section";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ArticleBox } from "./article-box";
-import { router } from "@/router";
+import { router } from "@/next.router";
 
 type ArticleListProps = {
   category: string;

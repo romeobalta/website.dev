@@ -7,7 +7,7 @@ import {
   SITE_TAG,
   SITE_URL,
 } from "@/config";
-import { router } from "@/router";
+import { router } from "@/next.router";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
