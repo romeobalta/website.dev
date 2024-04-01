@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import figlet from "figlet";
 import { create } from "./commands/create";
+import { publish } from "./commands/publish";
 
 const program = new Command();
 
@@ -13,9 +14,14 @@ program
 
 program
   .command("create")
-  .alias("cr")
   .alias("c")
   .description("Create a new article")
   .action(create);
+
+program
+  .command("publish")
+  .alias("p")
+  .description("Publish articles")
+  .action(publish);
 
 await program.parseAsync(process.argv);

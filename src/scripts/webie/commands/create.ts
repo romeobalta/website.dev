@@ -105,13 +105,10 @@ updatedAt:
 layout: article
 ---`;
 
-  // create file `${data.url}.mdx` using fs
   try {
-    // check if directory exists
     const directory = fullPath.split("/").slice(0, -1).join("/");
 
     if (!existsSync(directory)) {
-      // create directory
       await mkdir(directory, { recursive: true });
     }
 

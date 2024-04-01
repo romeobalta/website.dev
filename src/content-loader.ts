@@ -38,6 +38,9 @@ export async function getContentData(files: string[]): Promise<{
   articles: {
     [key: string]: string;
   }[];
+  drafts: {
+    [key: string]: string;
+  }[];
   categories: Map<string, { [key: string]: string }>;
   site: {
     [key: string]: string;
@@ -48,6 +51,10 @@ export async function getContentData(files: string[]): Promise<{
   const articles: {
     [key: string]: string;
   }[] = [];
+  const drafts: {
+    [key: string]: string;
+  }[] = [];
+
   let site: {
     [key: string]: string;
   } = {};
@@ -81,14 +88,21 @@ export async function getContentData(files: string[]): Promise<{
           // TODO: convert all dates to Date objects in the metadata, this will optimize some stuff later
           switch (metadata.layout) {
             case "article":
-              // Skip if the article is not published
+              // If article is not published
+              const url = `/article/${basename(filename, extname(filename))}`;
               if (!metadata.publishedAt) {
+                drafts.push({
+                  ...metadata,
+                  url,
+                  filename,
+                });
                 return resolve();
               }
 
+              // If article is published
               articles.push({
                 ...metadata,
-                url: `/article/${basename(filename, extname(filename))}`,
+                url,
               });
 
               // Update the last modified date of the "all" category
@@ -140,7 +154,7 @@ export async function getContentData(files: string[]): Promise<{
   );
 
   await Promise.all(promises);
-  return { articles, categories, site };
+  return { articles, drafts, categories, site };
 }
 
 export function getArticles(
