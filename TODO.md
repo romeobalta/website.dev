@@ -12,4 +12,5 @@
 - [ ] Write tests
 - [ ] Cleanup the scripts (remove duplicated code)
 - [ ] Optimize some stuff
-- [ ] Move to `bun` packages instead of `node` (`fs`, `glob` etc.)
+  - [ ] Move to `bun` packages instead of `node` (`fs`, `glob` etc.)
+  - [ ] Cache dates in objects
