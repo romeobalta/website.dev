@@ -92,7 +92,7 @@ export function CodeTabs({
   return (
     <Tabs defaultValue={tabs[+defaultTab].key!}>
       <TabsList>{tabs}</TabsList>
-      {languages.map((language, index) => (
+      {languages.map((_, index) => (
         <TabsContent
           className="flex hidden:hidden flex-row w-full justify-center"
           key={tabs[index].key + "-content"}
@@ -102,5 +102,17 @@ export function CodeTabs({
         </TabsContent>
       ))}
     </Tabs>
+  );
+}
+
+type InlineCodeProps = {
+  children?: React.ReactNode;
+};
+
+export function InlineCode({ children }: InlineCodeProps) {
+  return (
+    <code className="bg-muted text-muted-foreground font-mono px-1.5 py-0.5 rounded">
+      {children}
+    </code>
   );
 }

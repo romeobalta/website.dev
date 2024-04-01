@@ -57,8 +57,12 @@
   body {
     @apply bg-background text-foreground;
   }
-}
 
-[hidden] {
-  display: none !important;
+  [hidden] {
+    display: none !important;
+  }
+
+  .article-body *:first-child {
+    @apply mt-0;
+  }
 }

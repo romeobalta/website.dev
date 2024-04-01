@@ -19,7 +19,7 @@ export function HomeLayout({ children, author }: HomeLayoutProps) {
   };
 
   return (
-    <main className="flex flex-col flex-1 h-full w-full max-w-md items-stretch py-5 @container">
+    <main className="flex flex-col flex-1 h-full w-full max-w-xl items-stretch py-5 @container">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

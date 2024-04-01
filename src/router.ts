@@ -29,8 +29,6 @@
 
 import { IS_DEV } from "@/config";
 import { Jsx, evaluate } from "@mdx-js/mdx";
-import remarkHeadings, { Heading } from "@vcarl/remark-headings";
-import GitHubSlugger from "github-slugger";
 import { glob } from "glob";
 import graymatter from "gray-matter";
 import { createReadStream, existsSync } from "node:fs";
@@ -47,9 +45,6 @@ import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 import rehypeShikiji from "./rehype-shiki";
-import { d } from "./debug";
-
-const githubSlugger = new GitHubSlugger();
 
 const jsxTyped = jsx as Jsx;
 const jsxsTyped = jsxs as Jsx;
@@ -250,11 +245,13 @@ async function createRouter() {
     );
   });
 
-  const getArticles = cache(() => {
-    return articles.sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-    );
+  const getArticles = cache((count?: number) => {
+    return articles
+      .sort(
+        (a, b) =>
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+      )
+      .slice(0, count);
   });
 
   const getArticlesByCategory = cache((category: string) => {

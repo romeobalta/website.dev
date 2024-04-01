@@ -28,7 +28,7 @@ export function ArticleBox({
     >
       <div className={cn(`w-full flex flex-row group gap-x-5 gap-y-2`)}>
         <div className="w-full flex flex-col justify-start gap-y-2">
-          <h1 className="w-full -mt-0.5 font-roboto text-xl leading-5 font-bold underline underline-offset-2">
+          <h1 className="w-full -mt-0.5 font-roboto text-2xl font-bold">
             {title}
           </h1>
 

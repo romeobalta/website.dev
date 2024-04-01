@@ -50,19 +50,19 @@ export function ArticleLayout({
         <BlogHeader border />
 
         <div className="h-full w-full flex flex-col justify-stretch items-center">
-          <main className="w-full py-5">
+          <main className="w-full">
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
             <article className="flex-1 flex flex-col items-center w-full h-full">
-              <h1 className="font-source-serif font-black text-[8cqw] leading-[11cqw] my-5 w-full max-w-2xl mt-6 mb-6 text-center">
+              <h1 className="font-source-serif font-black text-[6cqw] leading-[8cqw] mt-6 mb-1 w-full max-w-2xl">
                 {title}
               </h1>
 
               <ArticleInfo
-                className="mb-8 text-muted-foreground"
+                className="mb-6"
                 name={category}
                 slug={category}
                 date={new Date(publishedAt).toLocaleDateString("en-US", {
@@ -72,7 +72,7 @@ export function ArticleLayout({
                 })}
                 readingTime={`~ ${Math.round(readingTime.minutes)} min`}
               />
-              <div className="w-full text-base leading-7 font-roboto">
+              <div className="w-full text-base leading-7 font-roboto article-body">
                 {children}
               </div>
             </article>

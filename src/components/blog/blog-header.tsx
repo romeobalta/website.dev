@@ -3,8 +3,6 @@ import { cn } from "@/util";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 
-// import { Socials } from './socials'
-
 type BlogHeaderProps = {
   border?: boolean;
 };
@@ -22,12 +20,13 @@ export function BlogHeader({ border }: BlogHeaderProps) {
             {SITE_TAG}
           </h1>
         </Link>
-        <div className="flex flex-row gap-2 font-roboto-condensed font-bold text-base">
+        <div className="flex flex-row h-5 space-x-4 items-start font-roboto-condensed font-bold text-base">
+          <Link href="/">About</Link>
+          <Separator orientation="vertical" />
           <Link href="/category/all">Articles</Link>
-          {/* {false && <Socials className="ml-10" />} */}
         </div>
       </header>
-      <Separator />
+      {border && <Separator />}
     </div>
   );
 }
