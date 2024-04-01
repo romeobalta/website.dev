@@ -78,6 +78,7 @@ export async function getContentData(files: string[]): Promise<{
           counter += 1;
           const metadata = graymatter(rawMetadata[filename][1]).data;
 
+          // TODO: convert all dates to Date objects in the metadata, this will optimize some stuff later
           switch (metadata.layout) {
             case "article":
               // Skip if the article is not published
