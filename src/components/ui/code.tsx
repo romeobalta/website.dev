@@ -52,9 +52,9 @@ export function Code({ children, className }: CodeProps) {
   );
 }
 
-interface CodeBlockProps {
+type CodeBlockProps = {
   children: React.ReactNode;
-}
+};
 
 export function CodeBlock({ children }: CodeBlockProps) {
   return (

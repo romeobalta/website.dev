@@ -1,13 +1,13 @@
 import { cn } from "@/util";
 import Link from "next/link";
 
-interface ArticleInfoProps {
+type ArticleInfoProps = {
   className?: string;
   name?: string;
   slug?: string;
   date?: string;
   readingTime?: string;
-}
+};
 
 export function ArticleInfo({
   name,

@@ -1,14 +1,14 @@
 import { cn } from "@/util";
 import Link from "next/link";
 
-interface ArticleBoxProps {
+type ArticleBoxProps = {
   title: string;
   description: string;
   category: string | null;
   publishedAt: string;
   url: string;
   className?: string;
-}
+};
 
 export function ArticleBox({
   title,

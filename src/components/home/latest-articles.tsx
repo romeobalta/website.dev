@@ -2,8 +2,12 @@ import { router } from "@/router";
 import { ArticleBox } from "../blog/article-box";
 import { Section } from "./section";
 
-export async function LatestArticles() {
-  const articles = await router.getArticles();
+type LatestArticlesProps = {
+  count?: number;
+};
+
+export async function LatestArticles({ count = 5 }: LatestArticlesProps) {
+  const articles = router.getArticles(count);
 
   return (
     !!articles?.length && (
