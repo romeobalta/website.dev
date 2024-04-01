@@ -28,10 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: SITE_URL || "",
       lastModified: now,
     },
-    {
-      url: `${SITE_URL}/categories`,
-      lastModified: categoryRoutes[0]?.lastModified,
-    },
     ...categoryRoutes,
     ...articleRoutes,
   ];
