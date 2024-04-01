@@ -45,6 +45,7 @@ import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
 import rehypeShikiji from "./rehype-shiki";
+import { d, p } from "./debug";
 
 const jsxTyped = jsx as Jsx;
 const jsxsTyped = jsxs as Jsx;
@@ -60,10 +61,16 @@ async function createRouter() {
     : new Map();
 
   // Get all markdown files
-  const mdFiles = await glob("**/*.{md,mdx}", {
-    cwd: process.cwd(),
-    ignore: ["node_modules/**", "README.md"],
-  });
+  const mdFiles = (
+    await glob("**/*.{md,mdx}", {
+      cwd: process.cwd(),
+      ignore: ["node_modules/**", "README.md"],
+    })
+  ).filter((filename) =>
+    IS_DEV
+      ? filename.startsWith("src/demo-content")
+      : filename.startsWith("src/content"),
+  );
 
   // Create a map of paths to file names
   const paths = new Map<string, string>();
@@ -71,7 +78,7 @@ async function createRouter() {
   mdFiles.forEach((filename) => {
     let pathname = filename
       .replace(/((\/)?(index))?\.mdx?$/i, "")
-      .replace("src/content", "/");
+      .replace(/src\/(demo-)?content/, "/");
 
     pathname = normalize(pathname).replace(".", "");
     paths.set(pathname, filename);
