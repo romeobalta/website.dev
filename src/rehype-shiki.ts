@@ -39,10 +39,10 @@ import clsx from "clsx";
 // Add extra languages here
 
 type Data = {
-  meta?: string;
+  meta: string;
 };
 type WithData<T> = T & {
-  data?: Data;
+  data: Data;
 };
 
 type RootContent = import("hast").RootContent;
@@ -100,38 +100,37 @@ export default function rehypeShikiji() {
       while (element && isPreBlock(element)) {
         const codeElement = element.children[0];
 
-          if (isCodeBlock(codeElement)) {
-            const displayName = getMetaParameter(
-              codeElement.data?.meta,
-              "displayName",
-            );
+        if (isCodeBlock(codeElement)) {
+          const displayName = getMetaParameter(
+            codeElement.data?.meta,
+            "displayName",
+          );
 
-            // We should get the language name from the class name
-            if (
-              Array.isArray(codeElement.properties.className) &&
-              codeElement.properties.className.length
-            ) {
-              const className = codeElement.properties.className.join(" ");
-              const matches = className.match(/language-(?<language>.*)/);
+          // We should get the language name from the class name
+          if (
+            Array.isArray(codeElement.properties.className) &&
+            codeElement.properties.className.length
+          ) {
+            const className = codeElement.properties.className.join(" ");
+            const matches = className.match(/language-(?<language>.*)/);
 
-              languages.push(matches?.groups?.language ?? "text");
-            }
+            languages.push(matches?.groups?.language ?? "text");
+          }
 
-            // Map the display names of each variant for the CodeTab
-            displayNames.push(displayName?.replaceAll("|", "") ?? "");
+          // Map the display names of each variant for the CodeTab
+          displayNames.push(displayName?.replaceAll("|", "") ?? "");
 
-            codeTabsChildren.push(element);
+          codeTabsChildren.push(element);
 
-            // If `active="true"` is provided in a CodeBox
-            // then the default selected entry of the CodeTabs will be the desired entry
-            const specificActive = getMetaParameter(
-              codeElement.data?.meta,
-              "default",
-            );
+          // If `active="true"` is provided in a CodeBox
+          // then the default selected entry of the CodeTabs will be the desired entry
+          const specificActive = getMetaParameter(
+            codeElement.data?.meta,
+            "default",
+          );
 
-            if (specificActive === "true") {
-              defaultTab = String(codeTabsChildren.length - 1);
-            }
+          if (specificActive === "true") {
+            defaultTab = String(codeTabsChildren.length - 1);
           }
         }
 
