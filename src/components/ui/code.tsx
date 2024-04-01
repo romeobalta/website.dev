@@ -107,6 +107,7 @@ export function CodeTabs({
           className="flex hidden:hidden flex-row w-full justify-center"
           key={tabs[index].key + "-content"}
           value={tabs[index].key!}
+          tabIndex={-1}
         >
           {children![index]}
         </TabsContent>
