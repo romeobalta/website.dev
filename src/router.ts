@@ -46,6 +46,7 @@ import remarkGfm from "remark-gfm";
 import remarkReadingTime from "remark-reading-time";
 import { VFile } from "vfile";
 import { matter } from "vfile-matter";
+import rehypeShikiji from "./rehype-shiki";
 
 const githubSlugger = new GitHubSlugger();
 
@@ -141,6 +142,7 @@ async function createRouter() {
           rehypeAutolinkHeadings,
           { properties: { ariaHidden: true, tabIndex: -1, class: "anchor" } },
         ],
+        rehypeShikiji,
       ],
       remarkPlugins: [remarkGfm, remarkHeadings, remarkReadingTime],
       format: fileExtension,

@@ -28,7 +28,9 @@ export function Author({ name, avatar, description, socials }: AuthorProps) {
         {name}
       </h1>
 
-      <p className="text-base font-roboto text-center italic">{description}</p>
+      <p className="text-base font-roboto text-center text-muted-foreground italic">
+        {description}
+      </p>
 
       <div className="flex justify-center space-x-4 invert mt-2">
         {socials?.map((social) => {

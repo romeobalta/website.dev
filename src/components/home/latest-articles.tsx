@@ -15,7 +15,7 @@ export async function LatestArticles() {
               title={article.title}
               description={article.description}
               category={article.category}
-              slug={article.slug}
+              url={article.url}
               publishedAt={article.publishedAt}
             />
           ))}
