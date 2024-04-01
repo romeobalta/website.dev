@@ -1,5 +1,7 @@
 /**
  * This file is based on the dynamic router created for the nodejs.org website.
+ * Even though it's rewritten to better fit the needs of this project, the original
+ * code can be found here:
  * https://github.com/nodejs/nodejs.org
  *
  * MIT License
@@ -25,15 +27,16 @@
  * IN THE SOFTWARE.
  */
 
-import { _ } from "@/debug";
 import { IS_DEV } from "@/env";
-import { evaluate, Jsx } from "@mdx-js/mdx";
+import { Jsx, evaluate } from "@mdx-js/mdx";
 import remarkHeadings, { Heading } from "@vcarl/remark-headings";
 import GitHubSlugger from "github-slugger";
 import { glob } from "glob";
-import { existsSync } from "node:fs";
+import graymatter from "gray-matter";
+import { createReadStream, existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { join, normalize } from "node:path";
+import { basename, extname, join, normalize } from "node:path";
+import readline from "node:readline";
 import { cache } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { ReadTimeResults } from "reading-time";
@@ -76,6 +79,8 @@ async function createRouter() {
     pathname = normalize(pathname).replace(".", "");
     paths.set(pathname, filename);
   });
+
+  const { articles, categories } = await getArticlesAndCategories();
 
   /**
    * Get the file content from the cache or read it from the file system
@@ -179,9 +184,77 @@ async function createRouter() {
     return compileMDX(sourceAsVirtualFile, fileExtension);
   });
 
+  async function getArticlesAndCategories(): Promise<{
+    articles: {
+      [key: string]: string;
+    }[];
+    categories: string[];
+  }> {
+    let counter = 0;
+    const categories = new Set<string>([""]);
+    const articles: {
+      [key: string]: string;
+    }[] = [];
+
+    const rawMetadata: { [key: string]: [number, string] } = {};
+    const promises = mdFiles.map(
+      (filename) =>
+        new Promise<void>((resolve) => {
+          const readStream = createReadStream(join(process.cwd(), filename));
+          const readLine = readline.createInterface({ input: readStream });
+
+          rawMetadata[filename] = [0, ""];
+
+          readLine.on("line", (line) => {
+            rawMetadata[filename][1] += `${line}\n`;
+
+            if (line.startsWith("---")) {
+              rawMetadata[filename][0] += 1;
+            }
+
+            if (rawMetadata[filename][0] === 2) {
+              readLine.close();
+              readStream.close();
+            }
+          });
+
+          readLine.on("close", () => {
+            counter += 1;
+            const metadata = graymatter(rawMetadata[filename][1]).data;
+
+            switch (metadata.layout) {
+              case "article":
+                articles.push({
+                  ...metadata,
+                  url: `/article/${basename(filename, extname(filename))}`,
+                });
+                categories.add(metadata.category);
+                break;
+
+              default:
+                break;
+            }
+
+            resolve();
+          });
+        }),
+    );
+
+    await Promise.all(promises);
+    return { articles, categories: Array.from(categories) };
+  }
+
+  const getCategoriesPaths = cache(async () => {
+    return new Map(
+      categories.map((category) => [join("/articles", category), "category"]),
+    );
+  });
+
   return {
     getFile,
     getContent,
+    getArticlesAndCategories,
+    getCategoriesPaths,
   };
 }
 

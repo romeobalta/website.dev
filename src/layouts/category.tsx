@@ -2,11 +2,11 @@ import { ArticleList } from "@/components/blog/article-list";
 import { BlogHeader } from "@/components/blog/blog-header";
 import { PropsOf } from "@/util";
 
-type ArticlesLayoutProps = {
+type CategoryLayoutProps = {
   category: string | null;
 };
 
-export function ArticlesLayout({ category }: ArticlesLayoutProps) {
+export function CategoryLayout({ category }: CategoryLayoutProps) {
   const data: PropsOf<typeof ArticleList>["articles"] = [];
 
   // TODO: add jsonLd
