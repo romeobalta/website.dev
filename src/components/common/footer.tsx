@@ -6,7 +6,7 @@ import { A } from "../ui/a";
 
 export function Footer() {
   return (
-    <div className="flex-col px-5 py-10">
+    <div className="w-full flex-col py-10">
       <Separator />
       <div className="w-full flex h-5 mt-5 items-center justify-center space-x-4 text-sm">
         <div>

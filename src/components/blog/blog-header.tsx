@@ -9,7 +9,7 @@ type BlogHeaderProps = {
 
 export function BlogHeader({ border }: BlogHeaderProps) {
   return (
-    <div>
+    <div className="w-full">
       <header
         className={cn(
           "w-full font-roboto py-3 flex flex-row justify-between items-center",
