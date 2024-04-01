@@ -28,7 +28,7 @@ export async function generateMetadata({
   const pathname = "/" + path.join("/");
   const metadata = await router.getMetadata(pathname);
 
-  let title = metadata.title ? `${SITE_TAG}: ${metadata.title}` : SITE_TAG;
+  let title = pathname !== "/" ? `${SITE_TAG}: ${metadata.title}` : SITE_TAG;
 
   const categoriesPaths = router.getCategoriesPaths();
   const categoryLayout = categoriesPaths.get(pathname);
