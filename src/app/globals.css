@@ -66,4 +66,12 @@
   .section *:first-child {
     @apply mt-0;
   }
+
+  .light .social-icon {
+    @apply invert;
+  }
+
+  .dark .social-icon {
+    @apply invert-0;
+  }
 }

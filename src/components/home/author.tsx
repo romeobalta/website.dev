@@ -40,7 +40,7 @@ export function Author({ name, avatar, description, socials }: AuthorProps) {
               <Image
                 src={`/icons/${type}.svg`}
                 alt={type}
-                className="w-6 h-6"
+                className="w-6 h-6 social-icon"
                 width={24}
                 height={24}
               />
