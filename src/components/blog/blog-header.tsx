@@ -2,6 +2,7 @@ import { SITE_TAG } from "@/config";
 import { cn } from "@/util";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import { ThemeToggle } from "../common/theme-toggle";
 
 type BlogHeaderProps = {
   border?: boolean;
@@ -20,10 +21,12 @@ export function BlogHeader({ border }: BlogHeaderProps) {
             {SITE_TAG}
           </h1>
         </Link>
-        <div className="flex flex-row h-5 space-x-4 items-start font-roboto-condensed font-bold text-base">
+        <div className="flex flex-row h-5 space-x-4 items-center font-roboto-condensed font-bold text-base">
           <Link href="/">About</Link>
           <Separator orientation="vertical" />
           <Link href="/category/all">Articles</Link>
+          <Separator orientation="vertical" />
+          <ThemeToggle />
         </div>
       </header>
       {border && <Separator />}
