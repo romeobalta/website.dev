@@ -6,6 +6,7 @@
 - [x] Tool to publish article
 - [x] Commit hook that updates the updatedAt of articles on changes
 - [ ] Add proper demo articles for all features
+- [x] Add table renderer
 - [ ] Add readme
 - [ ] Publish
 - [ ] Stop hard-coding paths (`/article/{slug}`, `/category/{name}`)

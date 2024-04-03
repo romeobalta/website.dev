@@ -9,12 +9,31 @@ import * as Headings from "./ui/headings";
 import { Img } from "./ui/img";
 import { WithList } from "./ui/list";
 import { P } from "./ui/p";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
 
 const components: MDXComponents = {
   CodeBlock,
   CodeTabs,
+  Img,
   LatestArticles,
   Section,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
 
   // Common components
   a: A,
@@ -31,6 +50,14 @@ const components: MDXComponents = {
   p: P,
   pre: Pre,
   ul: WithList(false),
+
+  table: Table,
+  tbody: TableBody,
+  td: TableCell,
+  tfoot: TableFooter,
+  th: TableHead,
+  thead: TableHeader,
+  tr: TableRow,
 };
 
 export const MDXRenderer: FC<{ Component: MDXContent }> = ({ Component }) => (
