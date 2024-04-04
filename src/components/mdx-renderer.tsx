@@ -4,16 +4,17 @@ import { LatestArticles } from "./home/latest-articles";
 import { Section } from "./home/section";
 import { A } from "./ui/a";
 import { Blockquote } from "./ui/blockquote";
-import { Pre, CodeBlock, CodeTabs, Code } from "./ui/code";
+import { Code, CodeBlock, CodeTabs, Pre } from "./ui/code";
 import * as Headings from "./ui/headings";
+import { Img } from "./ui/img";
 import { WithList } from "./ui/list";
 import { P } from "./ui/p";
 
 const components: MDXComponents = {
-  CodeBlock: CodeBlock,
-  CodeTabs: CodeTabs,
+  CodeBlock,
+  CodeTabs,
   LatestArticles,
-  Section: Section,
+  Section,
 
   // Common components
   a: A,
@@ -25,6 +26,7 @@ const components: MDXComponents = {
   h4: Headings.H4,
   h5: Headings.H5,
   h6: Headings.H6,
+  img: Img,
   ol: WithList(true),
   p: P,
   pre: Pre,
