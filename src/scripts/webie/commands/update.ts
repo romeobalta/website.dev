@@ -23,7 +23,10 @@ export async function update() {
     );
 
     stdout.split("\n").forEach((file) => {
-      if (file.endsWith(".md") || file.endsWith(".mdx")) {
+      if (
+        (file.endsWith(".md") || file.endsWith(".mdx")) &&
+        file.includes("src/content")
+      ) {
         files.push(file);
       }
     });
@@ -42,6 +45,10 @@ export async function update() {
       await execPromise(`git add ${filename}`);
     });
 
+    if (promises.length === 0) {
+      writeln(success("No articles to update"));
+      return;
+    }
     await Promise.all(promises);
     writeln(success("✅ Articles updated: "));
     files.forEach((file) => {

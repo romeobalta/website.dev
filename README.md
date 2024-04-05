@@ -74,11 +74,13 @@ bun webie create
 bun webie c
 ```
 
-#### Example
+#### Example create
 
 ![Creating an article](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-create.gif)
 
 ### Publish article(s)
+
+You can also use `webie` to run the article publishing wizard. It allows you to select one or multiple articles. The command automatically sets the `publishedAt` front matter for all the articles to `now`.
 
 ```bash
 bun webie publish
@@ -86,17 +88,25 @@ bun webie publish
 bun webie p
 ```
 
+#### Example publish
+
 ![Publishing an article](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-publish.gif)
 
 ### Update article(s)
 
+This tool automatically sets the `updatedAt` front matter of staged articles to `now`.
+
 > [!NOTE]
-> This is automatically called as a `pre-commit` hook
+> This is automatically called as a `pre-commit` hook so you don't have to call it manually.
 
 ```bash
 bun webie update
 # or
 bun webie u
 ```
+
+#### Example update
+
+![Updating articles](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-update.gif)
 
 ## Markdown
