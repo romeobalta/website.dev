@@ -98,9 +98,9 @@ export async function create() {
 
   const fileContent = `---
 title: ${data.title}
-description: 
+description:
 category: ${data.category}
-publishedAt: 
+publishedAt:
 updatedAt:
 layout: article
 ---`;

@@ -66,11 +66,17 @@ bun w
 
 ### Create article
 
+You can use `webie` to run the article creation wizard. This has the benefit of generating a slug for your article based on the title and filling in the boilerplate front matter. If you set your editor config values, it will automatically open the article in your preferred editor.
+
 ```bash
 bun webie create
 # or
 bun webie c
 ```
+
+#### Example
+
+![Creating an article](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-create.gif)
 
 ### Publish article(s)
 
