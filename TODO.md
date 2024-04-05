@@ -9,9 +9,10 @@
 - [x] Add table renderer
 - [ ] Add readme
 - [ ] Publish
-- [ ] Stop hard-coding paths (`/article/{slug}`, `/category/{name}`)
 - [ ] Write tests
-- [ ] Cleanup the scripts (remove duplicated code)
+- [ ] Stop hard-coding paths (`/article/{slug}`, `/category/{name}`)
+  - [ ] Add config for `category` paths
 - [ ] Optimize some stuff
   - [ ] Move to `bun` packages instead of `node` (`fs`, `glob` etc.)
+  - [ ] Cleanup the scripts (remove duplicated code)
   - [ ] Cache dates in objects
