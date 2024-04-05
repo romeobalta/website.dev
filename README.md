@@ -86,6 +86,8 @@ bun webie publish
 bun webie p
 ```
 
+![Publishing an article](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-publish.gif)
+
 ### Update article(s)
 
 > [!NOTE]

@@ -96,6 +96,11 @@ export async function getContentData(files: string[]): Promise<{
                   url,
                   filename,
                 });
+                if (!categories.has(metadata.category)) {
+                  categories.set(metadata.category, {
+                    updatedAt: "0",
+                  });
+                }
                 return resolve();
               }
 
