@@ -109,4 +109,4 @@ bun webie u
 
 ![Updating articles](https://github.com/romeobalta/website.dev/blob/main/docs/gifs/webie-update.gif)
 
-## Markdown
+## Markdown support
