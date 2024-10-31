@@ -89,7 +89,7 @@ export function CodeTabs({
   const displayNames = rawDisplayNames.split("|") ?? [];
 
   const tabs = languages.map((language, index) => {
-    const displayName = displayNames[index] ?? language;
+    const displayName = displayNames[index] || language;
     const key = `${language}-${index}`;
 
     return (
