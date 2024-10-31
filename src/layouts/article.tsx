@@ -56,12 +56,12 @@ export function ArticleLayout({
           />
 
           <article className="flex-1 flex flex-col items-center w-full h-full">
-            <h1 className="font-source-serif font-black text-[6cqw] leading-[8cqw] mt-6 mb-6 w-full max-w-2xl">
+            <h1 className="font-source-serif font-black text-[6cqw] leading-[8cqw] mt-6 mb-4 w-full max-w-2xl">
               {title}
             </h1>
 
             <ArticleInfo
-              className="mb-6"
+              className="mb-6 italic"
               name={category}
               slug={category}
               date={new Date(publishedAt).toLocaleDateString("en-US", {

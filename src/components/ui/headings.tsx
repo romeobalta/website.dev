@@ -50,7 +50,10 @@ export function H5({ children, className, ...props }: HeadingProps) {
 
 export function H6({ children, className, ...props }: HeadingProps) {
   return (
-    <h6 className={cn(commonClasses, "text-sm")} {...props}>
+    <h6
+      className={cn(commonClasses, "text-sm text-muted-foreground")}
+      {...props}
+    >
       {children}
     </h6>
   );

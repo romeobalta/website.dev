@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { LI } from "./ui/li";
 
 const components: MDXComponents = {
   CodeBlock,
@@ -46,6 +47,7 @@ const components: MDXComponents = {
   h5: Headings.H5,
   h6: Headings.H6,
   img: Img,
+  li: LI,
   ol: WithList(true),
   p: P,
   pre: Pre,
