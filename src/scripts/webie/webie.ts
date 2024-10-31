@@ -3,6 +3,7 @@ import figlet from "figlet";
 import { create } from "./commands/create";
 import { publish } from "./commands/publish";
 import { update } from "./commands/update";
+import { generateSlug } from "./commands/generate-slug";
 
 const program = new Command();
 
@@ -30,5 +31,11 @@ program
   .alias("u")
   .description("Update articles modified date")
   .action(update);
+
+program
+  .command("generate-slug")
+  .alias("gs")
+  .description("Generate a slug from a title")
+  .action(generateSlug);
 
 await program.parseAsync(process.argv);
