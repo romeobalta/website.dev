@@ -14,6 +14,7 @@ export const EDITOR_IS_TERMINAL = process.env.EDITOR_IS_TERMINAL === "true";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 export const IS_DEMO = process.env.IS_DEMO === "true";
+export const SHOW_UNPUB = process.env.SHOW_UNPUB === "true";
 
 export const SITE_TAG = process.env.NEXT_PUBLIC_SITE_TAG || "website.dev";
 export const SITE_DESCRIPTION =

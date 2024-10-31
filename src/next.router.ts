@@ -27,7 +27,7 @@
  * IN THE SOFTWARE.
  */
 
-import { IS_DEV } from "@/config";
+import { IS_DEV, SHOW_UNPUB } from "@/config";
 import { Jsx, evaluate } from "@mdx-js/mdx";
 import graymatter from "gray-matter";
 import { existsSync } from "node:fs";
@@ -69,7 +69,8 @@ async function createRouter() {
 
   const contentFiles = await getContentFiles();
   const paths = getContentPaths(contentFiles);
-  const { articles, categories, site } = await getContentData(contentFiles);
+  const { articles, drafts, categories, site } =
+    await getContentData(contentFiles);
 
   const getFile = cache(async (pathname: string) => {
     const normalizedPathname = normalize(pathname).replace(".", "");
@@ -166,11 +167,13 @@ async function createRouter() {
   });
 
   const getArticlesCached = cache((count?: number) => {
-    return getArticles(articles, count);
+    const allArticles = [...(SHOW_UNPUB ? drafts : []), ...articles];
+    return getArticles(allArticles, count);
   });
 
   const getArticlesByCategoryCached = cache((category: string) => {
-    return getArticlesByCategory(articles, category);
+    const allArticles = [...(SHOW_UNPUB ? drafts : []), ...articles];
+    return getArticlesByCategory(allArticles, category);
   });
 
   return {
