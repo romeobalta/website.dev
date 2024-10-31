@@ -1,13 +1,10 @@
 import { Command } from "commander";
-import figlet from "figlet";
 import { create } from "./commands/create";
 import { publish } from "./commands/publish";
 import { update } from "./commands/update";
 import { generateSlug } from "./commands/generate-slug";
 
 const program = new Command();
-
-console.log(figlet.textSync("webie"));
 
 program
   .name("webie")
