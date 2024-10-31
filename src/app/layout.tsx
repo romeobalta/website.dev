@@ -1,24 +1,14 @@
 import { cn } from "@/util";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto, Roboto_Condensed, Source_Serif_4 } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const sourceSerif = Source_Serif_4({
-  subsets: ["latin"],
-  weight: "variable",
-  variable: "--font-source-serif",
-});
-const robotoCondensed = Roboto_Condensed({
+const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "700"],
   subsets: ["latin"],
-  variable: "--font-roboto-condensed",
-});
-const roboto = Roboto({
-  weight: ["300", "400", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
@@ -34,10 +24,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          sourceSerif.variable,
-          robotoCondensed.variable,
-          roboto.variable,
-          "min-h-screen flex flex-col items-center antialiased",
+          jetbrainsMono.variable,
+          "min-h-screen flex flex-col items-center antialiased font-jetbrains-mono",
         )}
       >
         {!!process.env.ENABLE_CLOUDFLARE_ANALYTICS && (

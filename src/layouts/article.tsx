@@ -71,7 +71,7 @@ export function ArticleLayout({
               })}
               readingTime={`~ ${Math.round(readingTime.minutes)} min`}
             />
-            <div className="w-full text-base leading-7 font-roboto article-body">
+            <div className="w-full text-base leading-7 font-jetbrains-mono article-body">
               {children}
             </div>
           </article>

@@ -6,7 +6,7 @@ type HeadingProps = DetailedHTMLProps<
   HTMLHeadingElement
 >;
 
-const commonClasses = "my-5 w-full font-roboto font-black";
+const commonClasses = "my-5 w-full font-jetbrains-mono font-black";
 
 export function H1({ children, className, ...props }: HeadingProps) {
   return (

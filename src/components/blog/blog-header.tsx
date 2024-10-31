@@ -13,15 +13,15 @@ export function BlogHeader({ border }: BlogHeaderProps) {
     <div className="w-full">
       <header
         className={cn(
-          "w-full font-roboto py-3 flex flex-row justify-between items-center",
+          "w-full font-jetbrains-mono py-3 flex flex-row justify-between items-center",
         )}
       >
         <Link href="/">
-          <h1 className="font-source-serif text-3xl inline-block">
+          <h1 className="font-jetbrains-mono text-3xl inline-block">
             {SITE_TAG}
           </h1>
         </Link>
-        <div className="flex flex-row h-5 space-x-4 items-center font-roboto-condensed font-bold text-base">
+        <div className="flex flex-row h-5 space-x-4 items-center font-jetbrains-mono font-bold text-base">
           <Link href="/">About</Link>
           <Separator orientation="vertical" />
           <Link href="/category/all">Articles</Link>

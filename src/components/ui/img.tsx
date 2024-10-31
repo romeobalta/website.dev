@@ -25,16 +25,18 @@ export function Img({
 
   let width = 0;
   let height = 0;
+  let cleanSrc = src;
 
   if (typeof src === "string") {
-    const [_, attributes] = src.split("#");
+    let attributes = "";
+    [cleanSrc, attributes] = src.split("#");
     const queryParams = new URLSearchParams(attributes);
-
-    console.log(queryParams);
 
     width = +(queryParams.get("width") ?? 0);
     height = +(queryParams.get("height") ?? 0);
   }
 
-  return <Image src={src} alt={alt} width={width} height={height} {...props} />;
+  return (
+    <Image src={cleanSrc} alt={alt} width={width} height={height} {...props} />
+  );
 }

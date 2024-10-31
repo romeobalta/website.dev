@@ -80,10 +80,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        "source-serif": "var(--font-source-serif)",
-        "roboto-condensed": "var(--font-roboto-condensed)",
-        roboto: "var(--font-roboto)",
-        "open-sans": "var(--font-open-sans)",
+        "jetbrains-mono": "var(--font-jetbrains-mono)",
       },
       screens: {
         xs: "475px",

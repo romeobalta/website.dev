@@ -16,7 +16,7 @@ export default function NotFound() {
       <BlogHeader border />
       <div className="h-full w-full flex flex-col flex-1 justify-stretch items-center">
         <div className="flex flex-col max-w-md justify-center items-center h-full w-full px-5 @container">
-          <h1 className="text-[40vw] leading-[52vw] @sm:text-[15rem] @sm:leading-[15rem] font-open-sans font-black text-muted-foreground">
+          <h1 className="text-[40vw] leading-[52vw] @sm:text-[15rem] @sm:leading-[15rem] font-jetbrains-mono font-black text-muted-foreground">
             404
           </h1>
           <H2 className="my-0 ">Oopsie, page not found.</H2>
