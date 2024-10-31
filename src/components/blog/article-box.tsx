@@ -28,7 +28,7 @@ export function ArticleBox({
     >
       <div className={cn(`w-full flex flex-row group gap-x-5 gap-y-2`)}>
         <div className="w-full flex flex-col justify-start gap-y-2">
-          <h1 className="w-full -mt-0.5 font-jetbrains-mono text-2xl font-bold">
+          <h1 className="w-full -mt-0.5 font-jetbrains-mono text-2xl font-extrabold">
             {title}
           </h1>
 
@@ -37,7 +37,7 @@ export function ArticleBox({
               <>
                 {" "}
                 on
-                <span className="font-bold uppercase font-jetbrains-mono">
+                <span className="font-extrabold uppercase font-jetbrains-mono">
                   {" "}
                   {new Date(publishedAt).toLocaleDateString("en-us", {
                     year: "numeric",
@@ -51,7 +51,7 @@ export function ArticleBox({
               <>
                 {" "}
                 in
-                <span className="font-bold uppercase font-jetbrains-mono">
+                <span className="font-extrabold uppercase font-jetbrains-mono">
                   {" "}
                   {category}
                 </span>
@@ -59,7 +59,7 @@ export function ArticleBox({
             )}
           </span>
 
-          <h2 className="w-full font-jetbrains-mono font-normal text-base text-muted-foreground">
+          <h2 className="w-full font-jetbrains-mono font-medium text-base text-muted-foreground">
             {description}
           </h2>
         </div>

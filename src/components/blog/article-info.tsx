@@ -25,11 +25,12 @@ export function ArticleInfo({
         className,
       )}
     >
-      on <span className="font-bold uppercase">{date}</span> in{" "}
-      <Link href={link}>
-        <span className="font-bold underline underline-offset-4 uppercase">
-          {name}
-        </span>
+      on <span className="font-extrabold uppercase">{date}</span> in{" "}
+      <Link
+        href={link}
+        className="font-extrabold underline underline-offset-4 uppercase text-blue-500 dark:text-sky-500"
+      >
+        {name}
       </Link>{" "}
       <span className="block">{readingTime} read</span>
     </div>

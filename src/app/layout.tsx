@@ -6,7 +6,7 @@ import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const jetbrainsMono = JetBrains_Mono({
-  weight: ["300", "400", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
 });
@@ -25,7 +25,7 @@ export default function RootLayout({
       <body
         className={cn(
           jetbrainsMono.variable,
-          "min-h-screen flex flex-col items-center antialiased font-jetbrains-mono",
+          "min-h-screen flex flex-col items-center antialiased font-jetbrains-mono font-medium",
         )}
       >
         {!!process.env.ENABLE_CLOUDFLARE_ANALYTICS && (

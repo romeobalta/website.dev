@@ -21,7 +21,7 @@ export function BlogHeader({ border }: BlogHeaderProps) {
             {SITE_TAG}
           </h1>
         </Link>
-        <div className="flex flex-row h-5 space-x-4 items-center font-jetbrains-mono font-bold text-base">
+        <div className="flex flex-row h-5 space-x-4 items-center font-jetbrains-mono font-extrabold text-base">
           <Link href="/">About</Link>
           <Separator orientation="vertical" />
           <Link href="/category/all">Articles</Link>
