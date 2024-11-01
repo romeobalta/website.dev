@@ -10,7 +10,7 @@ export function A({ children, href = "#", className, ...props }: AProps) {
   return (
     <Link
       href={href}
-      className="underline underline-offset-4 text-blue-500 dark:text-sky-500"
+      className="underline underline-offset-4 text-link"
       {...props}
     >
       {children}

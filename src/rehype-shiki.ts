@@ -33,10 +33,8 @@ import type { HighlighterCore } from "shiki/core";
 import { getHighlighterCore } from "shiki/core";
 import getWasm from "shiki/wasm";
 import { SKIP, visit } from "unist-util-visit";
-import { CODE_HIGHLIGHTER_LANGUAGES, CODE_HIGHLIGHTER_THEME } from "./config";
+import { CODE_HIGHLIGHTER_LANGUAGES, CODE_HIGHLIGHTER_THEMES } from "./config";
 import clsx from "clsx";
-
-// Add extra languages here
 
 type Data = {
   meta: string;
@@ -45,21 +43,31 @@ type WithData<T> = T & {
   data: Data;
 };
 
+type WithChildren<T> = T & {
+  children: ElementContent[];
+};
+
 type RootContent = import("hast").RootContent;
 type Root = import("hast").Root;
 type ElementContent = import("hast").ElementContent;
-type Element = WithData<import("hast").Element>;
+type Element = WithChildren<WithData<import("hast").Element>>;
 
 export const getShiki = () =>
   getHighlighterCore({
-    themes: [CODE_HIGHLIGHTER_THEME],
+    themes: CODE_HIGHLIGHTER_THEMES,
     langs: CODE_HIGHLIGHTER_LANGUAGES,
     loadWasm: getWasm,
   });
 
 export const highlightToHast =
   (shiki: HighlighterCore) => (code: string, language: string) =>
-    shiki.codeToHast(code, { lang: language, theme: CODE_HIGHLIGHTER_THEME });
+    shiki.codeToHast(code, {
+      lang: language,
+      themes: Object.fromEntries(
+        CODE_HIGHLIGHTER_THEMES.map((theme) => [theme.type, theme]),
+      ),
+      defaultColor: false,
+    });
 
 const languagePrefix = "language-";
 
@@ -87,9 +95,9 @@ export default function rehypeShikiji() {
   return async function (tree: Root) {
     const memoizedShiki = await getShiki();
 
-    visit(tree, "element", (_, index, parent) => {
+    visit(tree, "element", (_, index: number, parent: Element) => {
       const languages = [];
-      const displayNames = [];
+      const names = [];
       const codeTabsChildren = [];
 
       let defaultTab = "0";
@@ -97,15 +105,11 @@ export default function rehypeShikiji() {
 
       let element =
         currentIndex !== undefined ? parent?.children[currentIndex] : undefined;
+
       while (element && isPreBlock(element)) {
         const codeElement = element.children[0];
 
         if (isCodeBlock(codeElement)) {
-          const displayName = getMetaParameter(
-            codeElement.data?.meta,
-            "displayName",
-          );
-
           // We should get the language name from the class name
           if (
             Array.isArray(codeElement.properties.className) &&
@@ -118,7 +122,8 @@ export default function rehypeShikiji() {
           }
 
           // Map the display names of each variant for the CodeTab
-          displayNames.push(displayName?.replaceAll("|", "") ?? "");
+          const name = getMetaParameter(codeElement.data?.meta, "name");
+          names.push(name?.replaceAll("|", "") ?? "");
 
           codeTabsChildren.push(element);
 
@@ -149,9 +154,10 @@ export default function rehypeShikiji() {
           type: "element" as const,
           tagName: "CodeTabs",
           children: codeTabsChildren,
+          pre: [],
           properties: {
             languages: languages.join("|"),
-            displayNames: displayNames.join("|"),
+            names: names.join("|"),
             defaultTab,
           },
         };
@@ -172,6 +178,7 @@ export default function rehypeShikiji() {
           type: "element" as const,
           tagName: "CodeBlock",
           children: codeTabsChildren,
+          pre: [],
           properties: {},
         };
 
@@ -191,40 +198,35 @@ export default function rehypeShikiji() {
       }
     });
 
-    visit(tree, "element", (node, index, parent) => {
+    visit(tree, "element", (node: Element, index: number, parent: Element) => {
       // We only want to process <pre>...</pre> elements
       if (!parent || index == null || !isPreBlock(node)) {
         return;
       }
 
-      // We want the contents of the <pre> element, hence we attempt to get the first child
+      // We want the contents of the <code> element, hence we attempt to get the first child
       const codeElement = node.children[0];
 
-      // If thereÄs nothing inside the <pre> element... What are we doing here?
+      // Check if the first child is a <code> element
       if (
         !codeElement ||
         codeElement.type !== "element" ||
-        !codeElement.properties
+        !codeElement.properties ||
+        !isCodeBlock(codeElement)
       ) {
         return;
       }
 
-      // Ensure that we're not visiting a <code> element but it's inner contents
-      // (keep iterating further down until we reach where we want)
-      if (!isCodeBlock(codeElement)) {
-        return;
-      }
-
-      // Get the <pre> element class names
-      const preClassNames = codeElement.properties.className;
+      // Get the <code> element class names
+      const codeClassNames = codeElement.properties.className;
 
       // The current classnames should be an array and it should have a length
-      if (!Array.isArray(preClassNames) || preClassNames.length === 0) {
+      if (!Array.isArray(codeClassNames) || codeClassNames.length === 0) {
         return;
       }
 
       // We want to retrieve the language class name from the class names
-      const codeLanguage = preClassNames.find(
+      const codeLanguage = codeClassNames.find(
         (c) => typeof c === "string" && c.startsWith(languagePrefix),
       );
 
@@ -233,15 +235,16 @@ export default function rehypeShikiji() {
         return;
       }
 
-      // Retrieve the whole <pre> contents as a parsed DOM string
-      const preElementContents = toString(codeElement as import("hast").Nodes);
-
       // Grabs the relevant alias/name of the language
       const languageId = codeLanguage.slice(languagePrefix.length);
 
-      // Parses the <pre> contents and returns a HAST tree with the highlighted code
+      // Retrieve the whole <code> contents as a parsed DOM string
+      const codeElementContents = toString(codeElement as import("hast").Nodes);
+
+      // Parses the code and returns a HAST tree with the highlighted code
+      // This comes as root > pre > code wher pre is children[0]
       const { children } = highlightToHast(memoizedShiki)(
-        preElementContents,
+        codeElementContents,
         languageId,
       ) as Root & {
         children: Element[];
@@ -253,16 +256,14 @@ export default function rehypeShikiji() {
         codeLanguage,
       );
 
-      const showCopyButton = getMetaParameter(
-        codeElement.data?.meta,
-        "showCopyButton",
-      );
+      const noCopy = getMetaParameter(codeElement.data?.meta, "noCopy");
+      const name = getMetaParameter(codeElement.data?.meta, "name");
+      const fileName = getMetaParameter(codeElement.data?.meta, "fileName");
 
-      // Adds a Copy Button to the CodeBox if requested as an additional parameter
-      // And avoids setting the property (overriding) if undefined or invalid value
-      if (showCopyButton && ["true", "false"].includes(showCopyButton)) {
-        children[0].properties.showCopyButton = showCopyButton;
-      }
+      // Shoud we hide the copy button?
+      children[0].properties.noCopy = noCopy === "true";
+      children[0].properties.name = name;
+      children[0].properties.fileName = fileName;
 
       // Replaces the <pre> element with the updated one
       parent.children.splice(index, 1, ...children);

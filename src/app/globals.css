@@ -24,6 +24,9 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.3rem;
+    --code: 0 0% 100%;
+    --code-foreground: 70 5% 21%;
+    --link: 217 91% 60%;
   }
 
   .dark {
@@ -37,8 +40,8 @@
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 240 3.7% 25%; /* Increased lightness from 15.9% to 25% */
+    --muted-foreground: 240 5% 75%; /* Increased lightness from 64.9% to 75% */
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -46,6 +49,29 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --code: 0 0% 7.1%;
+    --code-foreground: 39 20% 82.5%;
+    --link: 199 89% 48%;
+  }
+
+  html.light .shiki,
+  html.light .shiki span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+    text-decoration: var(--shiki-light-text-decoration);
+  }
+
+  html.dark .shiki,
+  html.dark .shiki span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
   }
 }
 
@@ -53,6 +79,7 @@
   * {
     @apply border-border;
   }
+
   html,
   body {
     @apply bg-background text-foreground;

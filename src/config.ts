@@ -1,13 +1,15 @@
-import js from "shiki/langs/javascript.mjs";
-import ts from "shiki/langs/typescript.mjs";
-import jsx from "shiki/langs/jsx.mjs";
-import tsx from "shiki/langs/tsx.mjs";
 import bash from "shiki/langs/bash.mjs";
-import python from "shiki/langs/py.mjs";
-import vitesseDark from "shiki/themes/vitesse-dark.mjs";
+import c from "shiki/langs/c.mjs";
+import js from "shiki/langs/javascript.mjs";
+import jsx from "shiki/langs/jsx.mjs";
+import ts from "shiki/langs/typescript.mjs";
+import tsx from "shiki/langs/tsx.mjs";
 
-export const CODE_HIGHLIGHTER_LANGUAGES = [js, python, ts, jsx, tsx, bash];
-export const CODE_HIGHLIGHTER_THEME = vitesseDark;
+import vitesseDark from "shiki/themes/vitesse-dark.mjs";
+import vitesseLight from "shiki/themes/vitesse-light.mjs";
+
+export const CODE_HIGHLIGHTER_LANGUAGES = [c, bash, js, jsx, ts, tsx];
+export const CODE_HIGHLIGHTER_THEMES = [vitesseLight, vitesseDark];
 
 export const EDITOR = process.env.EDITOR || null;
 export const EDITOR_IS_TERMINAL = process.env.EDITOR_IS_TERMINAL === "true";

@@ -28,7 +28,7 @@ export function ArticleInfo({
       on <span className="font-extrabold uppercase">{date}</span> in{" "}
       <Link
         href={link}
-        className="font-extrabold underline underline-offset-4 uppercase text-blue-500 dark:text-sky-500"
+        className="font-extrabold underline underline-offset-4 uppercase text-link"
       >
         {name}
       </Link>{" "}

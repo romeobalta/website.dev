@@ -6,12 +6,15 @@ type PreProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLPreElement>,
   HTMLPreElement
 > & {
-  showCopyButton?: string;
+  noCopy?: boolean;
+  name?: string;
+  fileName?: string;
 };
 
 export function Pre({ children, className, ...props }: PreProps) {
   const matches = className?.match(/language-(?<language>.*)/);
   const language = matches?.groups?.language ?? "";
+  const { fileName } = props;
 
   let content = children;
 
@@ -47,15 +50,11 @@ export function Pre({ children, className, ...props }: PreProps) {
   }
 
   return (
-    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group rounded-lg">
+    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group">
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
-        {language}
+        {fileName ?? "." + language}
       </span>
-      <pre
-        className={cn(className, "px-4 pb-3 pt-8 rounded-lg")}
-        {...props}
-        tabIndex={0}
-      >
+      <pre className={cn(className, "px-4 pb-3 pt-8")} {...props} tabIndex={0}>
         {content}
       </pre>
     </div>
@@ -75,36 +74,42 @@ export function CodeBlock({ children }: CodeBlockProps) {
 type CodeTabsProps = {
   children: React.ReactNode[];
   languages: string;
-  displayNames: string;
+  names: string;
   defaultTab?: string;
 };
 
 export function CodeTabs({
   children,
   languages: rawLanguages,
-  displayNames: rawDisplayNames,
+  names: rawDisplayNames,
   defaultTab = "O",
 }: CodeTabsProps) {
   const languages = rawLanguages.split("|");
-  const displayNames = rawDisplayNames.split("|") ?? [];
+  const names = rawDisplayNames.split("|") ?? [];
+
+  console.log(languages, names);
 
   const tabs = languages.map((language, index) => {
-    const displayName = displayNames[index] || language;
+    const name = names[index] || language;
     const key = `${language}-${index}`;
 
     return (
-      <TabsTrigger key={key} value={key}>
-        {displayName}
+      <TabsTrigger
+        key={key}
+        value={key}
+        className="data-[state=active]:bg-code data-[state=active]:border-border border border-b-0 border-transparent data-[state=active]:shadow-none z-10 rounded-b-none h-8"
+      >
+        {name}
       </TabsTrigger>
     );
   });
 
   return (
     <Tabs defaultValue={tabs[+defaultTab].key!}>
-      <TabsList>{tabs}</TabsList>
+      <TabsList className="bg-backgroun px-0 h-8">{tabs}</TabsList>
       {languages.map((_, index) => (
         <TabsContent
-          className="flex hidden:hidden flex-row w-full justify-center"
+          className="flex hidden:hidden flex-row w-full justify-center -mt-px"
           key={tabs[index].key + "-content"}
           value={tabs[index].key!}
           tabIndex={-1}
@@ -125,7 +130,7 @@ export function Code({ children, className }: CodeProps) {
   return (
     <code
       className={cn(
-        "bg-muted text-muted-foreground font-jetbrains-mono px-1 py-0.5 rounded text-sm",
+        "border bg-code text-code-foreground font-jetbrains-mono px-1 py-0.5 rounded-md",
         className,
       )}
     >
