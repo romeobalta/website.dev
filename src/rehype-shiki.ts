@@ -95,113 +95,127 @@ export default function rehypeShikiji() {
   return async function (tree: Root) {
     const memoizedShiki = await getShiki();
 
-    visit(tree, "element", (_, index: number | undefined, parent: Element) => {
-      const languages = [];
-      const names = [];
-      const codeTabsChildren = [];
+    visit(
+      tree,
+      "element",
+      (_, index: number | undefined, parent: Element | undefined) => {
+        const languages = [];
+        const names = [];
+        const codeTabsChildren = [];
 
-      let defaultTab = "0";
-      let currentIndex = index;
+        let defaultTab = "0";
+        let currentIndex = index;
 
-      let element =
-        currentIndex !== undefined ? parent?.children[currentIndex] : undefined;
+        let element =
+          currentIndex !== undefined
+            ? parent?.children[currentIndex]
+            : undefined;
 
-      while (element && isPreBlock(element)) {
-        const codeElement = element.children[0];
+        while (element && isPreBlock(element)) {
+          const codeElement = element.children[0];
 
-        if (isCodeBlock(codeElement)) {
-          // We should get the language name from the class name
-          if (
-            Array.isArray(codeElement.properties.className) &&
-            codeElement.properties.className.length
-          ) {
-            const className = codeElement.properties.className.join(" ");
-            const matches = className.match(/language-(?<language>.*)/);
+          if (isCodeBlock(codeElement)) {
+            // We should get the language name from the class name
+            if (
+              Array.isArray(codeElement.properties.className) &&
+              codeElement.properties.className.length
+            ) {
+              const className = codeElement.properties.className.join(" ");
+              const matches = className.match(/language-(?<language>.*)/);
 
-            languages.push(matches?.groups?.language ?? "text");
+              languages.push(matches?.groups?.language ?? "text");
+            }
+
+            // Map the display names of each variant for the CodeTab
+            const name = getMetaParameter(codeElement.data?.meta, "name");
+            names.push(name?.replaceAll("|", "") ?? "");
+
+            codeTabsChildren.push(element);
+
+            // If `active="true"` is provided in a CodeBox
+            // then the default selected entry of the CodeTabs will be the desired entry
+            const specificActive = getMetaParameter(
+              codeElement.data?.meta,
+              "default",
+            );
+
+            if (specificActive === "true") {
+              defaultTab = String(codeTabsChildren.length - 1);
+            }
           }
 
-          // Map the display names of each variant for the CodeTab
-          const name = getMetaParameter(codeElement.data?.meta, "name");
-          names.push(name?.replaceAll("|", "") ?? "");
+          if (currentIndex !== undefined) {
+            const nextNode = parent?.children[currentIndex + 1];
 
-          codeTabsChildren.push(element);
-
-          // If `active="true"` is provided in a CodeBox
-          // then the default selected entry of the CodeTabs will be the desired entry
-          const specificActive = getMetaParameter(
-            codeElement.data?.meta,
-            "default",
-          );
-
-          if (specificActive === "true") {
-            defaultTab = String(codeTabsChildren.length - 1);
+            // If the CodeBoxes are on the root tree the next Element will be
+            // an empty text element so we should skip it
+            currentIndex += nextNode && nextNode?.type === "text" ? 2 : 1;
+            element = parent?.children[currentIndex];
           }
         }
 
-        if (currentIndex !== undefined) {
-          const nextNode = parent?.children[currentIndex + 1];
+        if (codeTabsChildren.length >= 2) {
+          const codeTabElement = {
+            type: "element" as const,
+            tagName: "CodeTabs",
+            children: codeTabsChildren,
+            pre: [],
+            properties: {
+              languages: languages.join("|"),
+              names: names.join("|"),
+              defaultTab,
+            },
+          };
 
-          // If the CodeBoxes are on the root tree the next Element will be
-          // an empty text element so we should skip it
-          currentIndex += nextNode && nextNode?.type === "text" ? 2 : 1;
-          element = parent?.children[currentIndex];
-        }
-      }
+          // This removes all the original Code Elements and adds a new CodeTab Element
+          // at the original start of the first Code Element
+          if (index !== undefined && currentIndex !== undefined) {
+            parent?.children.splice(
+              index,
+              currentIndex - index,
+              codeTabElement,
+            );
+          }
 
-      if (codeTabsChildren.length >= 2) {
-        const codeTabElement = {
-          type: "element" as const,
-          tagName: "CodeTabs",
-          children: codeTabsChildren,
-          pre: [],
-          properties: {
-            languages: languages.join("|"),
-            names: names.join("|"),
-            defaultTab,
-          },
-        };
-
-        // This removes all the original Code Elements and adds a new CodeTab Element
-        // at the original start of the first Code Element
-        if (index !== undefined && currentIndex !== undefined) {
-          parent?.children.splice(index, currentIndex - index, codeTabElement);
-        }
-
-        // Prevent visiting the code block children and for the next N Elements
-        // since all of them belong to this CodeTabs Element
-        return [SKIP];
-      }
-
-      if (codeTabsChildren.length == 1) {
-        const codeBlockElement = {
-          type: "element" as const,
-          tagName: "CodeBlock",
-          children: codeTabsChildren,
-          pre: [],
-          properties: {},
-        };
-
-        // This removes all the original Code Elements and adds a new CodeTab Element
-        // at the original start of the first Code Element
-        if (index !== undefined && currentIndex !== undefined) {
-          parent?.children.splice(
-            index,
-            currentIndex - index,
-            codeBlockElement,
-          );
+          // Prevent visiting the code block children and for the next N Elements
+          // since all of them belong to this CodeTabs Element
+          return [SKIP];
         }
 
-        // Prevent visiting the code block children and for the next N Elements
-        // since all of them belong to this CodeTabs Element
-        return [SKIP];
-      }
-    });
+        if (codeTabsChildren.length == 1) {
+          const codeBlockElement = {
+            type: "element" as const,
+            tagName: "CodeBlock",
+            children: codeTabsChildren,
+            pre: [],
+            properties: {},
+          };
+
+          // This removes all the original Code Elements and adds a new CodeTab Element
+          // at the original start of the first Code Element
+          if (index !== undefined && currentIndex !== undefined) {
+            parent?.children.splice(
+              index,
+              currentIndex - index,
+              codeBlockElement,
+            );
+          }
+
+          // Prevent visiting the code block children and for the next N Elements
+          // since all of them belong to this CodeTabs Element
+          return [SKIP];
+        }
+      },
+    );
 
     visit(
       tree,
       "element",
-      (node: Element, index: number | undefined, parent: Element) => {
+      (
+        node: Element,
+        index: number | undefined,
+        parent: Element | undefined,
+      ) => {
         // We only want to process <pre>...</pre> elements
         if (!parent || index == null || !isPreBlock(node)) {
           return;
