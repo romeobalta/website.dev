@@ -45,7 +45,7 @@ export function ArticleLayout({
   };
 
   return (
-    <div className="w-full h-full max-w-2xl flex flex-col flex-1 px-5 @container">
+    <div className="w-full h-full max-w-6xl flex flex-col flex-1 px-5 @container">
       <BlogHeader border />
 
       <div className="h-full w-full flex flex-col flex-1 justify-stretch items-center">
@@ -55,8 +55,8 @@ export function ArticleLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
 
-          <article className="flex-1 flex flex-col items-center w-full h-full">
-            <h1 className="font-source-serif font-black text-[6cqw] leading-[8cqw] mt-6 mb-4 w-full max-w-2xl">
+          <article className="flex-1 flex flex-col items-start w-full h-full">
+            <h1 className="font-source-serif font-black text-[3cqw] leading-[4cqw] mt-6 mb-4 ">
               {title}
             </h1>
 

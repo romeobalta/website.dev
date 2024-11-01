@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 export default function NotFound() {
   return (
-    <div className="w-full h-full max-w-2xl flex flex-col flex-1 px-5">
+    <div className="w-full h-full max-w-6xl flex flex-col flex-1 px-5">
       <BlogHeader border />
       <div className="h-full w-full flex flex-col flex-1 justify-stretch items-center">
         <div className="flex flex-col max-w-md justify-center items-center h-full w-full px-5 @container">
@@ -22,7 +22,7 @@ export default function NotFound() {
           <H2 className="my-0 ">Oopsie, page not found.</H2>
           <P>
             You might find something more interesting by going back{" "}
-            <A href="/articles">to the articles</A>
+            <A href="/category/all">to the articles</A>
           </P>
         </div>
       </div>

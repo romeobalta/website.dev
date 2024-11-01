@@ -50,7 +50,7 @@ export function Pre({ children, className, ...props }: PreProps) {
   }
 
   return (
-    <div className="border max-w-full md:min-w-max flex-1 overflow-x-scroll md:overflow-x-visible relative group">
+    <div className="border flex-1 overflow-x-scroll relative group">
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
         {fileName ?? "." + language}
       </span>

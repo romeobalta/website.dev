@@ -7,7 +7,7 @@ type PProps = DetailedHTMLProps<
 
 export function P({ children, className, ...props }: PProps) {
   return (
-    <p className="my-5 w-full max-w-2xl" {...props}>
+    <p className="my-5" {...props}>
       {children}
     </p>
   );
