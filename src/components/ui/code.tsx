@@ -8,13 +8,13 @@ type PreProps = React.DetailedHTMLProps<
 > & {
   noCopy?: boolean;
   name?: string;
-  fileName?: string;
+  filename?: string;
 };
 
 export function Pre({ children, className, ...props }: PreProps) {
   const matches = className?.match(/language-(?<language>.*)/);
   const language = matches?.groups?.language ?? "";
-  const { fileName } = props;
+  const { filename } = props;
 
   let content = children;
 
@@ -27,7 +27,7 @@ export function Pre({ children, className, ...props }: PreProps) {
       Array.isArray(code)
     ) {
       content = (
-        <code>
+        <code className="flex flex-col">
           {code
             .map((line, lineIndex) => {
               if (!isValidElement(line)) {
@@ -37,7 +37,7 @@ export function Pre({ children, className, ...props }: PreProps) {
               return (
                 <span
                   key={lineIndex}
-                  className="[counter-increment:line] relative min-w-0 pl-8 after:absolute after:left-0 after:top-0 after:mr-4 after:w-4.5 after:text-right after:text-base after:text-[#8B949E] after:[content:counter(line)] "
+                  className="relative [counter-increment:line] min-w-0 pl-8 after:absolute after:left-0 after:top-0 after:mr-4 after:w-4.5 after:text-right after:leading-7 after:text-[#8B949E] after:[content:counter(line)] font-jetbrains-mono h-6"
                 >
                   {line.props.children}
                 </span>
@@ -52,7 +52,7 @@ export function Pre({ children, className, ...props }: PreProps) {
   return (
     <div className="border flex-1 overflow-x-scroll relative group">
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
-        {fileName ?? "." + language}
+        {filename ?? "." + language}
       </span>
       <pre className={cn(className, "px-4 pb-3 pt-8")} {...props} tabIndex={0}>
         {content}
@@ -97,7 +97,7 @@ export function CodeTabs({
       <TabsTrigger
         key={key}
         value={key}
-        className="data-[state=active]:bg-code data-[state=active]:border-border border border-b-0 border-transparent data-[state=active]:shadow-none z-10 rounded-b-none h-8"
+        className="data-[state=active]:bg-code-tab data-[state=active]:border-border border border-b-0 border-transparent data-[state=active]:shadow-none z-10 rounded-b-none h-8"
       >
         {name}
       </TabsTrigger>
@@ -130,7 +130,7 @@ export function Code({ children, className }: CodeProps) {
   return (
     <code
       className={cn(
-        "border bg-code text-code-foreground font-jetbrains-mono px-1 py-0.5 rounded-md",
+        "bg-code text-code-foreground font-jetbrains-mono px-1 py-0.5 rounded-md",
         className,
       )}
     >

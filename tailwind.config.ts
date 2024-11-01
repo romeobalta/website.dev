@@ -56,6 +56,7 @@ const config: Config = {
         code: {
           DEFAULT: "hsl(var(--code))",
           foreground: "hsl(var(--code-foreground))",
+          tab: "hsl(var(--code-tab))",
         },
         link: {
           DEFAULT: "hsl(var(--link))",

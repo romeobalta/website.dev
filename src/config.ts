@@ -2,13 +2,14 @@ import bash from "shiki/langs/bash.mjs";
 import c from "shiki/langs/c.mjs";
 import js from "shiki/langs/javascript.mjs";
 import jsx from "shiki/langs/jsx.mjs";
+import makefile from "shiki/langs/makefile.mjs";
 import ts from "shiki/langs/typescript.mjs";
 import tsx from "shiki/langs/tsx.mjs";
 
 import vitesseDark from "shiki/themes/vitesse-dark.mjs";
 import vitesseLight from "shiki/themes/vitesse-light.mjs";
 
-export const CODE_HIGHLIGHTER_LANGUAGES = [c, bash, js, jsx, ts, tsx];
+export const CODE_HIGHLIGHTER_LANGUAGES = [c, bash, js, jsx, makefile, ts, tsx];
 export const CODE_HIGHLIGHTER_THEMES = [vitesseLight, vitesseDark];
 
 export const EDITOR = process.env.EDITOR || null;

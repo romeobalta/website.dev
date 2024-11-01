@@ -24,8 +24,9 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.3rem;
-    --code: 0 0% 100%;
-    --code-foreground: 70 5% 21%;
+    --code: 0 0% 7.1%;
+    --code-foreground: 0 0% 100%;
+    --code-tab: 0 0% 100%;
     --link: 217 91% 60%;
   }
 
@@ -49,8 +50,9 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --code: 0 0% 7.1%;
-    --code-foreground: 39 20% 82.5%;
+    --code: 0 0% 100%;
+    --code-foreground: 70 5% 21%;
+    --code-tab: 0 0% 7.1%;
     --link: 199 89% 48%;
   }
 

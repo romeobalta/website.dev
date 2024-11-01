@@ -13,8 +13,10 @@ export function WithList(ordered: boolean) {
     return (
       <ListTag
         className={cn(
-          ordered ? "list-decimal" : "list-disc",
           "pl-5 mb-5 [&_&]:mb-0 w-full",
+          ordered
+            ? "list-decimal pl-8 marker:text-muted-foreground"
+            : "list-disc",
         )}
         {...props}
       >
