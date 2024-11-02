@@ -87,8 +87,6 @@ export function CodeTabs({
   const languages = rawLanguages.split("|");
   const names = rawDisplayNames.split("|") ?? [];
 
-  console.log(languages, names);
-
   const tabs = languages.map((language, index) => {
     const name = names[index] || language;
     const key = `${language}-${index}`;
