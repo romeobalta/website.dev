@@ -11,8 +11,8 @@ export async function LatestArticles({ count = 5 }: LatestArticlesProps) {
 
   return (
     !!articles?.length && (
-      <Section title="Latest articles">
-        <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
+      <Section title="From the blog">
+        <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8">
           {articles?.map((article) => (
             <ArticleBox
               key={article.url}
