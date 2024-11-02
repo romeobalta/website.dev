@@ -4,6 +4,11 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
+import {
+  CLOUDFLARE_ANALYTICS_TOKEN,
+  ENABLE_CLOUDFLARE_ANALYTICS,
+  SITE_TAG,
+} from "@/config";
 
 const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -12,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: process.env.SITE_TAG,
+  title: SITE_TAG,
 };
 
 export default function RootLayout({
@@ -28,12 +33,12 @@ export default function RootLayout({
           "min-h-screen flex flex-col items-center antialiased font-jetbrains-mono font-medium",
         )}
       >
-        {!!process.env.ENABLE_CLOUDFLARE_ANALYTICS && (
+        {ENABLE_CLOUDFLARE_ANALYTICS && (
           <Script
             strategy="afterInteractive"
             defer
             src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={`{"token": ${process.env.CLOUDFLARE_ANALYTICS_TOKEN}}`}
+            data-cf-beacon={`{"token": ${CLOUDFLARE_ANALYTICS_TOKEN}}`}
           />
         )}
         <ThemeProvider

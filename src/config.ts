@@ -26,3 +26,8 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 export const SITE_IMAGE = process.env.NEXT_PUBLIC_SITE_IMAGE || "";
 export const SITE_IMAGE_ALT = process.env.NEXT_PUBLIC_SITE_IMAGE_ALT || "";
+
+export const ENABLE_CLOUDFLARE_ANALYTICS =
+  process.env.NEXT_PUBLIC_ENABLE_CLOUDFLARE_ANALYTICS === "true";
+export const CLOUDFLARE_ANALYTICS_TOKEN =
+  process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
