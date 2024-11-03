@@ -33,14 +33,6 @@ export default function RootLayout({
           "min-h-screen flex flex-col items-center antialiased font-jetbrains-mono font-medium",
         )}
       >
-        {ENABLE_CLOUDFLARE_ANALYTICS && (
-          <Script
-            strategy="afterInteractive"
-            defer
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={`{"token": ${CLOUDFLARE_ANALYTICS_TOKEN}}`}
-          />
-        )}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -49,6 +41,14 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        {ENABLE_CLOUDFLARE_ANALYTICS && (
+          <Script
+            strategy="afterInteractive"
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={`{"token": "${CLOUDFLARE_ANALYTICS_TOKEN}"}`}
+          />
+        )}
       </body>
     </html>
   );
