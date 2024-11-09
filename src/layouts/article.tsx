@@ -56,7 +56,7 @@ export function ArticleLayout({
           />
 
           <article className="flex-1 flex flex-col items-start w-full h-full">
-            <h1 className="font-source-serif font-black text-[3cqw] leading-[4cqw] mt-6 mb-4 ">
+            <h1 className="font-source-serif font-black text-2xl md:text-[3cqw] md:leading-[4cqw] mt-6 mb-4 ">
               {title}
             </h1>
 
@@ -71,7 +71,7 @@ export function ArticleLayout({
               })}
               readingTime={`~ ${Math.round(readingTime.minutes)} min`}
             />
-            <div className="w-full text-base leading-7 font-jetbrains-mono article-body">
+            <div className="w-full text-base leading-7 article-body">
               {children}
             </div>
           </article>

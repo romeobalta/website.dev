@@ -24,11 +24,11 @@ export function Author({ name, avatar, description, socials }: AuthorProps) {
         height={parseInt(avatar.height ?? "0")}
       />
 
-      <h1 className="mt-5 text-2xl font-extrabold text-center font-jetbrains-mono uppercase">
+      <h1 className="mt-5 text-2xl font-extrabold text-center uppercase">
         {name}
       </h1>
 
-      <p className="text-base font-jetbrains-mono text-center text-muted-foreground italic">
+      <p className="text-base text-center text-muted-foreground italic">
         {description}
       </p>
 

@@ -19,16 +19,11 @@ export function ArticleInfo({
   const link = `/category/${slug}`;
 
   return (
-    <div
-      className={cn(
-        "font-jetbrains-mono text-sm w-full text-muted-foreground",
-        className,
-      )}
-    >
+    <div className={cn("text-sm w-full text-muted-foreground", className)}>
       on <span className="font-extrabold uppercase">{date}</span> in{" "}
       <Link
         href={link}
-        className="font-extrabold underline underline-offset-4 uppercase text-link"
+        className="underline underline-offset-4 uppercase text-link"
       >
         {name}
       </Link>{" "}

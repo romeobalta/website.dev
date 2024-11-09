@@ -24,11 +24,11 @@ export function ArticleBox({
     >
       <A href={url}>{title}</A>
 
-      <span className="flex-1 w-full block text-sm text-left font-jetbrains-mono text-muted-foreground">
+      <span className="flex-1 w-full block text-sm text-left text-muted-foreground">
         {publishedAt && (
           <>
             on
-            <span className="uppercase font-jetbrains-mono">
+            <span className="uppercase">
               {" " +
                 new Date(publishedAt).toLocaleDateString("en-us", {
                   year: "numeric",
@@ -41,12 +41,12 @@ export function ArticleBox({
         {category && (
           <>
             {" in"}
-            <span className="uppercase font-jetbrains-mono"> {category}</span>
+            <span className="uppercase"> {category}</span>
           </>
         )}
       </span>
 
-      <p className="w-full font-jetbrains-mono">{description}</p>
+      <p className="w-full">{description}</p>
     </div>
   );
 }

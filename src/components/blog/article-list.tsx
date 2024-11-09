@@ -19,7 +19,7 @@ export async function ArticleList({ category }: ArticleListProps) {
     <div className="w-full grid grid-cols-1 gap-x-4 gap-y-8 mt-4">
       {articles?.length === 0 && (
         <div className="w-full text-center col-span-2">
-          <h1 className="text-2xl font-extrabold font-jetbrains-mono mt-10">
+          <h1 className="text-2xl font-extrabold mt-10">
             No articles here at the moment
           </h1>
         </div>
@@ -36,9 +36,7 @@ export async function ArticleList({ category }: ArticleListProps) {
             year: "numeric",
           });
           header = (
-            <h1 className="text-xl font-extrabold font-jetbrains-mono mt-3 mb-0">
-              {dateValue}
-            </h1>
+            <h1 className="text-xl font-extrabold mt-3 mb-0">{dateValue}</h1>
           );
         }
 

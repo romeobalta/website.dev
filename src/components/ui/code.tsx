@@ -27,7 +27,7 @@ export function Pre({ children, className, ...props }: PreProps) {
       Array.isArray(code)
     ) {
       content = (
-        <code className="flex flex-col">
+        <code className="flex flex-col px-4 pb-3 pt-8 w-auto">
           {code
             .map((line, lineIndex) => {
               if (!isValidElement(line)) {
@@ -37,7 +37,7 @@ export function Pre({ children, className, ...props }: PreProps) {
               return (
                 <span
                   key={lineIndex}
-                  className="relative [counter-increment:line] min-w-0 pl-8 after:absolute after:left-0 after:top-0 after:mr-4 after:w-4.5 after:text-right after:leading-7 after:text-[#8B949E] after:[content:counter(line)] font-jetbrains-mono h-6"
+                  className="relative [counter-increment:line] min-w-0 pl-8 after:absolute after:left-0 after:top-0 after:mr-4 after:w-4.5 after:text-right after:leading-7 after:text-[#8B949E] after:[content:counter(line)] h-6"
                 >
                   {line.props.children}
                 </span>
@@ -50,11 +50,15 @@ export function Pre({ children, className, ...props }: PreProps) {
   }
 
   return (
-    <div className="border flex-1 overflow-x-scroll relative group">
+    <div className="border flex-1 relative group overflow-x-hidden">
       <span className="absolute top-1 left-4 text-muted select-none group-hover:text-muted-foreground transition-colors">
         {filename ?? "." + language}
       </span>
-      <pre className={cn(className, "px-4 pb-3 pt-8")} {...props} tabIndex={0}>
+      <pre
+        className={cn(className, "flex overflow-x-scroll")}
+        {...props}
+        tabIndex={0}
+      >
         {content}
       </pre>
     </div>
@@ -128,7 +132,7 @@ export function Code({ children, className }: CodeProps) {
   return (
     <code
       className={cn(
-        "bg-code text-code-foreground font-jetbrains-mono px-1 py-0.5 rounded-md",
+        "bg-code text-code-foreground px-1 py-0.5 rounded-md",
         className,
       )}
     >
