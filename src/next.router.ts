@@ -51,6 +51,7 @@ import {
   getContentPaths,
 } from "./content-loader";
 import rehypeShikiji from "./rehype-shiki";
+import { rehypeBlockquoteAlerts } from "./rehype-blockquote-alerts";
 
 type MDXContent = import("mdx/types.js").MDXContent;
 
@@ -120,6 +121,7 @@ async function createRouter() {
           { properties: { ariaHidden: true, tabIndex: -1, class: "anchor" } },
         ],
         rehypeShikiji,
+        rehypeBlockquoteAlerts,
       ],
       remarkPlugins: [remarkGfm, remarkReadingTime],
       format: fileExtension,
